@@ -228,7 +228,7 @@ ExampleOut(addition=110, multiplication=1000, division=0.1)
 
 The [full list of types available can be found in the docs](https://pydantic-docs.helpmanual.io/usage/types/), I will go through the most commonly used in my experience. 
 
-We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](#List,Dict,Any).
+We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](./#list-dict-any).
 
 ## Default Values
 
