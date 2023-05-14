@@ -2,7 +2,7 @@
 title: Pytest Part 2 - Fixtures, Marking, Configs
 date: 2021-03-02 0000:00:00 +0800
 categories: [Knowledge, Engineering]
-tags: [engineering, testing, pytest, python]   ## TAG names should always be lowercase
+tags: [engineering, testing, pytest, python]   # TAG names should always be lowercase
 math: true
 toc: true
 mermaid: true
@@ -207,7 +207,7 @@ PASSED                                      [100%]
 
 ## Setup and Teardown
 
-When running pytests, sometimes you might want to [setup code and potentially tear down code](https://docs.pytest.org/en/6.2.x/fixture.html##teardown-cleanup-aka-fixture-finalization).
+When running pytests, sometimes you might want to [setup code and potentially tear down code](https://docs.pytest.org/en/6.2.x/fixture.html#teardown-cleanup-aka-fixture-finalization).
 
 To do this with pytests, we can make use of the `yield` statement:
 
@@ -218,7 +218,7 @@ In `tests/conftest.py` add:
 @pytest.fixture()
 def demo_yield():
     logging.info("setting up based on demo yield")
-    dummy_func = lambda x: x ** 2  ## noqa
+    dummy_func = lambda x: x ** 2  # noqa
     yield dummy_func
     logging.info("tearing down based on demo yield")
 
@@ -229,7 +229,7 @@ In `tests/test_conf.py` add:
 ```python
 
 def test_yield(demo_yield):
-    my_func = demo_yield  ## yield the function
+    my_func = demo_yield  # yield the function
     assert my_func(10) == 100
     logging.info("this is to demostrate its still happening in this test function")
 ```
@@ -262,7 +262,7 @@ Here is an example of a database usecase (notice the `scope` parameter which we 
 @pytest.fixture(scope='module')
 def test_database():
     db.create_all()
-    yield db  ## testing happens here
+    yield db  # testing happens here
     db.session.remove()
     db.drop_all()
 ```
@@ -554,7 +554,7 @@ The session fixture is triggered once, while the function fixture is triggered f
 
 Why or when is `autouse` useful then?
 
-Quoting from the [Real Python](https://realpython.com/pytest-python-testing/##fixtures-managing-state-and-dependencies):
+Quoting from the [Real Python](https://realpython.com/pytest-python-testing#fixtures-managing-state-and-dependencies):
 
 > Another interesting use case for fixtures is in guarding access to resources. Imagine that you’ve written a test suite for code that deals with API calls. You want to ensure that the test suite doesn’t make any real network calls, even if a test accidentally executes the real network call code. pytest provides a monkeypatch fixture to replace values and behaviors, which you can use to great effect:
 
@@ -647,18 +647,18 @@ PASSED                                                   [100%]
 ## References 
 
 * Conftests
-    * [Official docs - sharing fixtures across files](https://docs.pytest.org/en/6.2.x/fixture.html##conftest-py-sharing-fixtures-across-multiple-files)
+    * [Official docs - sharing fixtures across files](https://docs.pytest.org/en/6.2.x/fixture.html#conftest-py-sharing-fixtures-across-multiple-files)
 * Marking
     * [Official docs - custom markers on pytest](https://docs.pytest.org/en/6.2.x/example/markers.html)
 * Configuration
     * [Official docs - Configure your pytest env](https://docs.pytest.org/en/6.2.x/customize.html)
     * [Official docs - pytest logging](https://docs.pytest.org/en/6.2.x/logging.html)
     * [Stackoverflow - Configure pytest logging](https://stackoverflow.com/questions/4673373/logging-within-pytest-tests)
-    * [Realpython - marking tests](https://realpython.com/pytest-python-testing/##marks-categorizing-tests)
+    * [Realpython - marking tests](https://realpython.com/pytest-python-testing/#marks-categorizing-tests)
 * Fixtures with yield
-    * [Official docs - Yield fixtures](https://docs.pytest.org/en/6.2.x/fixture.html##teardown-cleanup-aka-fixture-finalization)
+    * [Official docs - Yield fixtures](https://docs.pytest.org/en/6.2.x/fixture.html#teardown-cleanup-aka-fixture-finalization)
     * [Stackoverflow- - How to setup and teardown a databas with pytest](https://stackoverflow.com/questions/45703591/how-to-send-post-data-to-flask-using-pytest-flask)
-    * [Using pytest fixtures with testing flask app](https://testdriven.io/blog/flask-pytest/##fixtures)
+    * [Using pytest fixtures with testing flask app](https://testdriven.io/blog/flask-pytest/#fixtures)
 * Scope & Autouse
     * [Understand fixture scopes](https://betterprogramming.pub/understand-5-scopes-of-pytest-fixtures-1b607b5c19ed)
-    * [Realpython - Fixtures at scale](https://realpython.com/pytest-python-testing/##fixtures-managing-state-and-dependencies)
+    * [Realpython - Fixtures at scale](https://realpython.com/pytest-python-testing/#fixtures-managing-state-and-dependencies)

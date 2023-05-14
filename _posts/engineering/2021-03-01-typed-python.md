@@ -2,7 +2,7 @@
 title: Typed Python
 date: 2021-03-01 0000:00:00 +0800
 categories: [Knowledge, Engineering]
-tags: [engineering, testing, pydantic, python]   ## TAG names should always be lowercase
+tags: [engineering, testing, pydantic, python]   # TAG names should always be lowercase
 math: true
 toc: true
 mermaid: true
@@ -67,8 +67,8 @@ Suppose a DS decides to use this function for another purpose in a python script
 ```python
 add("hello, ", "how are you")
 """
-## output
-## hello,how are you'
+output
+hello,how are you'
 """
 ```
 
@@ -115,7 +115,7 @@ def addition(input: InputNumbers) -> int:
 
 input = InputNumbers(a=10,b=100)
 input
-## InputNumbers(a=10, b=100)
+# InputNumbers(a=10, b=100)
 
 """
 Or you can use dictionary inputs
@@ -124,7 +124,7 @@ Or you can use dictionary inputs
 input_dict = dict(a=11,b=101)
 input2 = InputNumbers(**input_dict)
 input2
-##InputNumbers(a=11,b=101)
+# InputNumbers(a=11,b=101)
 
 addition(input)
 
@@ -145,7 +145,7 @@ a
 Or the user forgets to input certain values:
 
 ```python
-InputNumbers(a=10) ##b is missing
+InputNumbers(a=10) # b is missing
 
 """
 ValidationError: 1 validation error for InputNumbers
@@ -156,7 +156,7 @@ b
 
 ---
 
-<span style='color:red'>__Warning!__</span> if python allows for the conversion, then pydantic _will not_ warn you. [Do note that this behavior is intended](https://pydantic-docs.helpmanual.io/usage/models/##data-conversion
+<span style='color:red'>__Warning!__</span> if python allows for the conversion, then pydantic _will not_ warn you. [Do note that this behavior is intended](https://pydantic-docs.helpmanual.io/usage/models/#data-conversion
 )!
 
 For example, in python it is acceptable to `str(1)` or `int("1")`
@@ -228,7 +228,7 @@ ExampleOut(addition=110, multiplication=1000, division=0.1)
 
 The [full list of types available can be found in the docs](https://pydantic-docs.helpmanual.io/usage/types/), I will go through the most commonly used in my experience. 
 
-We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](./##list-dict-any).
+We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](./#list-dict-any).
 
 ### Default Values
 
@@ -237,15 +237,15 @@ from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int ##no value specified
+    required: int # no value specified
     default_val: str = 10
     optional_val: Optional[int]
 
 Example(required=1)
-## Example(required=1, default_val=10, optional_val=None)
+# Example(required=1, default_val=10, optional_val=None)
 
 Example(required=2,default_val=10)
-## Example(required=2, default_val='10', optional_val=None)
+# Example(required=2, default_val='10', optional_val=None)
 ```
 
 ### Optional Values
@@ -255,13 +255,13 @@ from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int ##no value specified
+    required: int # no value specified
     default_val: str = 10
     optional_val: Optional[int]
 
 
 Example(required=3,default_val=20,optional_val=100 )
-## Example(required=3, default_val='20', optional_val=100)
+# Example(required=3, default_val='20', optional_val=100)
 
 ```
 
@@ -273,7 +273,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int ##no value specified
+    required: int # no value specified
     default_val: str = 10
     optional_val: Union[int,None]
     optiona_val2: Union[int,str,float]
@@ -290,10 +290,10 @@ Aside: `Optional` is actually `Union[..., None]`
 ```python
 from typing import List, Dict, Any
 
-## This will throw an error
+# This will throw an error
 var: list[float]
 
-## this will not:
+# this will not:
 var: List[float]
 var2: Dict[str, float]
 var3: List[Any]
@@ -507,7 +507,7 @@ Sometimes, your upstream / downstream:
 *  or is prone to schema changes, 
 *  or has a different perspective of CamelCase or snake_case. 
 
-This is where [Field customisation](https://pydantic-docs.helpmanual.io/usage/schema/##field-customisation) becomes very useful. 
+This is where [Field customisation](https://pydantic-docs.helpmanual.io/usage/schema/#field-customisation) becomes very useful. 
 
 Here are two examples:
 
@@ -559,7 +559,7 @@ eg = Example(ILoveCamelCase = "TRUE", YesIReallyDo ="YES, REALLY")
 
 ```
 
-[official docs here](https://pydantic-docs.helpmanual.io/usage/model_config/##alias-generator)
+[official docs here](https://pydantic-docs.helpmanual.io/usage/model_config/#alias-generator)
 
 ## Summary
 
