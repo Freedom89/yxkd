@@ -147,7 +147,7 @@ True
 
 We have just verified that the object `my_requests` with `get` method has been called, and it was called with correct arguments!
 
-???- "A simplier example"
+* A simpler example:
     Compare the following and try it yourself without mocking
 
     ```python
@@ -573,7 +573,7 @@ Neat, right?
 
 # Future Notes
 
-`Stub` and `Spy` and `Async` test features seems interesting too! Look out for future posts about it! :smile: 
+`Stub` and `Spy` and `Async` test features seems interesting too! Look out for future posts about it! :smile:.
 
 # References 
 

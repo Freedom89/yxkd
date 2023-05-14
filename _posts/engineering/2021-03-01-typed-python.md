@@ -2,13 +2,13 @@
 title: Typed Python
 date: 2021-03-01 0000:00:00 +0800
 categories: [Knowledge, Engineering]
-tags: [engineering, testing, pydantic, python]   # TAG names should always be lowercase
+tags: [engineering, testing, pydantic, python]   ## TAG names should always be lowercase
 math: true
 toc: true
 mermaid: true
 ---
 
-# Problem Intro
+## Problem Intro
 
 As a (DS) data Scientist, 80% of our work is dealing with messy data. Our problems are not limited to:
 
@@ -25,7 +25,7 @@ As a DS working with other DS, or as a en engineer working with DS,
 
 Small Note: pylint/flake8 are also useful to address the above problems. 
 
-#  Pre-req / Setup!
+##  Pre-req / Setup!
 
 
 
@@ -46,7 +46,7 @@ conda activate typedpy
 pip install -r requirements.txt
 ```
 
-# Hello World!
+## Hello World!
 
 Introducing Typed Python! Here is a simple example using native python and the [mypy package](https://pypi.org/project/mypy/). 
 
@@ -67,8 +67,8 @@ Suppose a DS decides to use this function for another purpose in a python script
 ```python
 add("hello, ", "how are you")
 """
-# output
-# hello,how are you'
+## output
+## hello,how are you'
 """
 ```
 
@@ -88,7 +88,7 @@ Found 2 errors in 1 file (checked 1 source file)
 
 However, the downside of this is the code still runs, and it does not warn the user of doing something unintended! 
 
-# Pydantic
+## Pydantic
 
 Introducing [Pydantic](https://pydantic-docs.helpmanual.io/)!
 
@@ -115,7 +115,7 @@ def addition(input: InputNumbers) -> int:
 
 input = InputNumbers(a=10,b=100)
 input
-# InputNumbers(a=10, b=100)
+## InputNumbers(a=10, b=100)
 
 """
 Or you can use dictionary inputs
@@ -124,7 +124,7 @@ Or you can use dictionary inputs
 input_dict = dict(a=11,b=101)
 input2 = InputNumbers(**input_dict)
 input2
-#InputNumbers(a=11,b=101)
+##InputNumbers(a=11,b=101)
 
 addition(input)
 
@@ -145,7 +145,7 @@ a
 Or the user forgets to input certain values:
 
 ```python
-InputNumbers(a=10) #b is missing
+InputNumbers(a=10) ##b is missing
 
 """
 ValidationError: 1 validation error for InputNumbers
@@ -156,7 +156,7 @@ b
 
 ---
 
-<span style='color:red'>__Warning!__</span> if python allows for the conversion, then pydantic _will not_ warn you. [Do note that this behavior is intended](https://pydantic-docs.helpmanual.io/usage/models/#data-conversion
+<span style='color:red'>__Warning!__</span> if python allows for the conversion, then pydantic _will not_ warn you. [Do note that this behavior is intended](https://pydantic-docs.helpmanual.io/usage/models/##data-conversion
 )!
 
 For example, in python it is acceptable to `str(1)` or `int("1")`
@@ -176,7 +176,7 @@ Example(a=1, b=1.2, c=4, d='100')
 """
 ```
 
-## Autocomplete
+### Autocomplete
 
 Because we are using python classes and declaring types in the functions, it enables auto complete when developing the functions, speeding up your workflow! 
 
@@ -190,7 +190,7 @@ If you are using IDE,
       * [Possible pydantic extension](https://github.com/microsoft/python-language-server/issues/1898)
   
 
-## Outputs
+### Outputs
 
 You can also define outputs with pydantic:
 
@@ -224,48 +224,48 @@ ExampleOut(addition=110, multiplication=1000, division=0.1)
 """
 ```
 
-# Types
+## Types
 
 The [full list of types available can be found in the docs](https://pydantic-docs.helpmanual.io/usage/types/), I will go through the most commonly used in my experience. 
 
-We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](./#list-dict-any).
+We will be making use of the [Typing library](https://docs.python.org/3/library/typing.html) for certain cases. The reason will be explained further [below](./##list-dict-any).
 
-## Default Values
+### Default Values
 
 ```python
 from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int #no value specified
+    required: int ##no value specified
     default_val: str = 10
     optional_val: Optional[int]
 
 Example(required=1)
-# Example(required=1, default_val=10, optional_val=None)
+## Example(required=1, default_val=10, optional_val=None)
 
 Example(required=2,default_val=10)
-# Example(required=2, default_val='10', optional_val=None)
+## Example(required=2, default_val='10', optional_val=None)
 ```
 
-## Optional Values
+### Optional Values
 
 ```python
 from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int #no value specified
+    required: int ##no value specified
     default_val: str = 10
     optional_val: Optional[int]
 
 
 Example(required=3,default_val=20,optional_val=100 )
-# Example(required=3, default_val='20', optional_val=100)
+## Example(required=3, default_val='20', optional_val=100)
 
 ```
 
-## Union
+### Union
 
 ```python
 
@@ -273,7 +273,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class Example(BaseModel):
-    required: int #no value specified
+    required: int ##no value specified
     default_val: str = 10
     optional_val: Union[int,None]
     optiona_val2: Union[int,str,float]
@@ -282,7 +282,7 @@ class Example(BaseModel):
 
 Aside: `Optional` is actually `Union[..., None]`
 
-## List, Dict, Any
+### List, Dict, Any
 
 * What if you want to use certain python structures?
 * Unsure of what data type to use? 
@@ -290,16 +290,16 @@ Aside: `Optional` is actually `Union[..., None]`
 ```python
 from typing import List, Dict, Any
 
-# This will throw an error
+## This will throw an error
 var: list[float]
 
-# this will not:
+## this will not:
 var: List[float]
 var2: Dict[str, float]
 var3: List[Any]
 ```
 
-## Enum / IntEnum
+### Enum / IntEnum
 
 You use `Enum` generally when you want a variable to take in a set of categorical values. 
 
@@ -326,7 +326,7 @@ Animal.DOG.value
 Animal["DOG"].value
 ```
 
-# Complex Models
+## Complex Models
 
 You can then define models/classes like this:
 
@@ -375,7 +375,7 @@ Pet(category=<Animal.CAT: 'CAT'>, tricks=[<Action.LIEDOWN: 3>,
 """
 ```
 
-# Validators
+## Validators
 
 This section is largely similar to the [docs here](https://pydantic-docs.helpmanual.io/usage/validators/) and the documentation is pretty good. 
 
@@ -433,7 +433,7 @@ Example(even_num=52)
 """
 ```
 
-## Handling messy data
+### Handling messy data
 
 Now, suppose your upstream has messy data values, rather than defining a function,you can just let pydantic  do the job for you.
 
@@ -450,7 +450,7 @@ class CleanData(BaseModel):
 
 This also allows for cleaner scripts and faster workflow. It also isolates the data cleaning in each step of the process. 
 
-# Exporting
+## Exporting
 
 Sometimes you are expected to return the data in json format, and certain data types in python is not supported natively. 
 
@@ -499,7 +499,7 @@ house.json()
 
 Note: full docs found [here](https://pydantic-docs.helpmanual.io/usage/exporting_models/). It is worth while taking a look and understand the other methods available, specifically the `exclude/include` methods. 
 
-# Using Fields 
+## Using Fields 
 
 Sometimes, your upstream / downstream:
 
@@ -507,11 +507,11 @@ Sometimes, your upstream / downstream:
 *  or is prone to schema changes, 
 *  or has a different perspective of CamelCase or snake_case. 
 
-This is where [Field customisation](https://pydantic-docs.helpmanual.io/usage/schema/#field-customisation) becomes very useful. 
+This is where [Field customisation](https://pydantic-docs.helpmanual.io/usage/schema/##field-customisation) becomes very useful. 
 
 Here are two examples:
 
-## Alias
+### Alias
 
 ```python
 from pydantic import BaseModel, Field
@@ -536,7 +536,7 @@ example.json(by_alias=True)
 
 By using alias, you are able have cleaner code as your application code will be independent of your inputs/outputs as per your requirements docs. 
 
-# Alias Generators
+## Alias Generators
 
 Suppose you prefer snake_case, but your upstream sends in CamelCase,
 
@@ -559,9 +559,9 @@ eg = Example(ILoveCamelCase = "TRUE", YesIReallyDo ="YES, REALLY")
 
 ```
 
-[official docs here](https://pydantic-docs.helpmanual.io/usage/model_config/#alias-generator)
+[official docs here](https://pydantic-docs.helpmanual.io/usage/model_config/##alias-generator)
 
-# Summary
+## Summary
 
 We have seen that with pydantic classes:
 
@@ -572,7 +572,7 @@ We have seen that with pydantic classes:
 * Objects are clean with clear attributes, being functions being statically typed with 0 ambiguous inputs and outputs. This will also make testing easier.
 * Objects can be documented (versus typical code blocks that is usually done as an after thought) with the help of class doc strings and Fields descriptions. 
 
-# Additional Readings
+## Additional Readings
 
 The below readings are useful / helped to better appreciate static typing. I recommend you to read them, first by skimming and then in details!
 

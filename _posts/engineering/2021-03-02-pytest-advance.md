@@ -2,13 +2,13 @@
 title: Pytest Part 2 - Fixtures, Marking, Configs
 date: 2021-03-02 0000:00:00 +0800
 categories: [Knowledge, Engineering]
-tags: [engineering, testing, pytest, python]   # TAG names should always be lowercase
+tags: [engineering, testing, pytest, python]   ## TAG names should always be lowercase
 math: true
 toc: true
 mermaid: true
 ---
 
-# Introduction
+## Introduction
 
 This is a further "advanced" section into [pytest](../pytest) 
 
@@ -19,7 +19,7 @@ We will covering a few more use cases & problems you might have encountered:
 * What are more interesting things you can do with fixtures?
 * Custom marking of tests
 
-## Pre-req
+### Pre-req
 
 I assume the following prerequisites: 
 
@@ -31,7 +31,7 @@ Good to have:
 * [Makefile](../makefile)
 * [Docker](../docker)
 
-## Setup
+### Setup
 
 The final code can be found in [same github repo](https://github.com/Freedom89/pytest-tutorial) under the folder `fixtures`. The vscode devcontainer is also provided!
 
@@ -73,7 +73,7 @@ ENTRYPOINT ["make"]
 CMD ["run"]
 ```
 
-# Structure
+## Structure
 
 In a typical pytest structure, this is what you might have:
 
@@ -89,14 +89,14 @@ In a typical pytest structure, this is what you might have:
 
 But in this case we do not need `src` as the tests are self-sufficient.
 
-# Conftests 
+## Conftests 
 
 The first topic we are going to introduce is `conftest.py`. This file usually sits with each file directory. This file *must* be named `conftest.py`. 
 
 To start, we first create a `conftest.py` under your `tests` directory:
 
 ```python
-# tests/conftest.py
+## tests/conftest.py
 import pytest
 import logging
 
@@ -131,7 +131,7 @@ tests/test_conf.py.          [100%]
 >
 > You can have multiple nested directories/packages containing your tests, and each directory can have its own `conftest.py` with its own fixtures, adding on to the ones provided by the `conftest.py` files in parent directories.
 
-# Configuration - pytest.ini
+## Configuration - pytest.ini
 
 The first thing to notice that there was no logging output. By checking the [python docs](https://docs.pytest.org/en/6.2.x/logging.html) on how we can output the logs to console, we can run:
 
@@ -150,7 +150,7 @@ PASSED                                      [100%]
 ================ 1 passed in 0.01s ================
 ```
 
-## Logging
+### Logging
 
 Instead of adding the `--log-cli-level` parameter, we can use configure our pytest with config file. There are multiple ways to configure our pytest, we will be using `pytest.ini`. 
 
@@ -164,7 +164,7 @@ log_level=INFO
 
 and we can run the same command `pytest tests/test_conf.py` to observe the same output.
 
-## Marking
+### Marking
 
 Sometimes it might be hard to run selection of tests via regex or marking or file names, and probably better to do with [marking] instead. Here is a trivial example:
 
@@ -205,9 +205,9 @@ INFO     root:test_conf.py:12 special marker test
 PASSED                                      [100%]
 ```
 
-# Setup and Teardown
+## Setup and Teardown
 
-When running pytests, sometimes you might want to [setup code and potentially tear down code](https://docs.pytest.org/en/6.2.x/fixture.html#teardown-cleanup-aka-fixture-finalization).
+When running pytests, sometimes you might want to [setup code and potentially tear down code](https://docs.pytest.org/en/6.2.x/fixture.html##teardown-cleanup-aka-fixture-finalization).
 
 To do this with pytests, we can make use of the `yield` statement:
 
@@ -218,7 +218,7 @@ In `tests/conftest.py` add:
 @pytest.fixture()
 def demo_yield():
     logging.info("setting up based on demo yield")
-    dummy_func = lambda x: x ** 2  # noqa
+    dummy_func = lambda x: x ** 2  ## noqa
     yield dummy_func
     logging.info("tearing down based on demo yield")
 
@@ -229,7 +229,7 @@ In `tests/test_conf.py` add:
 ```python
 
 def test_yield(demo_yield):
-    my_func = demo_yield  # yield the function
+    my_func = demo_yield  ## yield the function
     assert my_func(10) == 100
     logging.info("this is to demostrate its still happening in this test function")
 ```
@@ -254,7 +254,7 @@ INFO     root:conftest.py:15 tearing down based on demo yield
 ```
 
 
-## Usecases
+### Use cases
 
 Here is an example of a database usecase (notice the `scope` parameter which we will cover in next section). 
 
@@ -262,12 +262,12 @@ Here is an example of a database usecase (notice the `scope` parameter which we 
 @pytest.fixture(scope='module')
 def test_database():
     db.create_all()
-    yield db  # testing happens here
+    yield db  ## testing happens here
     db.session.remove()
     db.drop_all()
 ```
 
-# Scope 
+## Scope 
 
 By default, fixtures are loaded at a functional level. To demostrate this:
 
@@ -327,7 +327,7 @@ There are 5 different scopes when it comes to fixtures:
 | package  | runs at every package level, a package is a collection of modules        |
 | session  | runs at the python session (which usually consists of multiple packages) |
 
-## More examples
+### More examples
 
 Examples on each of the other scopes:
 
@@ -454,7 +454,7 @@ And to demostrate each of them:
     tests/test_module2.py::test_four PASSED     [100%]
     ```
 
-   "Session"
+* Session
     
     And we do the same for sessions:
 
@@ -509,7 +509,7 @@ Notice that:
 * Fixture with scope `modules` are triggered twice, for each script `test_module` and `test_module2`
 * Fixture with scope `sessions` is triggered once only, despite having two modules.
 
-## Adding Autouse
+### Adding Autouse
 
 Autouse is when you want to trigger a fixture despite circumstances. This is useful when you know your multiple of your tests uses a particular fixture. 
 
@@ -518,7 +518,7 @@ But first, lets observe the behaviour of what it does:
 If we go to `tests/conftests.py` and edit the function trigger:
 
 ```python
-# @pytest.fixture()
+## @pytest.fixture()
 @pytest.fixture(autouse=True)
 def function_fixture():
     logging.info("function trigger")
@@ -550,11 +550,11 @@ PASSED                                             [100%]
 The session fixture is triggered once, while the function fixture is triggered four times, despite not being used.
 
 
-## Autouse usecases
+### Autouse usecases
 
 Why or when is `autouse` useful then?
 
-Quoting from the [Real Python](https://realpython.com/pytest-python-testing/#fixtures-managing-state-and-dependencies):
+Quoting from the [Real Python](https://realpython.com/pytest-python-testing/##fixtures-managing-state-and-dependencies):
 
 > Another interesting use case for fixtures is in guarding access to resources. Imagine that you’ve written a test suite for code that deals with API calls. You want to ensure that the test suite doesn’t make any real network calls, even if a test accidentally executes the real network call code. pytest provides a monkeypatch fixture to replace values and behaviors, which you can use to great effect:
 
@@ -570,7 +570,7 @@ def disable_network_calls(monkeypatch):
 ```
 
 
-# Order of scopes
+## Order of scopes
 
 Now, if you are going to use the `scope` parameter, it is important to know the order of scopes is being executed. Generally it follows from the highest order to the lowest:
 
@@ -644,21 +644,21 @@ INFO     root:test_all_autouse.py:12 scope: function
 PASSED                                                   [100%]
 ```
 
-# References 
+## References 
 
 * Conftests
-    * [Official docs - sharing fixtures across files](https://docs.pytest.org/en/6.2.x/fixture.html#conftest-py-sharing-fixtures-across-multiple-files)
+    * [Official docs - sharing fixtures across files](https://docs.pytest.org/en/6.2.x/fixture.html##conftest-py-sharing-fixtures-across-multiple-files)
 * Marking
     * [Official docs - custom markers on pytest](https://docs.pytest.org/en/6.2.x/example/markers.html)
 * Configuration
     * [Official docs - Configure your pytest env](https://docs.pytest.org/en/6.2.x/customize.html)
     * [Official docs - pytest logging](https://docs.pytest.org/en/6.2.x/logging.html)
     * [Stackoverflow - Configure pytest logging](https://stackoverflow.com/questions/4673373/logging-within-pytest-tests)
-    * [Realpython - marking tests](https://realpython.com/pytest-python-testing/#marks-categorizing-tests)
+    * [Realpython - marking tests](https://realpython.com/pytest-python-testing/##marks-categorizing-tests)
 * Fixtures with yield
-    * [Official docs - Yield fixtures](https://docs.pytest.org/en/6.2.x/fixture.html#teardown-cleanup-aka-fixture-finalization)
+    * [Official docs - Yield fixtures](https://docs.pytest.org/en/6.2.x/fixture.html##teardown-cleanup-aka-fixture-finalization)
     * [Stackoverflow- - How to setup and teardown a databas with pytest](https://stackoverflow.com/questions/45703591/how-to-send-post-data-to-flask-using-pytest-flask)
-    * [Using pytest fixtures with testing flask app](https://testdriven.io/blog/flask-pytest/#fixtures)
+    * [Using pytest fixtures with testing flask app](https://testdriven.io/blog/flask-pytest/##fixtures)
 * Scope & Autouse
     * [Understand fixture scopes](https://betterprogramming.pub/understand-5-scopes-of-pytest-fixtures-1b607b5c19ed)
-    * [Realpython - Fixtures at scale](https://realpython.com/pytest-python-testing/#fixtures-managing-state-and-dependencies)
+    * [Realpython - Fixtures at scale](https://realpython.com/pytest-python-testing/##fixtures-managing-state-and-dependencies)
