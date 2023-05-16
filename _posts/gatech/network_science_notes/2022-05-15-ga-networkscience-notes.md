@@ -9,14 +9,17 @@ mermaid: true
 
 # Module one
 
-## What is Network Science?
+## [What is Network Science?](../ga-ns-L1)
 
-{% include_relative ga-ns-L1.md %}
+{% include_relative 2022-05-17-ga-ns-L1.md %}
 
 
-## Relevant Concepts from Graph Theory
+## [Relevant Concepts from Graph Theory](../ga-ns-L2)
 
-{% include_relative ga-ns-week2.md %}
+{% include_relative 2022-05-17-ga-ns-L2.md %}
 
-## Module two
+# Module two
 
+## Degree Distribution and The “Friendship Paradox”
+
+## Random vs. Real Graphs and Power-Law Networks
