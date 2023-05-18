@@ -3,6 +3,7 @@ title: CS7280 OCSMS - Network Science Notes
 date: 2023-05-15 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, ocsms, gatech_notes]     # TAG names should always be lowercase
+math: true
 toc: true
 mermaid: true
 ---
