@@ -28,3 +28,9 @@ if RUBY_PLATFORM =~ /linux-musl/
 end
 
 gem 'jemoji'
+gem 'thin'
+# https://github.com/zhustec/jekyll-diagrams
+# https://www.rubydoc.info/gems/jekyll-diagrams
+group :jekyll_plugins do
+  gem 'jekyll-diagrams'
+end

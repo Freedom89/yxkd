@@ -198,5 +198,11 @@ jekyll-archives:
     tag: /tags/:name/
     category: /categories/:name/
 
+# # https://www.rubydoc.info/gems/jekyll-diagrams
+jekyll-diagrams:
+  graphviz:
+    default_layout: dot
+
 plugins:
   - jemoji
+  - jekyll-diagrams
