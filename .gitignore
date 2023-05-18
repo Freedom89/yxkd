@@ -23,3 +23,6 @@ assets/js/dist
 
 .DS_Stores
 **/.DS_Store
+
+# Add this to gitignore
+_config.yml
