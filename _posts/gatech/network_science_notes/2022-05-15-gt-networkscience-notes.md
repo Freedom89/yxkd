@@ -25,4 +25,15 @@ mermaid: true
 
 {% include_relative 2022-05-26-gt-nsci-L3.md %}
 
-## L4 Random vs. Real Graphs and Power-Law Networks
+## [L4 - Random vs. Real Graphs and Power-Law Networks](../gt-nsci-L4)
+
+{% include_relative 2022-05-26-gt-nsci-L4.md %}
+
+<!-- ## [L5 - Network Paths, Clustering and The “Small World” Property](../gt-nsci-L5) -->
+
+<!-- {% include_relative 2022-05-26-gt-nsci-L5.md %} -->
+<!-- # Module three -->
+
+<!-- # Module four -->
+
+<!-- # Module five -->
