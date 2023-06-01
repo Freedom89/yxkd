@@ -15,3 +15,11 @@ docker:
     --volume="$(shell pwd):/srv/jekyll" \
     -p 4000:4000 jekyll/jekyll \
     jekyll serve --livereload -o
+
+# https://stackoverflow.com/questions/9794931/keep-file-in-a-git-repo-but-dont-track-changes
+
+freeze_config:
+	git update-index --assume-unchanged _config.yml
+
+unfreeze_config:
+	git update-index --no-assume-unchanged _config.yml
