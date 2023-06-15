@@ -7,7 +7,7 @@ setup:
 	bundle lock --add-platform x86_64-linux
 
 run:
-	JEKYLL_ENV=production bundle exec jekyll serve --livereload -o
+	JEKYLL_ENV=production bundle exec jekyll serve --livereload -o --incremental
 
 docker:
 	docker run -it --rm \
