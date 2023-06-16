@@ -51,6 +51,8 @@ mermaid: true
 
 ## [L9 - Spreading Phenomena on Networks and Epidemics](../gt-nsci-L9)
 
+{% include_relative 2023-06-13-gt-nsci-L9.md %}
+
 <!-- ## [L10] -->
 <!-- ## [L11] -->
 
