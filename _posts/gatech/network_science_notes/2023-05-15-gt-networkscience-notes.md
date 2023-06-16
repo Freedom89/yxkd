@@ -1,6 +1,6 @@
 ---
 title: CS7280 OCSMS - Network Science Notes
-date: 2023-06-13 0000:00:00 +0800
+date: 2023-06-15 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, ocsms, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -47,6 +47,15 @@ mermaid: true
 
 {% include_relative 2023-06-11-gt-nsci-L8.md %}
 
-<!-- # Module four -->
+# Module four
+
+## [L9 - Spreading Phenomena on Networks and Epidemics](../gt-nsci-L9)
+
+<!-- ## [L10] -->
+<!-- ## [L11] -->
 
 <!-- # Module five -->
+
+<!-- ## [L12] -->
+<!-- ## [L13] -->
+<!-- ## [L14] -->
