@@ -127,7 +127,6 @@ DEPENDENCIES
   html-proofer (~> 3.18)
   http_parser.rb (~> 0.6.0)
   jekyll-diagrams
-  jekyll-sass-converter (~> 2.0)
   jekyll-theme-chirpy (~> 5.6, >= 5.6.1)
   jemoji
   thin
