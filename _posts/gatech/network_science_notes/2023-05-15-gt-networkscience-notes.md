@@ -14,7 +14,6 @@ mermaid: true
 
 {% include_relative 2023-05-17-gt-nsci-L1.md %}
 
-
 ## [L2 - Relevant Concepts from Graph Theory](../gt-nsci-L2)
 
 {% include_relative 2023-05-17-gt-nsci-L2.md %}
@@ -53,7 +52,10 @@ mermaid: true
 
 {% include_relative 2023-06-13-gt-nsci-L9.md %}
 
-<!-- ## [L10] -->
+## [L10 - Social Influence and Other Network Contagion Phenomena](../gt-nsci-L10)
+
+{% include_relative 2023-06-13-gt-nsci-L10.md %}
+
 <!-- ## [L11] -->
 
 <!-- # Module five -->
