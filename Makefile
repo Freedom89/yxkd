@@ -14,7 +14,7 @@ docker:
 	--platform linux/amd64 \
     --volume="$(shell pwd):/srv/jekyll" \
     -p 4000:4000 jekyll/jekyll \
-    jekyll serve --livereload -o
+    jekyll serve --livereload -o --incremental
 
 # https://stackoverflow.com/questions/9794931/keep-file-in-a-git-repo-but-dont-track-changes
 
