@@ -1,6 +1,6 @@
 ---
 title: CS7280 OCSMS - Network Science Notes
-date: 2023-06-23 0000:00:00 +0800
+date: 2023-06-22 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, ocsms, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -60,9 +60,11 @@ mermaid: true
 
 {% include_relative 2023-06-15-gt-nsci-L11.md %}
 
+# Module five
 
-<!-- # Module five -->
+## [L12 -  Network Modeling](../gt-nsci-L12)
 
-<!-- ## [L12] -->
+{% include_relative 2023-06-16-gt-nsci-L12.md %}
+
 <!-- ## [L13] -->
 <!-- ## [L14] -->
