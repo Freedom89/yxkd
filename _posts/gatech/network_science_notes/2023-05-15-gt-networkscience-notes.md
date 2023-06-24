@@ -66,5 +66,10 @@ mermaid: true
 
 {% include_relative 2023-06-16-gt-nsci-L12.md %}
 
-<!-- ## [L13] -->
-<!-- ## [L14] -->
+## [L13 - Statistical Analysis of Network Data](../gt-nsci-L13)
+
+{% include_relative 2023-06-17-gt-nsci-L13.md %}
+
+## [L14 - Machine Learning in Network Science](../gt-nsci-L14)
+
+{% include_relative 2023-06-18-gt-nsci-L14.md %}
