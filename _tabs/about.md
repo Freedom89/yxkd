@@ -2,7 +2,49 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 4
+toc: true
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
+## Background
+
+Hi, I’m Yi Xiang. Professionally at work, i solve problems using math, data and code. Outside of work, i enjoy swimming, reading manga, watching gaming live streams and playing board games. 
+
+## Why did i start this site?
+
+Since my undergraduate days, I am fond of digitalizing my summarized notes in order to
+
+1. Aids my personal understanding of a topic.
+2. Assist my recollection, and since it is digitalized, it is easy to search and edit!
+3. Sharing my notes with my peers which aid their exam preparation, which they in kind help me spot errors or suggest changes or share new insights/knowledge.
+
+In a way, this site is my attempt of recreating something similar as a working professional and my contribution back to the industry.
+
+## Career
+
+* Google
+  * Jan 2022 to Present : Associate Principal, Workspace
+* Traveloka
+  * Apr 2019 to Jan 2022 : Senior Data Scientist, Fraud Platform & Payments
+  * Oct 2017 to Apr 2019 : Data Scientist, Product and Credit. 
+* Merck (MSD)
+  * Jun 2015 to Oct 2017 : Junior Data Scientist, Operations Research and Machine Learning
+
+## Education
+
+* Georgia Tech, Masters in computer science (OMSCS), Fall 2022 Cohort.
+* Nanyang technological University, Mathematics 2010-2013. 
+
+## Resume
+
+Refer to [Linkedin](https://www.linkedin.com/in/lowyx/) or [pdf](../assets/info/cv_yxlow.pdf).
+
+## Coffee 💰
+
+If you have enjoyed my content and wish to treat me to a cup of coffee, here are the available options:
+
+* Paypal
+  * <i class="fa-brands fa-paypal"></i> : [Paypal me!](https://paypal.me/lowyixiang?)
+* Crypto
+  * <i class="fa-brands fa-btc"></i> Bitcoin Address: 1L5J7MPmscnbKBXLvD89sdin91LTQ6QUim
+  * <i class="fa-brands fa-ethereum"></i> Ethereum (ERC20) Address: 0xcbfad53c4e6b857fa150a19b10f19ae7e7751f13
+  * Tron (TRC20) Address: TGAovPbdBxnhh2SXkrzWsdz27JADBjPZhx
