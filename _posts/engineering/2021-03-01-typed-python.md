@@ -1,5 +1,5 @@
 ---
-title: Typed Python
+title: Typed Python with pydantic
 date: 2021-03-01 0000:00:00 +0800
 categories: [Knowledge, Engineering]
 tags: [engineering, testing, pydantic, python]   # TAG names should always be lowercase

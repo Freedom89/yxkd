@@ -207,3 +207,4 @@ jekyll-diagrams:
 plugins:
   - jemoji
   - jekyll-diagrams
+  - jekyll-target-blank

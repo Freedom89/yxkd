@@ -9,6 +9,9 @@ setup:
 run:
 	JEKYLL_ENV=production bundle exec jekyll serve --livereload -o --incremental
 
+run2:
+	JEKYLL_ENV=production bundle exec jekyll serve --livereload
+	
 docker:
 	docker run -it --rm \
 	-e JEKYLL_ENV=production \
