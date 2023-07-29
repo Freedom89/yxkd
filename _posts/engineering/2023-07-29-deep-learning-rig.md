@@ -14,7 +14,7 @@ Currently I am pursuing a [online masters in computer science from Georgia Tech]
 
 This, combined with the recent surge of interest in generative Ai, made me decide to invest in my own deep learning rig.
 
-I decided to micnic my workplace setup (which is also similar to how you spin up an [EC2](https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html) or [GCE](https://cloud.google.com/compute/docs/gpus) instance), which is a remote desktop called ([Google's Cloudtop](https://www.cnbc.com/2021/04/12/google-cloudtop-virtual-desktop-tool-for-employees-only.html)) that used to use [Goobuntu](https://en.wikipedia.org/wiki/Goobuntu) and later switched over to [gLinux](https://en.wikipedia.org/wiki/GLinux). For developmental work, employees would ssh to their remote desktop :smile:.
+I decided to mimic my workplace setup (which is also similar to how you spin up an [EC2](https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html) or [GCE](https://cloud.google.com/compute/docs/gpus) instance), which is a remote desktop called ([Google's Cloudtop](https://www.cnbc.com/2021/04/12/google-cloudtop-virtual-desktop-tool-for-employees-only.html)) that used to use [Goobuntu](https://en.wikipedia.org/wiki/Goobuntu) and later switched over to [gLinux](https://en.wikipedia.org/wiki/GLinux). For developmental work, employees would ssh to their remote desktop :smile:.
 
 ## Dualboot ubuntu
 
