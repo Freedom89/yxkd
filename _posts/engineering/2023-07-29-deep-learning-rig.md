@@ -20,7 +20,7 @@ I decided to micnic my workplace setup (which is also similar to how you spin up
 
 This [posts](https://whatsabyte.com/reasons-dual-boot-computer/) highlights why I mainly decided to use dualboot, I tried [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) but found the experience subpar (which is partly motivated by my workplace design). Another huge advantage is the ability to add multiple users (each with a new environment) with it's own installations.
 
-I bought my PC from [aftershock](www.aftershockpc.com) with Windows 11 pro. I mainly got windows for edge use cases in the event that ubuntu is not compatiable with certain software required for my masters. Also, as recommended by the [ubuntu website](https://help.ubuntu.com/community/WindowsDualBoot), windows should be installed first.
+I bought my PC from [aftershock](https://www.aftershockpc.com/) with Windows 11 pro. I mainly got windows for edge use cases in the event that ubuntu is not compatiable with certain software required for my masters. Also, as recommended by the [ubuntu website](https://help.ubuntu.com/community/WindowsDualBoot), windows should be installed first.
 
 This [guide](https://www.xda-developers.com/dual-boot-windows-11-linux/) is the one I followed to install dual boot ubuntu. I download the ubuntu desktop version instead of the server function, just incase I ever need the UI.
 
@@ -117,7 +117,7 @@ lowyx:~$
 
 ## Configuring Python
 
-I followed this [guide](https://linuxhint.com/install-anaconda-ubuntu-22-04/) to install anaconda, as it is my preferred method to manage different python environments locally. (Will try to attempt this with [Docker](../Docker) in the future). The instructions are pretty straight forward:
+I followed this [guide](https://linuxhint.com/install-anaconda-ubuntu-22-04/) to install anaconda, as it is my preferred method to manage different python environments locally. (Will try to attempt this with [Docker](../docker) in the future). The instructions are pretty straight forward:
 
 Look at the [official anaconda repo site](https://repo.anaconda.com/archive/) and select the version you need. I happen to be using the intel x64 architecture:
 
