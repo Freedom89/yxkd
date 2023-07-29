@@ -302,9 +302,16 @@ sudo apt-get autoclean
 sudo rm -rf /usr/local/cuda*
 ```
 
-## Future work
+## Tensorflow
 
-I have a couple more things I like to figure out but it involves around the developer experience.
+Installing tensorflow is pretty easy, I just followed the official [documentation](https://www.tensorflow.org/install/pip). As compared against the other tutorials I have found online, I was not required to install cuDNN. (It seems like I also do not need to do so for pytorch, perhaps if anyone is reading this and knows why, please let me know)
 
-1. Use [vscode remote development](https://code.visualstudio.com/docs/remote/ssh) to link to my remote desktop instead of just the terminal shell as point of interaction.
-2. Then instead of using the terminal shell, use a [docker container instead](https://code.visualstudio.com/docs/devcontainers/containers).
+## Remote IDE
+
+Use [vscode remote development](https://code.visualstudio.com/docs/remote/ssh). All you got to do is to connect to ssh and vscode will figure out your filesystem for you.
+
+### Remote IDE with docker 
+
+I followed [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install docker.
+
+Similarly, you can create a Dockerfile and `.devcontainer.json`, install the required extensions and develop on top of docker in your remote Desktop. I may upload an example in the future if there is demand for it.
