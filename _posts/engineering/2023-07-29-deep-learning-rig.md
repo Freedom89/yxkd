@@ -14,7 +14,7 @@ Currently I am pursuing a [online masters in computer science from Georgia Tech]
 
 This, combined with the recent surge of interest in generative AI, made me decide to invest in my own deep learning rig. In addition I thought it would be cool and educational about maintaining my own "private" server.
 
-I decided to mimic my workplace setup, which is a remote desktop called ([Google's Cloudtop](https://www.cnbc.com/2021/04/12/google-cloudtop-virtual-desktop-tool-for-employees-only.html)) that used to use [Goobuntu](https://en.wikipedia.org/wiki/Goobuntu) and later switched over to [gLinux](https://en.wikipedia.org/wiki/GLinux). For developmental work, employees would ssh to their remote desktop :smile:. This is quite similar to how you spin up an [EC2](https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html) or [GCE](https://cloud.google.com/compute/docs/gpus) instance.
+I decided to mimic my workplace setup, which is a remote desktop called [Google's Cloudtop](https://www.cnbc.com/2021/04/12/google-cloudtop-virtual-desktop-tool-for-employees-only.html) with [Goobuntu](https://en.wikipedia.org/wiki/Goobuntu) installed, and later switched over to [gLinux](https://en.wikipedia.org/wiki/GLinux). For developmental work, employees would ssh to their remote desktop :smile:. This is quite similar to how you spin up an [EC2](https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html) or [GCE](https://cloud.google.com/compute/docs/gpus) instance.
 
 ## Dualboot ubuntu
 
@@ -117,7 +117,15 @@ lowyx:~$
 
 ## Configuring Python
 
-I followed this [guide](https://linuxhint.com/install-anaconda-ubuntu-22-04/) to install anaconda, as it is my preferred method to manage different python environments locally. (Will try to attempt this with [Docker](../docker) in the future). The instructions are pretty straight forward:
+I followed this [guide](https://linuxhint.com/install-anaconda-ubuntu-22-04/) to install anaconda, as it is my preferred method to manage different python environments locally. The instructions are pretty straight forward:
+
+> **Using Docker while remote ssh!**
+> 
+> * Turns out using docker in such an environment is pretty straight forward.
+> * It is exactly the same from the terminal point of view, and if you are using vscode, the plugins handles majority of the complexities.
+> * More information can be found at the [remote ide](#remote-ide) section.
+{: .prompt-info }
+
 
 Look at the [official anaconda repo site](https://repo.anaconda.com/archive/) and select the version you need. I happen to be using the intel x64 architecture:
 
