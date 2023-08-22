@@ -22,6 +22,16 @@ docker:
 	bundle lock --add-platform x86_64-linux && \
     bundle exec jekyll serve --livereload -o --incremental
 
+docker2:
+	docker run -it --rm \
+	-e JEKYLL_ENV=production \
+	--platform linux/amd64 \
+    --volume="$(shell pwd):/srv/jekyll" \
+    -p 4000:4000 jekyll/jekyll \
+	bundle && \
+	bundle lock --add-platform x86_64-linux && \
+    bundle exec jekyll serve
+
 # https://stackoverflow.com/questions/9794931/keep-file-in-a-git-repo-but-dont-track-changes
 
 freeze_config:
