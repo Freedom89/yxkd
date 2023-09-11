@@ -1,6 +1,6 @@
 ---
 title: CS7643 omscs - Deep Learning Notes
-date: 2023-08-20 0000:00:00 +0800
+date: 2023-09-09 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -18,3 +18,6 @@ mermaid: true
 
 {% include_relative 2023-08-18-gt-dl-L2.md %}
 
+## [Lesson 3: Optimization of Deep Neural Networks](../gt-dl-L3)
+
+{% include_relative 2023-09-05-gt-dl-L3.md %}
