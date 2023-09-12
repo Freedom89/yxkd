@@ -21,3 +21,7 @@ mermaid: true
 ## [Lesson 3: Optimization of Deep Neural Networks](../gt-dl-L3)
 
 {% include_relative 2023-09-05-gt-dl-L3.md %}
+
+## [Lesson 4: Data Wrangling](../gt-dl-L4)
+
+{% include_relative 2023-09-06-gt-dl-L4.md %}
