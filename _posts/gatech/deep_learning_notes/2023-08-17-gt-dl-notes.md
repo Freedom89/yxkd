@@ -1,6 +1,6 @@
 ---
 title: CS7643 omscs - Deep Learning Notes
-date: 2023-09-09 0000:00:00 +0800
+date: 2023-09-12 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -25,3 +25,8 @@ mermaid: true
 ## [Lesson 4: Data Wrangling](../gt-dl-L4)
 
 {% include_relative 2023-09-06-gt-dl-L4.md %}
+
+# Module two
+## [Lesson 5: Convolution and Pooling Layers](../gt-dl-L5)
+
+{% include_relative 2023-09-09-gt-dl-L5.md %}

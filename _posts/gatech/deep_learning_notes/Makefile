@@ -4,4 +4,4 @@ c:
 	ls -Art /$(HOME)/Desktop/ss | tail -n 1
 
 latest:
-	bash mymv.sh m1l4_$(FN).png
+	bash mymv.sh m2l5_$(FN).png
