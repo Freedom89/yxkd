@@ -1,6 +1,6 @@
 ---
 title: CS7643 omscs - Deep Learning Notes
-date: 2023-09-12 0000:00:00 +0800
+date: 2023-09-22 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -30,3 +30,15 @@ mermaid: true
 ## [Lesson 5: Convolution and Pooling Layers](../gt-dl-L5)
 
 {% include_relative 2023-09-09-gt-dl-L5.md %}
+
+## [Lesson 6: Convolutional Neural Network Architectures](../gt-dl-L6)
+
+{% include_relative 2023-09-20-gt-dl-L6.md %}
+
+<!-- ## [Lesson 7: Visualization](../gt-dl-L6) -->
+
+<!-- ## [Lesson 8: Scalable Training](../gt-dl-L6) -->
+
+<!-- ## [Lesson 9: Advanced Computer Vision Architectures](../gt-dl-L6) -->
+
+<!-- ## [Lesson 10: Bias and Fairness](../gt-dl-L6) -->
