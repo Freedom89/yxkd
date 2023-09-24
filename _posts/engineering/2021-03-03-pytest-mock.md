@@ -7,7 +7,7 @@ math: true
 toc: true
 mermaid: true
 ---
-# Introduction
+## Introduction
 
 When you are writing data applications or products, chances are:
 
@@ -20,7 +20,7 @@ In either of the above case, in order to test your code, you probably need to `m
 This will cover specifically on how to [mock](https://docs.python.org/3/library/unittest.mock.html) with pytest. 
 
 
-# Pre-req
+## Pre-req
 
 I assume the following prerequisites: 
 
@@ -29,7 +29,7 @@ I assume the following prerequisites:
 * [Familiarity with pytest](../pytest)
     * Specifically you understand the section on [mocker](../pytest#mocking)
 
-# Setup
+## Setup
 
 This is the packages you need:
 
@@ -38,7 +38,7 @@ pytest
 pytest-mock
 ```
 
-# Mock Object
+## Mock Object
 
 When you install [pytest-mock](https://pypi.org/project/pytest-mock/), the `mock` object is made available for convenince. 
 
@@ -46,7 +46,7 @@ For the next few examples, we will be using `unittest.mock` to demostrate/explai
 
 > Unittest has been built into the Python standard library since version 2.1. You'll probably see it in commercial Python applications and open-source projects.
 
-# Requests
+## Requests
 
 Lets make a http get requests as follows with the [requests package](https://pypi.org/project/requests/):
 
@@ -64,7 +64,7 @@ my_response.url
 """
 ```
 
-# Intro to Mock
+## Intro to Mock
 
 To better understnad the `Mock` object, lets change the above example instead:
 
@@ -93,7 +93,7 @@ unittest.mock.Mock
 """
 ```
 
-## Mock Methods
+### Mock Methods
 
 What about the methods you can call on it?
 
@@ -127,7 +127,7 @@ Wow! Seems like alot to digest! :sob:
 
 Fear not, we'll go through some of them in the sessions and quickly see how they are valid or be used for testing! 
 
-# Assert(s) 
+## Assert(s) 
 
 When you run `my_requests.get()` method, and later use the object 
 
@@ -156,7 +156,7 @@ We have just verified that the object `my_requests` with `get` method has been c
     json.dumps.assert_called() is None
     ```
 
-# Call(s) 
+## Call(s) 
 
 What about the call(s) methods under the `Mock` object?
 
@@ -184,7 +184,7 @@ call('http://www.google.com', params={'q': 'pytest'})
 
 Can you start to see why this will be useful inverifying that your functions will be called correctly? (Will be even more obvious later on)
 
-# Return value
+## Return value
 
 What if you want to mock some values from a function or a method?
 
@@ -217,7 +217,7 @@ True
 """
 ```
 
-# Side effect
+## Side effect
 
 This is a little harder to explain, but first consider this "non mocked" example:
 
@@ -269,7 +269,7 @@ code triggered
 """
 ```
 
-## Side effect as a generator
+### Side effect as a generator
 
 Another good use case about side effect is when a list is provided, it provides an `iter` object:
 
@@ -312,11 +312,11 @@ assert get_random_info() == "something random"
 assert requests.get.call_count == 2
 ```
 
-## Extra notes about side effect
+### Extra notes about side effect
 
 When side effect and return value are both specified, side effect will take pirority. [Extra information here](https://stackoverflow.com/questions/56191199/what-happens-when-a-python-mock-has-both-a-return-value-and-a-list-of-side-effec)
 
-# Spec calls
+## Spec calls
 
 When using python, it might be common to use objects (classes), and when using `Mocking` typos might happen, observe:
 
@@ -353,7 +353,7 @@ example.compute_roduct.return_value == 200
 """
 ```
 
-## Configure mock
+### Configure mock
 
 Sometimes it might not be possible to input the return value or side effect, in that case we can use the `configure_mock` method:
 
@@ -363,7 +363,7 @@ temp=Mock()
 temp.configure_mock(side_effect=None)
 ```
 
-# MagicMock
+## MagicMock
 
 There are also other types of mock, such as `MagicMock` and the new upcoming `AsyncMock` if you are using python async features.
 
@@ -403,7 +403,7 @@ TypeError: object of type 'Mock' has no len()
 """
 ```
 
-# Final illustration!
+## Final illustration!
 
 With all the above learnings, lets come up with some sort of an "end-to-end" testing.
 
@@ -469,7 +469,7 @@ INFO:root:10
 
 Notice that it takes 9 seconds!
 
-## Testing it!
+### Testing it!
 
 This is our `test_example.py`:
 
@@ -571,11 +571,11 @@ Notice that in `send_external` there is no `INFO` logs being recorded, and the d
 
 Neat, right?
 
-# Future Notes
+## Future Notes
 
 `Stub` and `Spy` and `Async` test features seems interesting too! Look out for future posts about it! :smile:.
 
-# References 
+## References 
 
 * Documentations:
     * [Official docs - unittest mock docs](https://docs.python.org/3/library/unittest.mock.html)
