@@ -1,6 +1,6 @@
 ---
 title: CS7643 omscs - Deep Learning Notes
-date: 2023-09-22 0000:00:00 +0800
+date: 2023-10-02 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -34,6 +34,10 @@ mermaid: true
 ## [Lesson 6: Convolutional Neural Network Architectures](../gt-dl-L6)
 
 {% include_relative 2023-09-20-gt-dl-L6.md %}
+
+## [Lesson 7: Visualization](../gt-dl-L7)
+
+{% include_relative 2023-09-25-gt-dl-L7.md %}
 
 <!-- ## [Lesson 7: Visualization](../gt-dl-L6) -->
 
