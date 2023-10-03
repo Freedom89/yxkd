@@ -39,9 +39,9 @@ mermaid: true
 
 {% include_relative 2023-09-25-gt-dl-L7.md %}
 
-<!-- ## [Lesson 7: Visualization](../gt-dl-L6) -->
+## [Lesson 8: Scalable Training](../gt-dl-L8)
 
-<!-- ## [Lesson 8: Scalable Training](../gt-dl-L6) -->
+{% include_relative 2023-09-26-gt-dl-L8.md %}
 
 <!-- ## [Lesson 9: Advanced Computer Vision Architectures](../gt-dl-L6) -->
 
