@@ -43,6 +43,8 @@ mermaid: true
 
 {% include_relative 2023-09-26-gt-dl-L8.md %}
 
-<!-- ## [Lesson 9: Advanced Computer Vision Architectures](../gt-dl-L6) -->
+## [Lesson 9: Advanced Computer Vision Architectures](../gt-dl-L9)
+
+{% include_relative 2023-09-27-gt-dl-L9.md %}
 
 <!-- ## [Lesson 10: Bias and Fairness](../gt-dl-L6) -->
