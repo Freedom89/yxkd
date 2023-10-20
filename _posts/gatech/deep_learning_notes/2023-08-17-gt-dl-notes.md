@@ -1,6 +1,6 @@
 ---
 title: CS7643 omscs - Deep Learning Notes
-date: 2023-10-02 0000:00:00 +0800
+date: 2023-10-17 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -47,4 +47,21 @@ mermaid: true
 
 {% include_relative 2023-09-27-gt-dl-L9.md %}
 
-<!-- ## [Lesson 10: Bias and Fairness](../gt-dl-L6) -->
+## [Lesson 10: Bias and Fairness](../gt-dl-L10)
+
+{% include_relative 2023-10-01-gt-dl-L10.md %}
+
+
+# Module three
+
+## [Lesson 11: Introduction to Structured Representations](../gt-dl-L11)
+
+{% include_relative 2023-10-02-gt-dl-L11.md %}
+
+## [Lesson 12: Language Models](../gt-dl-L12)
+
+{% include_relative 2023-10-03-gt-dl-L12.md %}
+
+<!-- Module 3 - Lesson 12: Language Models -->
+
+<!-- Module 3 - Lesson 13: Embeddings -->
