@@ -62,6 +62,8 @@ mermaid: true
 
 {% include_relative 2023-10-03-gt-dl-L12.md %}
 
-<!-- Module 3 - Lesson 12: Language Models -->
+## [Lesson 13: Embeddings](../gt-dl-L13)
+
+{% include_relative 2023-10-04-gt-dl-L13.md %}
 
 <!-- Module 3 - Lesson 13: Embeddings -->
