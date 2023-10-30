@@ -66,4 +66,9 @@ mermaid: true
 
 {% include_relative 2023-10-04-gt-dl-L13.md %}
 
+## [Lesson 14: Neural Attention Models](../gt-dl-L14)
+
+{% include_relative 2023-10-04-gt-dl-L14.md %}
+
+
 <!-- Module 3 - Lesson 13: Embeddings -->
