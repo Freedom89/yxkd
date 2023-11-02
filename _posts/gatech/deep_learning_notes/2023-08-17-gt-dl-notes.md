@@ -70,8 +70,12 @@ mermaid: true
 
 {% include_relative 2023-10-05-gt-dl-L14.md %}
 
-## [Lesson 15: Neural Machine Translation]
+## [Lesson 15: Neural Machine Translation](../gt-dl-L15)
 
 {% include_relative 2023-10-06-gt-dl-L15.md %}
+
+## [Lesson 16: Advanced Topics: Translation at Facebook](../gt-dl-L16)
+
+{% include_relative 2023-10-10-gt-dl-L16.md %}
 
 <!-- Module 3 - Lesson 13: Embeddings -->
