@@ -27,6 +27,7 @@ mermaid: true
 {% include_relative 2023-09-06-gt-dl-L4.md %}
 
 # Module two
+
 ## [Lesson 5: Convolution and Pooling Layers](../gt-dl-L5)
 
 {% include_relative 2023-09-09-gt-dl-L5.md %}
@@ -78,4 +79,11 @@ mermaid: true
 
 {% include_relative 2023-10-10-gt-dl-L16.md %}
 
-<!-- Module 3 - Lesson 13: Embeddings -->
+# Module four
+
+(At this stage I am a little tired of creating the notes by now, and it is no longer involved in any projects)
+
+## [Lesson 17: Deep Reinforcement Learning](../gt-dl-L17)
+
+{% include_relative 2023-10-11-gt-dl-L17.md %}
+
