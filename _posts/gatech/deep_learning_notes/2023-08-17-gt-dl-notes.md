@@ -87,3 +87,6 @@ mermaid: true
 
 {% include_relative 2023-10-11-gt-dl-L17.md %}
 
+## [Lesson 18: Unsupervised and Semi-Supervised Learning](../gt-dl-L18)
+
+{% include_relative 2023-10-12-gt-dl-L18.md %}
