@@ -90,3 +90,7 @@ mermaid: true
 ## [Lesson 18: Unsupervised and Semi-Supervised Learning](../gt-dl-L18)
 
 {% include_relative 2023-10-12-gt-dl-L18.md %}
+
+## [Lesson 19: Generative Models](../gt-dl-L19)
+
+{% include_relative 2023-10-13-gt-dl-L19.md %}
