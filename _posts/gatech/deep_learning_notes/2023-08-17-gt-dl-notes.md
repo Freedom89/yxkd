@@ -8,7 +8,7 @@ toc: true
 mermaid: true
 ---
 
-# Module one
+# Module 1: Introduction to Neural Networks
 
 ## [Lesson 1: Linear Classifiers and Gradient Descent](../gt-dl-L1)
 
@@ -26,7 +26,7 @@ mermaid: true
 
 {% include_relative 2023-09-06-gt-dl-L4.md %}
 
-# Module two
+# Module 2: Convolutional Neural Networks
 
 ## [Lesson 5: Convolution and Pooling Layers](../gt-dl-L5)
 
@@ -48,12 +48,12 @@ mermaid: true
 
 {% include_relative 2023-09-27-gt-dl-L9.md %}
 
-## [Lesson 10: Bias and Fairness](../gt-dl-L10)
+## [Lesson 10: Responsible AI and Bias and Fairness](../gt-dl-L10)
 
 {% include_relative 2023-10-01-gt-dl-L10.md %}
 
 
-# Module three
+# Module 3: Structured Neural Representations
 
 ## [Lesson 11: Introduction to Structured Representations](../gt-dl-L11)
 
@@ -75,11 +75,11 @@ mermaid: true
 
 {% include_relative 2023-10-06-gt-dl-L15.md %}
 
-## [Lesson 16: Advanced Topics: Translation at Facebook](../gt-dl-L16)
+## [Lesson 16: Advanced Topics: Translation at Facebook and Automated Speech Recognition (ASR)](../gt-dl-L16)
 
 {% include_relative 2023-10-10-gt-dl-L16.md %}
 
-# Module four
+# Module 4: Advanced Topics
 
 (At this stage I am a little tired of creating the notes by now, and it is no longer involved in any projects)
 
