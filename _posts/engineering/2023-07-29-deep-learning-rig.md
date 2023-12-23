@@ -246,7 +246,7 @@ After this step, reboot your desktop (`sudo reboot`). It will show you an output
 
 To make sure everything is working correctly:
 
-* Navigate to `/user/local` and look for `cuda-11.8` (Or the version you are using):
+* Navigate to `/usr/local` and look for `cuda-11.8` (Or the version you are using):
 * Navigate to `cuda-11.8/bin`, you should see a `nvcc` binary
 
 ```bash
@@ -323,3 +323,38 @@ Use [vscode remote development](https://code.visualstudio.com/docs/remote/ssh). 
 I followed [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04) to install docker.
 
 Similarly, you can create a Dockerfile and `.devcontainer.json`, install the required extensions and develop on top of docker in your remote Desktop. I may upload an example in the future if there is demand for it.
+
+
+## Useful Tips
+
+Check remaining space:
+
+```bash
+df -h
+```
+
+Check size of current directory:
+
+```bash
+du -sh
+```
+
+Check size of each folder in current directory:
+
+```bash
+du -sh ./*
+```
+
+To list all available drives:
+
+```
+lsblk
+```
+
+To have a shared drive and share them among dual boot, I found this [guide](https://devicetests.com/share-files-windows-ubuntu-dual-boot) to be useful. 
+
+For my own linux, I created `/mnt/shared` and added this line to `/etc/fstab`:
+
+```
+/dev/sda2 /mnt/shared ntfs-3g defaults,auto,umask=000 0 0
+```
