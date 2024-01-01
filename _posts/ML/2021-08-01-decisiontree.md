@@ -335,39 +335,41 @@ We would still split by the color red!
 
 The gini impurity has values ranging from $[0,0.5]$ while entropy has values $[0,1]$ when using $log_2$. 
 
-<img src="data:image/png;base64,{{ chart }}" width="100%" height="100%" />
+![image](../../../assets/posts/decision_trees/gini_entropy.png)
 
-??? "Code to generate plot"
-    ```python
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import matplotlib
-    from scipy.stats import entropy
+Code to generate plot:
 
-    matplotlib.style.use("ggplot")
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+from scipy.stats import entropy
 
-    x_axis = [x for x in np.arange(0, 1, 0.01)]
-    y_axis_gini = [1 - (x**2 + (1 - x) ** 2) for x in x_axis]
-    y_axis_gini2 = [x * 2 for x in y_axis_gini]
-    y_axis_entropy = [entropy([x, 1 - x], base=2) for x in x_axis]
+matplotlib.style.use("ggplot")
 
-    fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.suptitle("Entropy vs Gini Impurity")
+x_axis = [x for x in np.arange(0, 1, 0.01)]
+y_axis_gini = [1 - (x**2 + (1 - x) ** 2) for x in x_axis]
+y_axis_gini2 = [x * 2 for x in y_axis_gini]
+y_axis_entropy = [entropy([x, 1 - x], base=2) for x in x_axis]
 
-    ax1.plot(x_axis, y_axis_gini, "-", color="blue", linewidth=4, label="gini")
-    ax1.plot(x_axis, y_axis_entropy, "-", color="orange", linewidth=4, label="entropy")
-    ax1.legend()
+fig, (ax1, ax2) = plt.subplots(1, 2)
+fig.suptitle("Entropy vs Gini Impurity")
 
-    ax2.plot(x_axis, y_axis_gini2, linestyle="-", color="blue", linewidth=4, label="gini*2")
-    ax2.plot(
-        x_axis, y_axis_entropy, linestyle="-", color="orange", linewidth=4, label="entropy"
-    )
-    ax2.legend()
+ax1.plot(x_axis, y_axis_gini, "-", color="blue", linewidth=4, label="gini")
+ax1.plot(x_axis, y_axis_entropy, "-", color="orange", linewidth=4, label="entropy")
+ax1.legend()
 
-    plt.show()
-    ```
+ax2.plot(x_axis, y_axis_gini2, linestyle="-", color="blue", linewidth=4, label="gini*2")
+ax2.plot(
+    x_axis, y_axis_entropy, linestyle="-", color="orange", linewidth=4, label="entropy"
+)
+ax2.legend()
 
-Turns out in practice, there is not much difference between using gini and entropy. There are different literatures suggesting computational differences but I have yet to counter a significant example. 
+plt.show()
+```
+
+Turns out in practice, there is not much difference between using gini and entropy. There are different literatures suggesting computational differences but I have yet to experience a significant example. 
+
 ## Entropy - Continuous
 
 A common area that is not covered - what happens if the predictor X is continuous?
