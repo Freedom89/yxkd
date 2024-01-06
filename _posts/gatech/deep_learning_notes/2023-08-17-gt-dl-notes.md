@@ -1,5 +1,5 @@
 ---
-title: CS7643 omscs - Deep Learning Notes
+title: CS7643 OMSCS - Deep Learning Notes
 date: 2023-10-17 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase

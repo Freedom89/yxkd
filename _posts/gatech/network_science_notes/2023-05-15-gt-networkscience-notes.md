@@ -1,5 +1,5 @@
 ---
-title: CS7280 omscs - Network Science Notes
+title: CS7280 OMSCS - Network Science Notes
 date: 2023-06-22 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
