@@ -1,6 +1,6 @@
 ---
 title: CS8803 OMSCS - GPU hardware and software notes
-date: 2024-01-12 0000:00:00 +0800
+date: 2024-02-02 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -19,3 +19,7 @@ mermaid: true
 ##  [Module 3: GPU Programming Introduction](../gt-gpu-M3)
 
 {% include_relative 2024-01-10-gt-gpu-M3.md %}
+
+## [Module 4: GPU Architecture](../gt-gpu-M4)
+
+{% include_relative 2024-02-01-gt-gpu-M4.md %}
