@@ -35,3 +35,7 @@ mermaid: true
 ## [Module 7: GPU Architecture Optimizations - II](../gt-gpu-M7)
 
 {% include_relative 2024-02-25-gt-gpu-M7.md %}
+
+## [Module 8: GPU Simulation](../gt-gpu-M8)
+
+{% include_relative 2024-02-26-gt-gpu-M8.md %}
