@@ -43,3 +43,7 @@ mermaid: true
 ## [Module 9: Multi GPU](../gt-gpu-M9)
 
 {% include_relative 2024-03-20-gt-gpu-M9.md %}
+
+## [Module 10: Compiler Background - I](../gt-gpu-M10)
+
+{% include_relative 2024-03-22-gt-gpu-M10.md %}
