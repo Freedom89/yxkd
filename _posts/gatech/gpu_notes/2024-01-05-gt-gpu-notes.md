@@ -51,3 +51,7 @@ mermaid: true
 ## [Module 11: Compiler Background - II](../gt-gpu-M11)
 
 {% include_relative 2024-04-05-gt-gpu-M11.md %}
+
+## [Module 12: ML Accelerations On GPUs](../gt-gpu-M12)
+
+{% include_relative 2024-04-06-gt-gpu-M12.md %}
