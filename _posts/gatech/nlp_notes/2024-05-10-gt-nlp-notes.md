@@ -13,4 +13,6 @@ mermaid: true
 
 {% include_relative 2024-05-12-gt-nlp-m1.md %}
 
+##  Module 2: Foundations
 
+{% include_relative 2024-05-12-gt-nlp-m2.md %}
