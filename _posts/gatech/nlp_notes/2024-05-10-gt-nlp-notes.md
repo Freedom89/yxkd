@@ -9,10 +9,10 @@ mermaid: true
 ---
 
 
-## Module 1: Introduction to NLP
+## [Module 1: Introduction to NLP](../gt-nlp-m1)
 
 {% include_relative 2024-05-12-gt-nlp-m1.md %}
 
-##  Module 2: Foundations
+##  [Module 2: Foundations](../gt-nlp-m2)
 
 {% include_relative 2024-05-12-gt-nlp-m2.md %}
