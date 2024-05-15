@@ -16,3 +16,7 @@ mermaid: true
 ##  [Module 2: Foundations](../gt-nlp-m2)
 
 {% include_relative 2024-05-12-gt-nlp-m2.md %}
+
+##  [Module 3: Classification](../gt-nlp-m3)
+
+{% include_relative 2024-05-12-gt-nlp-m3.md %}
