@@ -24,3 +24,7 @@ mermaid: true
 ## [Module 4: Language Modeling](../gt-nlp-m4)
 
 {% include_relative 2024-05-14-gt-nlp-m4.md %}
+
+## [Module 5: Semantics](../gt-nlp-m5)
+
+{% include_relative 2024-05-16-gt-nlp-m5.md %}
