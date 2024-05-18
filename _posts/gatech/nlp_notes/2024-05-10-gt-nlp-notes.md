@@ -1,6 +1,6 @@
 ---
 title: CS7650 OMSCS - Natural Language Processing Notes
-date: 2024-05-15 0000:00:00 +0800
+date: 2024-05-17 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
