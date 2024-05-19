@@ -22,7 +22,7 @@ In a way, this site is my attempt of recreating something similar as a working p
 ## Career
 
 * Google
-  * Jan 2022 to Present : Associate Principal, Workspace
+  * Jan 2022 to Present : Senior Engineering Analyst, Workspace
 * Traveloka
   * Apr 2019 to Jan 2022 : Senior Data Scientist, Fraud Platform & Payments
   * Oct 2017 to Apr 2019 : Data Scientist, Product and Credit. 
