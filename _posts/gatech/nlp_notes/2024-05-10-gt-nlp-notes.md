@@ -40,3 +40,7 @@ mermaid: true
 ## [Module 8: Task-Oriented Dialogue (Meta AI)](../gt-nlp-m8)
 
 {% include_relative 2024-05-21-gt-nlp-m8.md %}
+
+## [Module 9: Applications Summarization (Meta AI)](../gt-nlp-m9)
+
+{% include_relative 2024-05-22-gt-nlp-m9.md %}
