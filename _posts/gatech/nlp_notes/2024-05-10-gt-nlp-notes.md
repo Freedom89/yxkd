@@ -1,6 +1,6 @@
 ---
 title: CS7650 OMSCS - Natural Language Processing Notes
-date: 2024-05-21 0000:00:00 +0800
+date: 2024-05-23 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -36,3 +36,7 @@ mermaid: true
 ## [Module 7: Information Retrieval (Meta AI)](../gt-nlp-m7)
 
 {% include_relative 2024-05-20-gt-nlp-m7.md %}
+
+## [Module 8: Task-Oriented Dialogue (Meta AI)](../gt-nlp-m8)
+
+{% include_relative 2024-05-21-gt-nlp-m8.md %}
