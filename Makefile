@@ -6,10 +6,10 @@ setup:
 	bundle lock --add-platform x86_64-linux
 
 run:
-	bundle exec jekyll s --livereload -o --incremental
+	JEKYLL_ENV=production bundle exec jekyll s --livereload -o --incremental
 
 run2:
-	bundle exec jekyll serve --livereload
+	JEKYLL_ENV=production bundle exec jekyll serve --livereload
 	
 docker:
 	docker run -it --rm \
