@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           # submodules: true
@@ -37,20 +37,14 @@ jobs:
 
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v3
-      - name: Setup graphviz
-        uses: ts-graphviz/setup-graphviz@v1
+        uses: actions/configure-pages@v4
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2   # reads from a '.ruby-version' or '.tools-version' file if 'ruby-version' is omitted
+          ruby-version: 3.3
           bundler-cache: true
-      - name: 🔨 install dependencies & build site
-        uses: limjh16/jekyll-action-ts@v2
-        env:
-          NODE_ENV: "production"
-        with:
-          enable_cache: true
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:
@@ -58,10 +52,12 @@ jobs:
 
       - name: Test site
         run: |
-          bundle exec htmlproofer _site --disable-external --check-html --allow_hash_href
+          bundle exec htmlproofer _site \
+            \-\-disable-external \
+            \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
 
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: "_site${{ steps.pages.outputs.base_path }}"
 
@@ -74,4 +70,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
