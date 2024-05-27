@@ -3,14 +3,13 @@
 # This is also using custom domain
 
 setup:
-	bundle
 	bundle lock --add-platform x86_64-linux
 
 run:
-	JEKYLL_ENV=production bundle exec jekyll serve --livereload -o --incremental
+	bundle exec jekyll s --livereload -o --incremental
 
 run2:
-	JEKYLL_ENV=production bundle exec jekyll serve --livereload
+	bundle exec jekyll serve --livereload
 	
 docker:
 	docker run -it --rm \
