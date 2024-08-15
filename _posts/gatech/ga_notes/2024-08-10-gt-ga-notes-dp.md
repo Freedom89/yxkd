@@ -48,3 +48,5 @@ TextBook Problems
 
 ### Contiguous Subsequence
 
+
+<!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

@@ -11,6 +11,6 @@ hidden: true
 
 # Test
 
-## [Dynamic Programming](../gt-notes-dp)
+## [Dynamic Programming](../gt-ga-notes-dp)
 
-{% include_relative 2024-08-10-ga-notes-dp.md %}
+{% include_relative 2024-08-10-gt-ga-notes-dp.md %}
