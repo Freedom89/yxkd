@@ -27,18 +27,18 @@ When considering the LIS, the key question to ask is given a subsequence $x_1, .
 
 Concretely, suppose the $LIS(x_1,...,x_{n-1}) = x_{1^*},...,x_j$, then LIS of $x_1,...,x_{n-1}, x_n$ will only change if $x_n$ is included, otherwise the LIS remains the same. This can only happen if $x_n > x_j$.
 
-Subproblem:
+`Subproblem`:
 
 Define the subproblem $L(i)$ to be be the length of the LIS on $x_1,...,x_i$. The important point is $L(i)$ must include $x_i$.
 
-Recurrence relation:
+`Recurrence relation`:
 
 $$
 L(i) = 1 +\underset{1 \leq j \le i}{max} \{ L(j) \lvert x_j < x_i\  \}
 $$
 
 
-Pseudocode:
+`Pseudocode`:
 
 Note, $L(i)$ must be at least 1, where the LIS is just itself.
 ```
@@ -54,7 +54,7 @@ for i = 1-> n:
 return max(L)
 ```
 
-Complexity:
+`Complexity`:
 
 There is a double for loop with $i$ taking up to the value $n$. Hence, the time complexity is $O(n^2)$ and space complexity is $O(n)$.
 
@@ -86,11 +86,11 @@ This is equal to max$\\{L(i-1,j), L(i,j-1), 1+L(i-1,i-j)\\}$.
 
 However, we only need to consider the last case $1+L(i-1,i-j)$. This is because if the final solution must contain either $x_i$ or $y_j$ - otherwise we can just simply append them to the end. It may be possible that $x_i = y_{j-c}$, where it corresponds to some earlier occurrence in Y. But if this is true, that means $y_{j-c} = y_j$ and it does not matter.
 
-Subproblem:
+`Subproblem`:
 
 Let $L(i,j)$ denote the LCS of $X[:i],Y[:j]$, where $1 \leq i\leq n, 1\leq j \leq m$
 
-Recurrence relation:
+`Recurrence relation`:
 
 Firstly, $L(0,j) = 0, L(i,0) = 0$, then:
 
@@ -102,7 +102,7 @@ max(L(i-1,j), L(i,j-1)),  & \text{if } x_i \neq y_j\\
 \end{cases}
 $$
 
-Pseudocode:
+`Pseudocode`:
 
 ```
 for i = 1->n:
@@ -120,7 +120,7 @@ return L[n][m]
 
 ```
 
-Complexity:
+`Complexity`:
 
 Two loops, $n$ and $m$, so $O(nm)$
 
@@ -175,17 +175,17 @@ Extra notes:
 
 Considering $S(i)$ which includes $x_i$. Since $x_i$ is part of the solution, then, the max sum is either itself, or the optimal max sum before itself, i.e $S(i-1)$.
 
-Subproblem:
+`Subproblem`:
 
 Let $S(i)$ denote the max sum of the sequence $x_1,...,x_i$.
 
-Recurrence relation:
+`Recurrence relation`:
 
 $$
 S(i) = a_i + max \{ 0, S(i-1) \}
 $$
 
-Pseudocode:
+`Pseudocode`:
 
 ```
 seq = [s0,s1,...,sn]
@@ -195,7 +195,7 @@ for i -> 1 to n:
 return max(S)
 ```
 
-Complexity:
+`Complexity`:
 
 Only one for loop, hence $O(n)$.
 
@@ -221,11 +221,11 @@ Consider this new approach $K(I,W)$ where we also consider w as part of the sub 
   * Notice that $K(2,12)$ will give us item 2 with $w_2 = 12$.
 * If $x_3$ is not part of the solution, then we look up $K(2,22)$
 
-Subproblem:
+`Subproblem`:
 
 Define $K(i,w)$ to be the optimal solution involving the first $i$ items with capacity $w$, $\forall i \in [1,N], w \in [1,W] $
 
-Recurrence relation:
+`Recurrence relation`:
 
 The recurrence can be defined as follows:
 
@@ -238,7 +238,7 @@ The base cases will be $K(0,w) = 0, K(i,0) = 0 \forall i, w$
 That is, if item $x_i$ is included, then we add the corresponding value $v_i$ and subtract the weight of item i $w_i$. If it is not included, then we simply take the first $i-1$ items.
 
 
-Pseudocode:
+`Pseudocode`:
 
 ```
 K = zeros(N,W)
@@ -255,7 +255,7 @@ for i = 1 to N:
 return K(N,W)
 ```
 
-Complexity:
+`Complexity`:
 
 There is two loops, N, and W, so, $O(NW)$.
 
@@ -282,7 +282,7 @@ Then, included will be a binary representation of which items to be included.
 
 This problem is a variant of the earlier problem, but you can add an infinite amount of $x_i$ in your knapsack.
 
-Subproblem and Recurrence relation::
+Subproblem and `Recurrence relation`::
 
 We can do the same as the above problem, whether $x_i$ is in your final solution or otherwise:
 
@@ -296,7 +296,7 @@ $$
 K(w) = \underset{i}{max} \{ v_i + K(w - w_i): i \leq i \leq n, w_i \leq W \}
 $$
 
-Pseudocode:
+`Pseudocode`:
 
 ```
 for w = 1 to W:
@@ -308,7 +308,7 @@ for w = 1 to W:
 return K(W)
 ```
 
-Complexity:
+`Complexity`:
 
 The complexity does not change, but the space complexity is now based on W.
 
@@ -345,12 +345,12 @@ B2["$$A_{l+1}... A_n$$"]
 
 Remember, for a dynamic programming solution, each of the subtrees must also be optimal.
 
-Subproblem:
+`Subproblem`:
 
 So, we denote $C(i,j)$ be the optimal cost of multiplying $A_i...A_j$
 
 For an arbitrary matrix, $A_i$, the dimensions is $m_{i-1},m{i}$
-Recurrence relation:
+`Recurrence relation`:
 
 $$
 C(i,j)=\underset{l}min\left\{ C(i,l)+C(l+1,j) +(m_{i-1} m_l m_j) \; i \le l \le j-1  \right\}
@@ -358,7 +358,7 @@ $$
 
 where $C(i,l)$ is the cost of the left subtree, $c(l+1,j)$ is the right substree and $ and $m_{i-1} m_l m_j$ is the cost of combining the two sub trees.
 
-Pseudocode:
+`Pseudocode`:
 
 ![image](../../../assets/posts/gatech/ga/dp_chain_matrix.png)
 
@@ -391,7 +391,7 @@ for s=1 -> n-1:
 return C(1,n)
 ```
 
-Complexity:
+`Complexity`:
 
 The time complexity is 3 inner for loops, so, $O(n^3)$.
 
@@ -416,61 +416,135 @@ def traceback_optimal_parens(s, i, j):
 
 This divides each step into two subproblems, and the combine steps is a constant function, so, $T(n) = 2 T ( n/ 2) + 1$. Using master theorem, the time complexity is $O(n)$.
 
-### Dijkstra
-
-Before reading further, you will need to know what is a [priority queue](https://www.geeksforgeeks.org/max-heap-in-python/).
-
-* [Time complexity of building a heap](https://www.naukri.com/code360/library/time-complexity-of-building-a-heap)
-* [How building a heap be O(n)](https://stackoverflow.com/questions/9755721/how-can-building-a-heap-be-on-time-complexity)
-
-
-You will also need to know [breath first search (BFS)](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/).
-
-Subproblem:
-
-Recurrence relation:
-
-Pseudocode:
-
-Complexity:
-
-Counter example Negative Weights
-
-Consider the following example:
-
-```mermaid
-graph LR;
-
-S --2--> I
-S --4--> Z
-I --"-5"--> Z
-```
-
-If we use Dijkstra, then the shortest path to I will be $2$ (as it is added in the first iteration). But the optimal solution to I has cost $-1$.
-
 
 ### Bellman-Ford
 
-Negative cycle - if n is different from n-1
+Given $\overrightarrow{G}$ with edge weights and vertices, find the shortest path from source node $s$ to target node $z$. We assume that it has no negative weight cycles (for now).
+
+`Subproblem`:
+
+Denote $P$ to be the shortest path from $s$ to $z$. If there are multiple $P$ possible, we can assume any one of them. Since $P$ visits each vertex at most once, then:
+
+$$
+\lvert P \lvert \leq (n-1)\text{edges}
+$$
+
+DP idea: Condition on the prefix of the path. Use $i = 0 \rightarrow n-1$ edges on the paths. 
+
+For $0 \leq i \leq n-1, z \in V$, let $D(i,z)$ denote the length of the shortest path from S to Z using $\leq i$ edges.
+
+`Recurrence relation`:
+
+Base case: $D(0,s) = 0 \forall z \neq s, D(0, z) = \infty$
+
+$$
+D(i,z) = \underset{y:\overrightarrow{yz}\in E}{min} \{D(i-1,y) + w(y,z), D(i-1,Z) \}
+$$
+
+If there is no solution, then, it will still be $\infty$.
+
+Otherwise, suppose the edge z is reachable from y, then there are two cases to consider. Consider the intermediate edge from y to z, if this edge $\overrightarrow{yz}$ is in the solution, add $w(y,z)$. The other case is a solution already exists without $\overrightarrow{yz}$, which will be denoted by $D(i-1,Z)$. We simply take the minimum of the two.
+
+`Pseudocode`:
+
+```
+For z = 1 to length(V):
+  D(0, z) = infinity
+for i = 1 to n-1:
+  for all z in V:
+    D(i,z) = D(i-1,z)
+      for all edges(y,z) in E:
+        if D(i,z) > D(i-1,y) + w(y,z):
+          D(i,z) = D(i-1,y) + w(y,z)
+# Return the last row
+Return D(n-1,:) 
+```
+
+Note, the last row basically returns all paths at most length $n-1$ from source node $s$ to all other vertex $z \in V$
+
+`Complexity`:
+
+Initially, you might think that there the complexity is $O(N^2E)$ because of the 3 nested for loops. But, in the 2nd and 3rd nested for loop, it is actually going through all edges (If you go through all nodes and all the edges within each node, it is actually going through all the edges). So the time complexity is actually $O(NE)$.
+
+Now, how can you use bellman ford to detect if there is a negative cycle? Notice that the algorithm runs until n-1. Run it for one more time, and compare the difference. If the solution is different, then, some negative weights must exists.
+
+In other words, check for:
+
+$$
+D(n,z) < D(n-1,z), \exists z \in V
+$$
+
+
+Suppose we wanted to find all pairs, and use bellman ford, what will the solution look like? 
+
+Given $\overrightarrow{G} = (V,E)$, with edge weights $w(e)$. For $y,z \in V$, let $dist(y,z)$ be the legnth of shortest path $y \rightarrow z$..
+
+Goal: Find $dist(y,z), \forall y,z \in V$
+
+The time complexity in this case will be $O(N^2M)$. Also, if $\overrightarrow{G}$ is a fully connected graph, it means there are $M=N^2$ edges, making it a $O(N^4)$ algorithm. What can we do about this? Look at [Flord Warshall](#floyd-warshall)!
+
+
+A side note about Dijkstra algorithm, it is a greedy algorithm with time complexity $O(N + E log(N))$, so it is better than Bellman Ford if you know that there are no negative edges
 
 ### Floyd-Warshall
 
-Negative cycle if any entry is negative
+`Subproblem`:
 
+For $0 \leq i \leq n$ and $1 \leq s, t \leq n$, let $D(i,s,t)$ be the length of the shortest path from $s\rightarrow t$ using a subset $\{1, ..., i\}$ as intermediate vertices. Note, the key here is intermediate vertices.
 
-### Edit Distance
+So, $D(0,s,t)$ means you can go to t from s directly without any intermediate vertices.
 
-Subproblem:
+`Recurrence relation`:
 
-Recurrence relation:
+The base case is when $i = 0$, then there are two cases, either you can go to t from s, in which case it is $w_{s,t}$, else $\infty$.
 
-Pseudocode:
+What about $D(i,s,t)$? There are again two cases to consider, either the intermediate vertex $i$ is in the path $P$ or otherwise.
 
-Complexity:
+If it is not in the optimal path $P$, then the $D(i,s,t) = D(i-1,s,t)$.
+
+If it is in the optimal path $P$, then this is the scenario where it can happen.
+
+![image](../../../assets/posts/gatech/ga/dp_floyd_warshall.png)
+
+Notice that you go from $S$ to a subset (can be an empty set) or vertices $\{1,...,i-1\}$, go to vertex $i$, back to the subset before reaching vertex $t$. So there is this 4 paths to consider.
+
+So, the first two paths can be represented by $D(i-1, s,i)$, that is using the subset of vertices $\{1,...,n-1\}$ to reach vertex $i$, and, the next two paths can be represented by $D(i-1,i,t)$, that is reaching vertex $t$ from $i$ using subset of vertices $\{1,...,n-1\}$
+
+`Pseudocode`:
+
+```
+Inputs: G, w
+
+for s=1->n:
+    for t=1->n:
+        if (s,t) in E 
+            then D(0,s,t)=w(s,t)
+        else D(0,s,t) = infty
+
+for i=1->n:
+    for s=1->n:
+        for t=1->n:
+            D(i,s,t)=min{ D(i-1,s,t), D(i-1,s,i) + D(i-1,i,t) }
+
+# return the last slice, has N^2 entries.
+Return D(n,:,:)
+```
+
+`Complexity`:
+
+The complexity here is clearly $O(N^3)$.
+
+To detect negative weight cycles, can check the diagonal of the matrix D. 
+* If there is a negative cycle, then there should be a negative path length from a vertex to itself, i.e $D(n,y,y) < 0, \exists y \in V $. 
+  * This is equivalent to checking whether there is any negative entries on the diagonal matrix $D(n,:,:)$.
+
+For bellman ford algorithm, it depends on the s and z to determine if a negative weight path exists, a single source shortest path algorithm. But for Floyd Warshall, it does all pair shortest path, and hence it is guaranteed to find the negative cycle, if it exists. 
 
 ----
 
-TextBook Problems
+Other Problems (TODO?)
 
-### Electoral College
+* Edit Distance
+* Electoral College
+
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
