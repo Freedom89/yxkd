@@ -9,8 +9,6 @@ mermaid: true
 hidden: true
 ---
 
-# Test
-
 ## [Dynamic Programming](../gt-ga-notes-dp)
 
 {% include_relative 2024-08-10-gt-ga-notes-dp.md %}

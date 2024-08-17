@@ -16,23 +16,438 @@ math: true
 * Step4: Time complexity analysis.
 
 
-### longest increasing subsequence (LIS)
+### Longest increasing subsequence (LIS)
+
+Given a following sequence, find the length of the longest common subsequence. For example, given Input: 5, 7, 4, -3, 9, 1, 10, 4, 5, 8, 9, 3, the longest subsequence will be -3, 1, 4, 5, 8, 9, and the answer will be 6.
+
+Extra Information:
+
+
+When considering the LIS, the key question to ask is given a subsequence $x_1, ..., x_{n-1}$, when will $x_n$ affect the LIS. When does this happen? Is only when $x_n$ is appended to the LIS of $x_1,...,x_{n-1}$. 
+
+Concretely, suppose the $LIS(x_1,...,x_{n-1}) = x_{1^*},...,x_j$, then LIS of $x_1,...,x_{n-1}, x_n$ will only change if $x_n$ is included, otherwise the LIS remains the same. This can only happen if $x_n > x_j$.
+
+Subproblem:
+
+Define the subproblem $L(i)$ to be be the length of the LIS on $x_1,...,x_i$. The important point is $L(i)$ must include $x_i$.
+
+Recurrence relation:
+
+$$
+L(i) = 1 +\underset{1 \leq j \le i}{max} \{ L(j) \lvert x_j < x_i\  \}
+$$
+
+
+Pseudocode:
+
+Note, $L(i)$ must be at least 1, where the LIS is just itself.
+```
+S = [x1,...,xn]
+L = [0, ..., 0]
+for i = 1-> n:
+  # Stores the current best of L[i], which must be at least 1
+  L[i] = 1 
+  for j = 1 -> i-1:
+    if S[i] > S[j] and L[j] + 1 >= L[i]:
+       L[i] = L[j] + 1 # Update current best
+
+return max(L)
+```
+
+Complexity:
+
+There is a double for loop with $i$ taking up to the value $n$. Hence, the time complexity is $O(n^2)$ and space complexity is $O(n)$.
 
 ### Longest Common Subsequence
 
-TODO: Backtracking
+Given two sequences, $x_1,..,x_n$ and $y_1,...,y_m$, find the longest common subsequence. For example given X = BCDBCDA and Y = ABECBAB, then the longest subsequence is BCBA.
 
-### Edit Distance
+Extra information:
+
+Note that X and Y can be of different lengths, so, given a $X[:i]$ and $Y[:j]$. Let $L(i,j)$ denote the LCS of $X[:i]$ and $Y[:j]$, then there are two cases to consider:
+
+if $x_i \neq y_j$, then either of the 3 cases can occur:
+
+* $x_i$ is not used in the final solution, $L(i-1,j)$
+* $y_j$ is not used in the final solution, $L(i, j-1)$
+* Both is not used in the final solution 
+  * If the last character of both is not used, we can get there by dropping the last character and then dropping the last character of Y (or vice versa).
+
+So, we can just consider the first two cases and take the max, i.e max$(L(i-1,j), L(i,j-1))$
+
+if $x_i = y_j$, again there are 3 cases to consider:
+
+* $x_i$ is not used in the final solution, $L(i-1,j)$
+* $y_i$ is not used in the final solution, $L(i, j-1)$
+* Both $x_i$ and $y_j$ are used in the final solution, $1+L(i-1,i-j)$.
+  * Note this means that the LCS $X[:i],Y[:j]$ ends with both $x_i$ and $y_j$ respectively
+
+This is equal to max$\\{L(i-1,j), L(i,j-1), 1+L(i-1,i-j)\\}$. 
+
+However, we only need to consider the last case $1+L(i-1,i-j)$. This is because if the final solution must contain either $x_i$ or $y_j$ - otherwise we can just simply append them to the end. It may be possible that $x_i = y_{j-c}$, where it corresponds to some earlier occurrence in Y. But if this is true, that means $y_{j-c} = y_j$ and it does not matter.
+
+Subproblem:
+
+Let $L(i,j)$ denote the LCS of $X[:i],Y[:j]$, where $1 \leq i\leq n, 1\leq j \leq m$
+
+Recurrence relation:
+
+Firstly, $L(0,j) = 0, L(i,0) = 0$, then:
+
+$$
+L(i,j) =
+\begin{cases}
+max(L(i-1,j), L(i,j-1)),  & \text{if } x_i \neq y_j\\
+1+L(i-1,j-1), & \text{otherwise}
+\end{cases}
+$$
+
+Pseudocode:
+
+```
+for i = 1->n:
+  L[i][0] = 0
+for j = 1->m:
+  L[0][j] = 0
+for i = 1->n:
+  for j = 1->m:
+     if X[i] == Y[j]:
+       L[i][j] = 1+ L[i-1][j-1]
+     else:
+       L[i][j] = max(L[i-1][j], L[i][j-1])
+
+return L[n][m]
+
+```
+
+Complexity:
+
+Two loops, $n$ and $m$, so $O(nm)$
+
+Backtracking
+
+After the matrix L is constructed, we can backtrace to find out the common subsequence until we reach $L[1][1]$ - (note, this might be 0,0 depending on the indexing you use).
+
+We consider the following cases:
+
+* If $x_i = y_j$, this means that a character was added and then we move diagonally up.
+* Else, we check to the left and top of coordinates (i,j).
+  * The left coordinate is (i-1,j)
+  * The top coordinate is (i,j-1)
+  * If the left coordinate is greater or equal to the top coordinate, we move left.
+    * This means we ignored $x_i$
+  * Else, we move top.
+    * This means that we ignored $y_j$
+* Repeat until converge to initial starting point. 
+
+```
+i=n, j=m
+string = ""
+while i > 1 and j>1:
+  if X[i] == Y[j]:
+    string = string + X[i]
+    i = i - 1
+    j = j - 1
+  if L[i-1][j] >= L[i][j-1]:
+    i = i - 1
+  else:
+    j = j - 1  
+
+return reverse(string)
+```
+
+Extra note - the steps of $i = i - 1$ and $j = j - 1$ can be reversed, and may lead to different results if there are multiple valid LCS.
+
+### Contiguous Subsequence Max Sum
+
+A contiguous subsequence of a list S is a subsequence made up of consecutive elements of S. For instance, if S is 5, 15, −30, 10, −5, 40, 10, then 15, −30, 10 is a contiguous subsequence but 5, 15, 40 is not. Give a linear-time algorithm for the following task:
+
+Input: A list of numbers, a1, a2, . . . , an.
+
+Output: The contiguous subsequence of maximum sum (a subsequence of length zero
+has sum zero).
+
+For the preceding example, the answer would be 10, −5, 40, 10, with a sum of 55.
+
+(Hint: For each j ∈ {1, 2, . . . , n}, consider contiguous subsequences ending exactly at position j.)
+
+Extra notes:
+
+Considering $S(i)$ which includes $x_i$. Since $x_i$ is part of the solution, then, the max sum is either itself, or the optimal max sum before itself, i.e $S(i-1)$.
+
+Subproblem:
+
+Let $S(i)$ denote the max sum of the sequence $x_1,...,x_i$.
+
+Recurrence relation:
+
+$$
+S(i) = a_i + max \{ 0, S(i-1) \}
+$$
+
+Pseudocode:
+
+```
+seq = [s0,s1,...,sn]
+S = [0,...,0]
+for i -> 1 to n:
+  S[i] = seq[i] + max(0,S[i-1])
+return max(S)
+```
+
+Complexity:
+
+Only one for loop, hence $O(n)$.
 
 ### Knapsack
 
+Given $n$ items with weights $w_1,w_2,..., w_n$ each with value $v_1,...,v_n$ and capacity $W$, we want to find the subset of objects S, such that we maximize values max($\sum_{i\in S} v_i$ ) but $\sum_{i \in S} w_i < W$..
+
+Extra notes:
+
+Problem 1:
+
+Obviously, a greedy approach is bad, and the time complexity is $O(2^n)$, where each bit represents whether the object is included or not included.
+
+Problem 2:
+
+Consider the following problem, where we have 4 objects, with values 15,10,8,1 and weights 15,12,10,5 with total capacity 22. The optimal solution is items 2,3.
+
+Then, K(1) = $x_1$ with $V=15$, K(2) is also $x_1$ with $V=15$. But, how do we express K(3) in terms of K(2) and K(1) which took the first object? So there is no real way to define K in terms of its previous sub problems!
+
+Consider this new approach $K(I,W)$ where we also consider w as part of the sub problem - that is what is the optimal set of items given capacity w, for $ 1 \leq I \leq N, 1 \leq w \leq W$. Then by doing so, when we consider $K(3,22)$, there are two cases to consider:
+
+* If $x_3$ is part of the solution, then we look up $K(2,22-v_3) = K(2,12)$
+  * Notice that $K(2,12)$ will give us item 2 with $w_2 = 12$.
+* If $x_3$ is not part of the solution, then we look up $K(2,22)$
+
+Subproblem:
+
+Define $K(i,w)$ to be the optimal solution involving the first $i$ items with capacity $w$, $\forall i \in [1,N], w \in [1,W] $
+
+Recurrence relation:
+
+The recurrence can be defined as follows:
+
+$$
+K(i,w) = max(v_i + K(i-1, w - w_i), K(i-1,w))
+$$
+
+The base cases will be $K(0,w) = 0, K(i,0) = 0 \forall i, w$
+
+That is, if item $x_i$ is included, then we add the corresponding value $v_i$ and subtract the weight of item i $w_i$. If it is not included, then we simply take the first $i-1$ items.
+
+
+Pseudocode:
+
+```
+K = zeros(N,W)
+weights = [w1,...,wn]
+values = [v1,...,vn]
+for i = 1 to N:
+  K[i,0] = 0
+for w = 1 to W:
+  K[0, w] = 0
+for i = 1 to N:
+  for w = 1 to W:
+    K[i,w] =  max(values[i] + K[i-1, w - w_i], K[i-1,w])
+
+return K(N,W)
+```
+
+Complexity:
+
+There is two loops, N, and W, so, $O(NW)$.
+
+However, note that W is an integer which can be represented with $2^m$ bits, so the complexity can be rewritten as $O(N2^m)$ which is exponential runtime. 
+* Knapsack is also known as a Pseudo-polynomial time problem
+* [Why is knapsack problem pseudo polynomial?](https://stackoverflow.com/questions/4538581/why-is-the-knapsack-problem-pseudo-polynomial)
+
+To do backtracking,
+
+```
+# Starting from index 1
+included = [0] * N
+
+for i = 1 to N:
+  if K[i,w] != K[i-1,W]:
+    # this means item i is included 
+    included[i] = 1
+    W = W - weights[i]
+```
+
+Then, included will be a binary representation of which items to be included.
+
 ### Knapsack with repetitions
+
+This problem is a variant of the earlier problem, but you can add an infinite amount of $x_i$ in your knapsack.
+
+Subproblem and Recurrence relation::
+
+We can do the same as the above problem, whether $x_i$ is in your final solution or otherwise:
+
+$$
+K(i,w) = max(v_i + K(i-1, w-w_i), K(i-1,w))
+$$
+
+But notice that this can be further simplified, we do not need to take into consideration of item $x_i$. We can just simply at each step, iterate through all the possible items to find the best item to add to the knapsack.
+
+$$
+K(w) = \underset{i}{max} \{ v_i + K(w - w_i): i \leq i \leq n, w_i \leq W \}
+$$
+
+Pseudocode:
+
+```
+for w = 1 to W:
+  K(w) = 0
+  for i = 1 to N:
+    # if item x_i is below the weight limit and beats the current best
+    if w_i <= w & K(b) < v_i + K(w-w_i):
+      K(w) = v_i + K(w-w_i)
+return K(W)
+```
+
+Complexity:
+
+The complexity does not change, but the space complexity is now based on W.
+
+Backtracking
+
+To do backtracking, we have a separate array (multiset) $S(b) = [[],...,[]]$ so whenever an item $x_i$ get added, simply set $S(w) = S(w-w_i) + [i]$. 
+
+Note, if we find a better solution to add item $x_i$, then $S(w)$ will be overwritten.
 
 ### Chain Multiply
 
+Consider two matrices $X_{a,b}$ and $Y_{b,c}$, the computation cost of calculating $XY$ is $O(abc)$.
+
+Suppose we have 3 matrices $A_{2,5}, B_{5,10}, C_{10,2}$, 
+
+* Calculating $((AB)C)$ will require $\underbrace{2 \times 5 \times 10}_{AB} + 2\times 10\times 2 = 140$ computations
+* While calculating $(A(BC))$ will require $\underbrace{5\times 10\times 2}_{BC} + 2\times 5\times 2 = 120$ computations
+
+So, the point here is that the order of multiplication matters. 
+
+The problem now is given an initial sequence of matrices $A_1...,A_n$, suppose the optimal point to split is at $k$, then the left sequence will be $A_1....A_k$. Then, for this left sequence, what will be the optimal split? So, the point at which the split occurs is dynamic. 
+
+```mermaid
+
+graph TD;
+
+A --> B1
+A --> B2
+
+A["$$A_i A_{i+1}...A_j$$"]
+B1["$$A_i ... A_l$$"]
+B2["$$A_{l+1}... A_n$$"]
+```
+
+Remember, for a dynamic programming solution, each of the subtrees must also be optimal.
+
+Subproblem:
+
+So, we denote $C(i,j)$ be the optimal cost of multiplying $A_i...A_j$
+
+For an arbitrary matrix, $A_i$, the dimensions is $m_{i-1},m{i}$
+Recurrence relation:
+
+$$
+C(i,j)=\underset{l}min\left\{ C(i,l)+C(l+1,j) +(m_{i-1} m_l m_j) \; i \le l \le j-1  \right\}
+$$
+
+where $C(i,l)$ is the cost of the left subtree, $c(l+1,j)$ is the right substree and $ and $m_{i-1} m_l m_j$ is the cost of combining the two sub trees.
+
+Pseudocode:
+
+![image](../../../assets/posts/gatech/ga/dp_chain_matrix.png)
+
+So, $C(i,i) = 0, \forall i$. Then, we calculate $C(i,i+1), C(i, i+2), ..., C(1,n)$ which is the solution that we are looking for. 
+
+* Start at the diagonal and move up, to index this, consider $C(i,i+2)$ and $C(i,i)$, the difference is $i+2$, and $i$. Let's call this the width, $s = j-i$.
+  * Then, $j$ can be calculated with $j = i+s$
+  * So we do this until we get width = $n-1$, so $s=0\rightarrow n-1$.
+
+To rephrase this, given that we fill the diagonal first, we move one step to the right of the diagonal, i.e $C(2,i+1),.., C(n, i+1). Then, how many elements do we need to compute? n-1 elements.
+
+Now, suppose we move $s$ steps to the right of the diagonal, then, there will be $n-s$ elements to compute.
+
+
+```
+# This step will populate the diagonals
+for i=1 -> n:
+  C(i,i)=0
+# How many steps we move to the right of the diagonal
+for s=1 -> n-1:
+    # How many elements we need to compute
+    for i=1 -> n-s:
+      # Compute the j coordinate    
+      Let j=i+s                                              
+      C(i,j) = infinity
+      for l=i -> j-1:                                          
+        curr = (m[i-1] * m[l] * m[j]) + C(i,l) + C(l+1,j)
+        if C(i,j) > curr:
+          C(i,j) = curr
+return C(1,n)
+```
+
+Complexity:
+
+The time complexity is 3 inner for loops, so, $O(n^3)$.
+
+
+Backtracking
+
+To perform backtracking, we need another matrix, to keep track for each $i,j$, what is the corresponding $l$ in which the best split took place. Then, backtracking can be done via recursion. Here is an example:
+
+
+```
+def traceback_optimal_parens(s, i, j):
+    if i == j:
+        return f"A{i+1}"  # Single matrix, no parenthesis needed
+    else:
+        k = s[i][j]
+        # Recursively find parenthesization for the left and right subchains
+        left_part = traceback_optimal_parens(s, i, k)
+        right_part = traceback_optimal_parens(s, k + 1, j)
+        return f"({left_part} x {right_part})"
+
+```
+
+This divides each step into two subproblems, and the combine steps is a constant function, so, $T(n) = 2 T ( n/ 2) + 1$. Using master theorem, the time complexity is $O(n)$.
+
 ### Dijkstra
 
+Before reading further, you will need to know what is a [priority queue](https://www.geeksforgeeks.org/max-heap-in-python/).
+
+* [Time complexity of building a heap](https://www.naukri.com/code360/library/time-complexity-of-building-a-heap)
+* [How building a heap be O(n)](https://stackoverflow.com/questions/9755721/how-can-building-a-heap-be-on-time-complexity)
+
+
+You will also need to know [breath first search (BFS)](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/).
+
+Subproblem:
+
+Recurrence relation:
+
+Pseudocode:
+
+Complexity:
+
 Counter example Negative Weights
+
+Consider the following example:
+
+```mermaid
+graph LR;
+
+S --2--> I
+S --4--> Z
+I --"-5"--> Z
+```
+
+If we use Dijkstra, then the shortest path to I will be $2$ (as it is added in the first iteration). But the optimal solution to I has cost $-1$.
+
 
 ### Bellman-Ford
 
@@ -42,11 +457,20 @@ Negative cycle - if n is different from n-1
 
 Negative cycle if any entry is negative
 
+
+### Edit Distance
+
+Subproblem:
+
+Recurrence relation:
+
+Pseudocode:
+
+Complexity:
+
 ----
 
 TextBook Problems
 
-### Contiguous Subsequence
-
-
+### Electoral College
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
