@@ -12,3 +12,7 @@ hidden: true
 ## [Dynamic Programming](../gt-ga-notes-dp)
 
 {% include_relative 2024-08-10-gt-ga-notes-dp.md %}
+
+## [Divide and conquer](../gt-ga-notes-dc)
+
+{% include_relative 2024-08-11-gt-ga-notes-dc.md %}

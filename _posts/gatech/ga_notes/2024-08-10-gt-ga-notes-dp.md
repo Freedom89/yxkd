@@ -416,6 +416,43 @@ def traceback_optimal_parens(s, i, j):
 
 This divides each step into two subproblems, and the combine steps is a constant function, so, $T(n) = 2 T ( n/ 2) + 1$. Using master theorem, the time complexity is $O(n)$.
 
+Extra notes on chain multiply:
+
+```python
+# this is how far away from the diagonals
+for width in range(1,n):
+  """
+  For example if you are 2 away from the diagonal,
+  means you need n-2 x coordinates
+  """
+  for i in range(n - width):
+    """
+    This is the corresponding y coordinate,
+    which is just adding the width to the x coordinate 
+    From the current x-coordinate, move width steps.
+
+    For example, lets look at the diagonal 2 points away
+
+    (0,0), (0,1), (0,2), (0,3), (0,4)
+    (_,_), (1,1), (1,2), (1,3), (1,4)
+    (_,_), (_,_), (2,2), (2,3), (2,4)
+    (_,_), (_,_), (_,_), (3,3), (3,4)
+    (_,_), (_,_), (_,_), (_,_), (4,4)
+
+    which is (0,2), (1,3), (2,4)
+    so, x runs from 0 to 2 
+    while y runs from 2 to 4 which is adding the width
+    """
+    j = i + width
+    for l in range(i,j):
+      """
+      This l is the split, so, so you consider
+      0|1234, 01|234, 012|34, 0123|4 which is considering
+      all combinations
+      """
+      # D[i][j] = Operation(D[i][l],D[l+1][j])
+```
+
 
 ### Bellman-Ford
 
