@@ -7,7 +7,7 @@ math: true
 
 ### Introduction
 
-* Step1: State the subproblem
+* Step1: State the subproblem, i.e define what $D[i][j][k]$ represents. In general:
   * Try prefix (or suffix)
   * Then try substrings
     * If you figured out a problem using substrings, think whether it can be solved with prefix/suffix.
@@ -349,14 +349,15 @@ Remember, for a dynamic programming solution, each of the subtrees must also be 
 
 So, we denote $C(i,j)$ be the optimal cost of multiplying $A_i...A_j$
 
-For an arbitrary matrix, $A_i$, the dimensions is $m_{i-1},m{i}$
+For an arbitrary matrix, $A_i$, the dimensions is $m_{i-1},m_{i}$
+
 `Recurrence relation`:
 
 $$
 C(i,j)=\underset{l}min\left\{ C(i,l)+C(l+1,j) +(m_{i-1} m_l m_j) \; i \le l \le j-1  \right\}
 $$
 
-where $C(i,l)$ is the cost of the left subtree, $c(l+1,j)$ is the right substree and $ and $m_{i-1} m_l m_j$ is the cost of combining the two sub trees.
+where $C(i,l)$ is the cost of the left subtree, $c(l+1,j)$ is the right substree and $m_\{i-1\} m_l m_j$ is the cost of combining the two sub trees.
 
 `Pseudocode`:
 
