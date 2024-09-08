@@ -98,7 +98,7 @@ S &= O(n^d) \times \sum_k^\infty (\frac{a}{b^d})^k \\
 \end{aligned}
 $$
  
-For case 1, the work is dominated by the cost of solving the subproblems.
+For case 1, the work is dominated by the cost of the non-recursive work (i.e., the work done in splitting, merging, or processing the problem outside of the recursion) dominates the overall complexity. 
 
 Case 2:
 
@@ -135,7 +135,7 @@ S &= O(n^d) \times \sum_{k=0}^{log_b n} (\frac{a}{b^d})^k \\
 \end{aligned}
 $$
 
-For case 3, the work is dominated by the cost of dividing/combining the problem. An example of this is binary search.
+For case 3, the work is dominated by the cost of recursive subproblems dominates the overall complexity
 
 
 ### Fast Integer multiplication
@@ -252,7 +252,7 @@ Consider $z=xy$, where $x=182, y=154$.
   * $y_L = (1001)_2 = 9$
   * $y_R = (1010)_2 = 10$
 * $A = x_Ly_L= 11*9 = 99$
-* $B = x_Ry_R = 6*10 = 60$
+* $B = x_Ry_R = 6*10 = 60$  
 * $C = (x_L + x_R)(y_L + y_R) = (11+6)(9+10) = 323 $
 
 $$
@@ -263,6 +263,136 @@ z & =  2^n A + 2^{\frac{n}{2}} (C-A-B) + B\\
 \end{aligned}
 $$
 
+### Linear-time median
 
+Given an unsorted list $A=[a_1,...,a_n]$ of n numbers, find the median ($\lceil \frac{n}{2}\rceil$ smallest element). 
+
+Quicksort Recap:
+
+* Choose a pivot p 
+* Partition A into $A_{< p}, A_{=p}, A_{>p}$
+* Recursively sort $A_{< p}, A_{>p}$
+
+Recall in quicksort the challenging component is choosing the pivot, and if we reduce the partition by only 1, this results in the worse case can result in $O(n^2)$. So what is a good pivot? the median but how can we find this median without sorting which is $O(n log n)$.
+
+The key insight here is we do not need to consider all of $A_{< p},A_{=p}, A_{>p}$, we just need to consider 1 of them.
+
+```
+Select(A,k):
+Choose a pivot p (How?)
+Partition A in A < p, A = p, A > p          
+if  k <= |A_{<p}|        
+    then return Select(A_{<p},k)               
+if  |A_{<p}| < k <= |A_{>p}| + |A_{=p}|           
+    then return p            
+if  k > |A_{>p}| + |A_{=p}|  
+    then return Select(A_{>p}, k - |A_{<p}| - |A_{=p})| 
+```    
+
+**The question becomes, how do we find such a pivot?**
+
+The pivot matters a lot, because if the pivot is the median, then, our partition will be $\frac{n}{2}$ which fields $T(n) = T(\frac{n}{2}) + O(n)$, which will achieve a running time of $O(n)$. 
+
+However, it turns out we do not need $\frac{1}{2}$, we just need something that can reduce the problem at each step, for example $T(n) = T(\frac{3n}{4}) + O(n)$ where each step only eliminates $\frac{1}{4}$ of the problem space, which will still give us $O(n)$. It turns out we just need the constant factor to be less than 1 (do you know why?), so, even 0.99 will work!
+
+For the purpose of this lectures, we consider a pivot $p$ is good, if it reduces the problem space by $\frac{1}{4}$. i.e $\lvert A_{<p}| \leq \frac{3n}{4} \&  \lvert A_{>p}| \leq \frac{3n}{4} $.
+
+Assume for now we have a sorted array, then, the probability of selecting a good pivot is when the number is between $[\frac{n}{4},\frac{3n}{4} ]$, so the probability is half. We can validate the pivot by tracking the size of the split. So this is as good as flipping a coin - what is the expected number of trails before you get a heads? The answer is 2. However, there is still a chance that you keep getting tails, so it does not still guarantee the worst case runtime is $O(n)$. Consider the following:
+
+$$
+\begin{aligned}
+T(n) &= T\bigg(\frac{3}{4} n\bigg) + \underbrace{T\bigg(\frac{n}{5}\bigg)}_{\text{cost of finding good pivot}} + O(n)\\
+&\approx O(n)
+\end{aligned}
+$$
+
+To accomplish this, choose a subset $S \subset A$, where $\lvert S \rvert = \frac{n}{5}$. Then, we set the pivot = $median(S)$. 
+
+But, now we face another problem, how do we select this sample $S$? :sad: - one problem after another.
+
+Introducing `FastSelect(A,k)`:
+
+```
+Input:   A - an unsorted array of size n
+         k an integer with 1 <= k <= n 
+Output:  k'th smallest element of A
+
+FastSelect(A,k):
+
+Break A into ceil(n/5) groups         G_1,G_2,...,G_n/5
+    # doesn't matter how you break A
+
+For j=1->n/5:
+    sort(G_i)
+    let m_i = median(G_i)
+
+S = {m_1,m_2,...,m_n/5}             # these are the medians of each group
+p = FastSelect(S,n/10)              # p is the median of the medians (= median of elements in S)
+Partition A into A_<p, A_=p, A_>p
+
+# now recurse on one of the sets depending on the size
+# this is the equivalent of the quicksort algorithm 
+
+if k <= |A_<p|:
+    then return FastSelect(A_<p,k)    
+if k > |A_>p| + |A_=p|:
+    then return FastSelect(A_>p,k-|A_<p|-|A_=p|)
+else return p
+```
+
+**Analysis of run time**:
+* Splitting into $\frac{n}{5}$ groups - $O(n)$
+* Since we are sorting a fix number of elements (5), it is order $O(1)$, over $\frac{n}{5}$, so, it is still $O(n)$. 
+* The first `FastSelect` takes $T(\frac{n}{5})$ time.
+* The final recurse takes $T(\frac{3n}{4})$
+
+$$
+\begin{aligned}
+T(n) &= T(\frac{3n}{4})+ T(\frac{n}{5}) + O(n) \\
+&= O(n)
+\end{aligned}
+$$
+
+The key here is $\frac{3}{4} + \frac{1}{5} < 1$
+
+
+**Prove of the claim that p is a good pivot**
+
+![image](../../../assets/posts/gatech/ga/dc_median.png)
+
+**Fun exercise**: Why did we choose size 5? And not size 3 or 7?
+
+Recall earlier, for blocks of 5, the time complexity is given by:
+
+$$
+T(n) = T(\frac{n}{5}) + T(\frac{7n}{10}) + O(n)
+$$
+
+and, $\frac{7}{10} + \frac{1}{5} < 1$.
+
+Now, let us look at the case of 3, assuming we split into n/3 groups:
+
+```
+11 21  ... n/6 1 ... n/3 1
+12 22  ... n/6 2 ... n/3 2
+13 23  ... n/6 3 ... n/3 3 
+```
+
+Number of elements: 2 * n/6 = n/3. Likewise, our remaining partition is of size 2n/3. 
+
+Then our formula will look:
+
+$$
+\begin{aligned}
+T(n) &= T(\frac{2n}{3})+ T(\frac{n}{3}) + O(n) \\
+&= O(n logn)
+\end{aligned}
+$$
+
+Similarly, suppose we use size 7, 
+
+* Number of elements less than or equal to n/14 4 is n/14 * 4 = 2n/7.
+* Number of remaining elements more than n/14 4 is 5n/7. 
+* Which still leads to a $O(nlogn)$ outcome.
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
