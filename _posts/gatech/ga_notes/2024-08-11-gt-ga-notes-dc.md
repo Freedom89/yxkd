@@ -454,8 +454,8 @@ First, note that $3 = 2^{log_2 3}$
 
 $$
 \begin{aligned}
-3^{log_2n} &= (2^{log_23})^{log_2 n} \\
-&= 2^{{log_23}\times{log_2 n}} \\
+3^{log_2n} &= (2^{log_2 3})^{log_2 n} \\
+&= 2^{\{log_2 3\} \times \{log_2 n\}} \\
 &= (2^{log_2 n})^{log_2 3} \\
 &= n^{log_2 3}
 \end{aligned}
