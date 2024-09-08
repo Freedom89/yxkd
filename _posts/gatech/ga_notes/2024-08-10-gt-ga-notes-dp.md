@@ -11,12 +11,13 @@ math: true
   * Try prefix (or suffix)
   * Then try substrings
     * If you figured out a problem using substrings, think whether it can be solved with prefix/suffix.
-* Step2: Express the subproblem in the form of a recurrence relation
-* Step3: Fill the base cases and write out the pseudocode.
+    * At least for this course, we are not testing suffix.
+* Step2: Express the subproblem in the form of a recurrence relation, including the base cases.
+* Step3: Write out the pseudocode.
 * Step4: Time complexity analysis.
 
 
-### Longest increasing subsequence (LIS)
+### Longest increasing subsequence (LIS) (DP1)
 
 Given a following sequence, find the length of the longest common subsequence. For example, given Input: 5, 7, 4, -3, 9, 1, 10, 4, 5, 8, 9, 3, the longest subsequence will be -3, 1, 4, 5, 8, 9, and the answer will be 6.
 
@@ -58,7 +59,7 @@ return max(L)
 
 There is a double for loop with $i$ taking up to the value $n$. Hence, the time complexity is $O(n^2)$ and space complexity is $O(n)$.
 
-### Longest Common Subsequence
+### Longest Common Subsequence (DP1)
 
 Given two sequences, $x_1,..,x_n$ and $y_1,...,y_m$, find the longest common subsequence. For example given X = BCDBCDA and Y = ABECBAB, then the longest subsequence is BCBA.
 
@@ -158,7 +159,7 @@ return reverse(string)
 
 Extra note - the steps of $i = i - 1$ and $j = j - 1$ can be reversed, and may lead to different results if there are multiple valid LCS.
 
-### Contiguous Subsequence Max Sum
+### Contiguous Subsequence Max Sum (DP1)
 
 A contiguous subsequence of a list S is a subsequence made up of consecutive elements of S. For instance, if S is 5, 15, −30, 10, −5, 40, 10, then 15, −30, 10 is a contiguous subsequence but 5, 15, 40 is not. Give a linear-time algorithm for the following task:
 
@@ -199,7 +200,7 @@ return max(S)
 
 Only one for loop, hence $O(n)$.
 
-### Knapsack
+### Knapsack (DP2)
 
 Given $n$ items with weights $w_1,w_2,..., w_n$ each with value $v_1,...,v_n$ and capacity $W$, we want to find the subset of objects S, such that we maximize values max($\sum_{i\in S} v_i$ ) but $\sum_{i \in S} w_i < W$..
 
@@ -278,7 +279,7 @@ for i = 1 to N:
 
 Then, included will be a binary representation of which items to be included.
 
-### Knapsack with repetitions
+### Knapsack with repetitions (DP2)
 
 This problem is a variant of the earlier problem, but you can add an infinite amount of $x_i$ in your knapsack.
 
@@ -318,7 +319,7 @@ To do backtracking, we have a separate array (multiset) $S(b) = [[],...,[]]$ so 
 
 Note, if we find a better solution to add item $x_i$, then $S(w)$ will be overwritten.
 
-### Chain Multiply
+### Chain Multiply (DP2)
 
 Consider two matrices $X_{a,b}$ and $Y_{b,c}$, the computation cost of calculating $XY$ is $O(abc)$.
 
@@ -447,7 +448,7 @@ for width in range(1,n):
     j = i + width
     for l in range(i,j):
       """
-      This l is the split, so, so you consider
+      This l is the split, suppose i = 0, j = 5
       0|1234, 01|234, 012|34, 0123|4 which is considering
       all combinations
       """
@@ -455,7 +456,7 @@ for width in range(1,n):
 ```
 
 
-### Bellman-Ford
+### Bellman-Ford (DP3)
 
 Given $\overrightarrow{G}$ with edge weights and vertices, find the shortest path from source node $s$ to target node $z$. We assume that it has no negative weight cycles (for now).
 
@@ -524,7 +525,7 @@ The time complexity in this case will be $O(N^2M)$. Also, if $\overrightarrow{G}
 
 A side note about Dijkstra algorithm, it is a greedy algorithm with time complexity $O(N + E log(N))$, so it is better than Bellman Ford if you know that there are no negative edges
 
-### Floyd-Warshall
+### Floyd-Warshall (DP3)
 
 `Subproblem`:
 

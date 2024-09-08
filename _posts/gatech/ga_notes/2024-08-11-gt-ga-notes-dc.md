@@ -138,7 +138,7 @@ $$
 For case 3, the work is dominated by the cost of recursive subproblems dominates the overall complexity
 
 
-### Fast Integer multiplication
+### Fast Integer multiplication (DC1)
 
 Given two (large) n-bit integers $x \& y$, compute $ z = xy$.
 
@@ -263,7 +263,7 @@ z & =  2^n A + 2^{\frac{n}{2}} (C-A-B) + B\\
 \end{aligned}
 $$
 
-### Linear-time median
+### Linear-time median (DC2)
 
 Given an unsorted list $A=[a_1,...,a_n]$ of n numbers, find the median ($\lceil \frac{n}{2}\rceil$ smallest element). 
 
@@ -394,5 +394,97 @@ Similarly, suppose we use size 7,
 * Number of elements less than or equal to n/14 4 is n/14 * 4 = 2n/7.
 * Number of remaining elements more than n/14 4 is 5n/7. 
 * Which still leads to a $O(nlogn)$ outcome.
+
+
+### Solving Recurrences (DC3)
+
+* Merge sort: $T(n) = 2T(\frac{n}{2}) + O(n) = O(nlogn)$
+* Naive Integer multiplication:  $T(n) = 4T(\frac{n}{2}) + O(n) = O(n^2)$
+* Fast Integer multiplication:  $T(n) = 3T(\frac{n}{2}) + O(n) = O(n^{log_2 3})$
+* Median: $T(n) = T(\frac{3n}{4}) + O(n) = O(n)$
+
+An example:
+
+For some constant $c>0$, and given $T(n) = 4T(\frac{n}{2}) + O(n)$:
+
+$$
+\begin{aligned}
+T(n) &= 4T(\frac{n}{2}) + O(n) \\
+&\leq cn + 4T(\frac{n}{2}) \\
+&\leq cn + 4[T(4\frac{n}{2^2} + c \frac{n}{2})]\\
+&= cn(1+\frac{4}{2}) + 4^2 T(\frac{n}{2^2}) \\
+&\leq cn(1+\frac{4}{2}) + 4^2 [4T\frac{n}{2^3} + c(\frac{n}{2^2})] \\
+&= cn (1+\frac{4}{2} + (\frac{4}{2})^2) + 4^3 T(\frac{n}{2^3}) \\
+&\leq cn(1+\frac{4}{2} + (\frac{4}{2})^2 + ... + (\frac{4}{2})^{i-1}) + 4^iT(\frac{4}{2^i})
+\end{aligned}
+$$
+
+If we let $i=log_2 n$, then $\frac{n}{2^i}$ = 1.
+
+$$
+\begin{aligned}
+&\leq \underbrace{cn}_{O(n)} \underbrace{(1+\frac{4}{2} + (\frac{4}{2})^2 + ... + (\frac{4}{2})^{log_2 n -1})}_{O(\frac{4}{2}^{log_2 n}) = O(n^2/n) = O(n)} + \underbrace{4^{log_2 n}}_{O(n^2)} \underbrace{T(1)}_{c}\\
+&= O(n) \times O(n) + O(n^2) \\
+&= O(n^2)
+\end{aligned}
+$$
+
+**Geometric series**
+
+$$
+\begin{aligned}
+\sum_{j=0}^k \alpha^j &= 1 + \alpha + ... + \alpha^k \\
+&= \begin{cases}
+O(\alpha^k), & \text{if } \alpha > 1 \\
+O(k), & \text{if } \alpha = 1 \\
+O(1), & \text{if } \alpha < 1
+\end{cases}
+\end{aligned}
+$$
+
+* The first case is what happened in Naive Integer multiplication
+* The second case is the merge step in merge sort, where all terms are the same.
+* The last step is finding the median where $\alpha = \frac{3}{4}$
+
+**Manipulating polynomials**
+
+It is clear that $4^{log_2 n} = n^2$, what about $3^{log_2 n} = n^c$
+
+First, note that $3 = 2^{log_2 3}$
+
+$$
+\begin{aligned}
+3^{log_2n} &= (2^{log_23})^{log_2 n} \\
+&= 2^{{log_23}\times{log_2 n}} \\
+&= (2^{log_2 n})^{log_2 3} \\
+&= n^{log_2 3}
+\end{aligned}
+$$
+
+Another example: $T(n) = 3T(\frac{n}{2}) + O(n)$
+
+$$
+\begin{aligned}
+T(n) &\leq cn(1+\frac{3}{2} + (\frac{3}{2})^2 + ... + (\frac{3}{2})^{i-1}) + 3^iT(\frac{3}{2^i}) \\ 
+&\leq \underbrace{cn}_{O(n)} \underbrace{(1+\frac{3}{2} + (\frac{3}{2})^2 + ... + (\frac{3}{2})^{log_2 n -1})}_{O(\frac{3}{2}^{log_2 n}) = O(3^{log_2 n}/2^{log_2 n})} + \underbrace{3^{log_2 n}}_{3^{log_2 n}} \underbrace{T(1)}_{c}\\
+&= \cancel{O(n)}\times O(3^{log_2 n}/\cancel{2^{log_2 n}}) + O(3^{log_2 n}) \\
+&= O(3^{log_2 n})
+\end{aligned}
+$$
+
+**General Recurrence**
+
+For constants a > 0, b > 1, and given: $T(n) = a T(\frac{n}{b}) + O(n)$,
+
+$$
+T(n) =
+\begin{cases}
+O(n^{log_b a}), & \text{if } a > b \\
+O(n log n), & \text{if } a = b \\
+O(n), & \text{if } a < b
+\end{cases}
+$$
+
+Feel free to read up more about [master theorem](#master-theorem)!
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
