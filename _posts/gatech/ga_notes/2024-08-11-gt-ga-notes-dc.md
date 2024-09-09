@@ -393,7 +393,19 @@ Similarly, suppose we use size 7,
 
 * Number of elements less than or equal to n/14 4 is n/14 * 4 = 2n/7.
 * Number of remaining elements more than n/14 4 is 5n/7. 
-* Which still leads to a $O(nlogn)$ outcome.
+
+In this case, we get the equation:
+
+$$
+\begin{aligned}
+T(n) &= T(\frac{5n}{7})+ T(\frac{n}{7}) + O(n) \\
+&= O(n)
+\end{aligned}
+$$
+
+Although in this case we still achieve $O(n)$, even though $\frac{5}{7} + \frac{1}{7} = 0.85 < \frac{1}{5} + \frac{7}{10}  = 0.9$, we increased the cost of sorting our sub list sorting. (Nothing is free! :smile:)
+
+For more information, feel free to look at [this link by brillant.org](https://brilliant.org/wiki/median-finding-algorithm/#citation-2)!
 
 
 ### Solving Recurrences (DC3)
