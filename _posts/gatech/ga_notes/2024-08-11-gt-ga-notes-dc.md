@@ -499,4 +499,252 @@ $$
 
 Feel free to read up more about [master theorem](#master-theorem)!
 
+### FFT
+
+FFT stands for FAst Fourier Transform.
+
+Polynomial Multiplication:
+
+$$
+\begin{aligned}
+A(x) &= a_0 + a_1x + a_2 x^2 + ... + a_{n-1} x^{n-1} \\
+B(x) &= b_0 + b_1x + b_2 x^2 + ... + b_{n-1} x^{n-1} \\
+\end{aligned}
+$$
+
+We want:
+
+$$
+\begin{aligned}
+C(x) &= A(x)B(x) \\
+&= c_0 + c_1x + c_2 x^2 + ... + c_{2n-2} x^{2n-2} \\
+\text{where } c_k &= a_0 b_k + a_1 b_{k-1} + ... + a_kb_0
+\end{aligned}
+$$
+
+We want to solve, given $a = (a_0, a_1, ..., a_{n-1}), b= (b_0, b_!, ..., b_{n-1})$, compute $c = a*b = (c_0, c_1, ..., c_{2n-2})$
+
+Note, this operation is called the convolution denoted by `*`. 
+
+For the naive algorithm, it will take $O(k)$ time for $c_k, \rightarrow O(n^2)$ total time. We are going to introduce a $O(nlogn)$ time algorithm.
+
+
+**Polynomial basics**
+
+* Two Natural representations for $A(x) = a_0 + a_1 x + ... + a_{n-1}x^{n-1}$
+  * coefficients $a = (a_0, ..., a_{n-1})$
+    * More intuitive to represent
+  * values: $A(x_1), ..., A(x_n)$
+    * Easier to use to multiply
+
+Lemma: Polynomial of degree $n-1$ is uniquely determine by its values at any $n$ distinct points. 
+* For example, a line is determined by two points, and, in general a $n-1$ polynomial is defined by any $n$ points on that polynomial. 
+
+What FFT does, is it $values \Longleftrightarrow coefficients$
+* Take coefficients as inputs
+* Convert to values
+* Multiply,
+* Convert back
+
+One important point is that FFT converts from the coefficients to the values, not for any choice of $x_1,...,x_n$ but for a particular well chosen set of points. Part of the beauty of the FFT algorithm is this choice. 
+
+**MP: values**
+
+Key idea: Why is it better to multiply in values?
+
+Given $A(x_1), ... ,A(x_{2n}), B(x_1), ..., B(X_2n)$, we can compute
+
+$$
+C(x_i) = A(x_i)B(x_i), \forall 1 \geq x \geq 2n
+$$
+
+Since each step is O(1), the total running time is $O(n)$. We will show that the conversion to values using FFT is $O(nlogn)$ while the values step is $O(n)$. Note, why do we take A and B at two n points? Well, C is a polynomial of degree at most 2n-2, so we needed at least $2n-1$ points, so $2n$ suffices.
+
+
+**FFT: opposites**
+
+Given $a = (a_0, a_1,..., a_{n-1})$ for poly $A(x) = a_0 + a_1x+...+a_{n-1}x^{n-1}$, we want to compute $A(x_1), ...., A(x_{2n})$
+* The key thing to note that we get to choose the 2n points $x_1,...,x_{2n}$.
+  * How to choose them?
+* The crucial observation is suppose $x_1,...,x_n$ are opposite of $x_{n+1},...,x_{2n}$
+  * $x_{n+1} = -x_1, ..., x_{2n} = -x_n$
+  * Suppose our $2n$ points satisfies this $\pm$ property
+  * We will see how this property will be useful.
+
+
+**FFT: splitting $A(x)$**
+
+Look at $A(x_i) \& A(x_{n+i} = A(-x_i))$, lets break these up to even and odd terms.
+
+* Even terms are of the form $a_{2k}x^{2k}$
+  * Since the powers are even, this is the same for $A(x_i) = A(x_{n+i})$.
+* Odd terms are $a_{2k+1}x^{2k+1}$ 
+  * Then these are the opposite, $A(-x_i) = A(x_{n+i})$.
+
+(Note, this was super confusing for me, but, just read on)
+
+So, it makes sense to split up $A(x)$ into odd and even terms. So, lets partition the coefficients for the polynomial into:
+
+* $a_{even} = (a_0, a_2, ..., a_{n-2})$
+* $a_{odd} = (a_1, a_3, ..., a_{n-1})$
+
+**FFT: Even and Odd**
+
+Again, given $A(x)= a_0 + a_1 x + ... + a_{n-1}x^{n-1}$,
+
+$$
+\begin{aligned}
+A_{even}(y) &= a_0 + a_2y + a_4y^2 + ... + a_{n-2}y^{\frac{n-2}{2}} \\
+A_{odd}(y) &= a_1 + a_3y + a_5y^2 + ... + a_{n-1}y^{\frac{n-2}{2}} \\
+\end{aligned}
+$$
+
+Notice that both have degree $\frac{n}{2}-1$. Then, (take some time to convince yourself)
+
+$$
+A(x) = A_{even} (x^2) + x A_{odd}(x^2)
+$$
+
+Can you see the divide and conquer solution? We start with a $n$ size polynomial, and split it to two $\frac{n}{2}, A_{even},A_{odd}$
+* We reduce the original polynomial from size $n-1$ to $\frac{n-2}{2}$.
+* However, if we need a $x$ at two endpoints, we still need $A_{even}, A_{odd}$ endpoints the squared of these original two endpoints. 
+  * So while the degree went down by a factor of two, but the number of points we need to evaluate has not gone down
+  * This is when we will make use of the $\pm$ property.
+
+**FFT: Recursion**
+
+Let's suppose that the two end points that we want to evaluate satisfies the $\pm$ property: $x_1,...,x_n$ are opposite of $x_{n+1},..., x_{2n}$
+
+$$
+\begin{aligned}
+A(x_i) &= A_{even}(x_i^2) + x_i A_{odd}(x_i^2) \\
+A(x_{n+i}) &= \underbrace{A(-x_i)}_{opposite} = A_{even}(x_i^2) - x_i A_{odd}(x_i^2)
+\end{aligned}
+$$
+
+Notice that the values are reused for $A_{even}(x_i^2), A_{odd}(x_i^2)$
+
+Given $A_{even}(y_1), ..., A_{even}(y_n) \& A_{odd}(y_1), ..., A_{odd}(y_n)$ for $y_1 = x_1^2, ...m y_n=x_n^2$, in $O(n)$ time get $A(x_1),...,A(x_2n)$.
+
+**FFT: summary**
+
+To get $A(x)$ of degree $\leq n-1$ at $2n$ points $x_1,...,$x_{2n}$
+
+1. Define $A_{even}(y), A_{odd}(y)$ of degree $\leq \frac{n}{2}-1$
+2. Recursively evaluate at n points, $y_1 = x_1^2 = x_{n+1}^2, ..., y_n = x_n^2 = x_{2n}^2$
+3. In $O(n)$ time, get $A(x)$ at $x_1,...,x_{2n}$.
+
+This gives us a recursion of 
+
+$$
+T(n) = 2T(\frac{n}{2}) + O(n) = O(nlogn)
+$$
+
+**FFT: Problem**
+
+Note that we need to choose numbers such that $x_{n+i} = -x_i$ for $i \in [1,n]$.
+
+then the points we are considering are the square of these two end points $y_1 = x_1^2, ..., y_n = x_n^2$, and we also want these end points to also satisfies the $\pm$ property.
+
+But, what happens at the next level? 
+
+* $y_1 = - y_{\frac{n}{2}+1}, ..., y_{\frac{n}{2}} = -y_n$
+* So, we need $x_1^2 = - x^2_{\frac{n}{2}+1}$
+  * Wait a minute, but how can a positive number $x_1^2$ be equals to a negative number?
+  * This is where complex number comes in.
+
+To be honest, I am super confused, I ended up watching this youtube video:
+
+{% include embed/youtube.html id='h7apO7q16V0' %}
+
+**Complex numbers**
+
+Given a complex number $z = a+bi$ in the complex plane, or the polar coordinates $(r,\theta)$. Note that for some operations such as multiplication, polar coordinates is more efficient.
+
+How to convert between complex plane and polar coordinates?
+
+$$
+(a,b) = (r cos\theta, r sin\theta)
+$$
+
+* $r = \sqrt{a^2 + b^2}$
+* $\theta$ is a little more complicated, it depends which quadrant of the complex plane you are at.
+
+There is also Euler's formula:
+
+$$
+re^{i\theta} = r(cos\theta + isin\theta)
+$$
+
+So, multiplying in polar makes it really easy:
+
+$$
+r_1e^{i\theta_1}r_2e^{i\theta_2} = (r1r2)e^{i(\theta_1 + \theta_2)}
+$$
+
+**complex roots**
+
+* When n=2, roots are 1, -1
+* When n=4, roots are 1, -1, i, -i
+
+In general, the n-th roots of unity $z$ where $z^n = 1$ is $(1, 2\pi j)$ for integer $j$. $2\pi j$ is on the positive real axis, as $2\pi$ is one "loop" around the circle.
+
+Note, since $r =1, r^n=1$ so they basically form a circle with radius 1 from the origin. Then, 
+
+$$
+n\theta = 2\pi j \Rightarrow \theta \frac{2\pi j}{n}
+$$
+
+![image](../../../assets/posts/gatech/ga/dc_nthrootsofunity.png){: width='200' height='200'}
+
+So the $n^{th}$ roots notation can be expressed as
+
+$$
+(1, \frac{2\pi}{n}j), j \in [0,...,n-1]
+$$
+
+We re-write this as:
+
+$$
+\omega_n = (1, \frac{2\pi}{n}) = e^{2\pi i /n }
+$$
+
+![image](../../../assets/posts/gatech/ga/dc_nthrootsofunity2.png){: width='200' height='200'}
+
+With that, we can formally define the the $n^{th}$ roots of unity, $\omega_n^0, \omega_n^1, ...., \omega_n^{n-1}$.
+
+$$
+\omega_n^j = e^{2\pi ij /n } = (1, \frac{2\pi j}{n})
+$$
+
+Suppose we want 16 roots, we can see the circle being divided into 16 different parts.
+
+![image](../../../assets/posts/gatech/ga/dc_nthrootsofunity3.png){: width='200' height='200'}
+
+And, note the consequences:
+
+![image](../../../assets/posts/gatech/ga/dc_nthrootsofunity4.png)
+
+* $(n^{th} roots)^2 = \frac{n}{2} roots$
+  * e.g $\omega_{16}^2 = \omega_8$
+* Also, the $\pm$ property, where $\omega_{16}^1 = -\omega_{16}^9$
+
+**key properties**
+
+* The first property - For even $n$, satisfy the $\pm$ property
+  * first $\frac{n}{2}$ are opposite of last $\frac{n}{2}$
+  * $\omega_n^0 = -\omega_n^{n/2}$
+  * $\omega_n^1 = -\omega_n^{n/2+1}$
+  * $...$
+  * $\omega_n^{n/2 -1} = -\omega_n^{n/2 + n/2 - 1} = -\omega_n^{n-1}$
+* The second property, for $n=2^k$,
+  * $(n^{th} roots)^2 = \frac{n}{2} roots$
+  * $(\omega_n^j)^2 = (1, \frac{2\pi}{n} j)^2 = (1, \frac{2\pi}{n/2} j) = w_{n/2}^j$
+  * $(\omega_n^{n/2 +j})^2 = (\omega_n^j)^2 = w_{n/2}^j $
+
+So why do we need this property that the nth root squared are the n/2nd roots? Well, we're going to take this polynomial A(x), and we want to evaluate it at the nth roots. Now these nth roots satisfy the $\pm$ property, so we can do a divide and conquer approach.
+
+But then, what do we need? We need to evaluate $A_{even}$ and $A_{odd}$ at the square of these nth roots, which will be the $\frac{n}{2}$ nd roots. So this subproblem is of the exact same form as the original problem. In order to evaluate A(x) at the nth roots, we need to evaluate these two subproblems,  $A_{even}$ and $A_{odd}$ at the $\frac{n}{2}$ nd roots. And then we can recursively continue this algorithm.
+
+
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
