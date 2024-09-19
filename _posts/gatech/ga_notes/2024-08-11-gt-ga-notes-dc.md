@@ -499,7 +499,7 @@ $$
 
 Feel free to read up more about [master theorem](#master-theorem)!
 
-### FFT
+### FFT (DC4+5)
 
 FFT stands for FAst Fourier Transform.
 
@@ -746,5 +746,124 @@ So why do we need this property that the nth root squared are the n/2nd roots? W
 
 But then, what do we need? We need to evaluate $A_{even}$ and $A_{odd}$ at the square of these nth roots, which will be the $\frac{n}{2}$ nd roots. So this subproblem is of the exact same form as the original problem. In order to evaluate A(x) at the nth roots, we need to evaluate these two subproblems,  $A_{even}$ and $A_{odd}$ at the $\frac{n}{2}$ nd roots. And then we can recursively continue this algorithm.
 
+
+**FFT Core**
+
+Again, the inputs are $a= (a_0, a_1, ..., a_{n-1})$ for Polynomial $A(x)$ where n is a power of 2 with $\omega$ is a $n^{th}$ roots of unity. The desired output is $A(\omega^0), A(\omega^1), ..., A(\omega^{n-1})$ 
+
+We let $\omega = \omega_n = (1, \frac{2\pi}{n}) = e^{2\pi i/n}$
+
+And the outline of FFT as follows:
+* if $n=1$, return $A(1)$
+* let $a_{even} = (a_0, a_2, ..., a_{n-2}), a_{odd} = (a_1, ..., a_{n-1})$
+* Call $FFT(a_{even},\omega^2)$ get $A_{even}(\omega^0),  A_{even}(\omega^2) , ..., A_{even}(\omega^{n-2})$
+* Call $FFT(a_{odd},\omega^2)$ get $A_{odd}(\omega^0),  A_{odd}(\omega^2) , ..., A_{odd}(\omega^{n-2})$
+* Recall that if $\omega = \omega_n$, then $(\omega^j_n)^2 = \omega_{n/2}^j$
+  * In other words, the square of n roots of unity gives us $n/2$ roots of unity.
+* For $j = 0 \rightarrow \frac{n}{2} -1$:
+  * $A(\omega^j) = A_{even}(\omega^{2j}) + \omega^j A_{odd}(\omega^{2j})$
+  * $A(\omega^{\frac{n}{2}+j}) = A(-\omega^j) = A_{even}(\omega^{2j}) - \omega^j A_{odd}(\omega^{2j})$
+* Return $(A(\omega^0), A(\omega^1), ..., A(\omega^{n-1}))$
+
+We can write this in a more concise manner:
+
+* if $n=1$, return $(a_0)$
+* let $a_{even} = (a_0, a_2, ..., a_{n-2}), a_{odd} = (a_1, ..., a_{n-1})$
+* Call $FFT(a_{even},\omega^2) = (s_0, s_1, ..., s_{\frac{n}{2}-1})$
+* Call $FFT(a_{odd},\omega^2) = (t_0, t_1, ..., t_{\frac{n}{2}-1})$
+* For $j = 0 \rightarrow \frac{n}{2} -1$:
+  * $r_j = s_j + w^j t_j$
+  * $r_{\frac{n}{2}+j} = s_j - w^j t_j$
+
+The running time is given by the recurrence $2T(n/2) + O(n) = O(n log n)$
+
+**Inverse FFT view**
+
+We first express the forward direction:
+
+For point $x_j$, $A(x_j) = a_0 + a_1x_j + a_2x_j^2 + , ... + a_{n-1}x_j^{n-1}$
+
+For points $x_0, x_1, ..., x_{n-1}$:
+
+$$
+\begin{bmatrix}
+A(x_0) \\ A(x_1) \\ \vdots \\ A(x_{n-1})
+\end{bmatrix} =
+\begin{bmatrix}
+1 & x_0 & x_0^2 & ... & x_0^{n-1} \\
+1 & x_1 & x_1^2 & ... & x_1^{n-1} \\
+     &      & \ddots &   &    \\
+1 & x_{n-1} & x_{n-1}^2 & ... & x_{n-1}^{n-1} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\ a_1\\ \vdots \\ a_{n-1}
+\end{bmatrix}
+$$
+
+We let $x_j = w_n^j$: (Note anything to power 0 is 1)
+
+$$
+\begin{bmatrix}
+A(1) \\ A(\omega_n) \\ A(\omega_n^2)\\ \vdots \\ A(\omega_n^{n-1})
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 1 & 1 & ... & 1 \\
+1 & \omega_n & \omega_n^2 & ... & \omega_n^{n-1} \\
+1 & \omega_n^2 & \omega_n^4 & ... & \omega_n^{2(n-1)} \\
+     &      & \ddots &   &    \\
+1 & \omega_n^{n-1} & \omega_n^{2(n-1)} & ... & \omega_n^{(n-1)(n-1)} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\ a_1 \\ a_2 \\ \vdots \\ a_{n-1}
+\end{bmatrix}
+$$
+
+Two interesting properties:
+
+* The matrix is symmetric 
+* The matrix is made up of functions of $\omega_n$
+
+We denote the above as 
+
+$$
+A = M_n(\omega_n) * a = FFT(a, \omega_n)
+$$
+
+And the inverse can be calculated as:
+
+$$
+M_n(\omega_n)^{-1} A = a
+$$
+
+Without proof, it turns out that $M_n(\omega_n)^-1 = \frac{1}{n}M_n(\omega_n^{-1})$ (Feel free eto watch yourself)
+
+What is $\omega_n^{-1}$ ? i..e $\omega_n \times \omega_n^{-1} = 1$
+
+The inverse turns out to be $\omega_n^{n-1}$, $\omega_n \times \omega_n^{n-1} = \omega_n^n = \omega_n^0 = 1$
+
+So,
+
+$$
+M_n(\omega_n)^-1 = \frac{1}{n}M_n(\omega_n^{-1}) = \frac{1}{n}M_n(\omega_n^{n-1})
+$$ 
+
+We did all this, so, the inverse FFT given $A$,is simply:
+
+$$
+na = M_n(\omega_n^{n-1}) A = FFT(A, \omega_n^{n-1}) \\
+\therefore a = \frac{1}{n} FFT(A, \omega_n^{n-1})
+$$
+
+**Poly mult using FFT**
+
+Input: Coefficients $a = (a_0, ..., a_{n-1})$ and $b = (b_0, ..., b_{n-1})$
+Output: $C(x) = A(x)B(x)$ where $c = (c_0, ..., c_{2n-2})$
+
+* FFT$(a,\omega_{2n}) = (r_0, ..., r_{2n-1})$
+* FFT$(b,\omega_{2n}) = (s_0, ..., s_{2n-1})$
+* for $j = 0 \rightarrow 2n-1$
+  * $t_j = r_j \times s_j$
+* Have $C(x)$ at $2n^{th}$ roots of unity and run inverse FFT
+  * $(c_0, ..., c_{2n-1}) = \frac{1}{2n}FFT(t, \omega_{2n}^{2n-1})$
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
