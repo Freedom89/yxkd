@@ -19,10 +19,9 @@ math: true
 
 ### Longest increasing subsequence (LIS) (DP1)
 
-Given a following sequence, find the length of the longest common subsequence. For example, given Input: 5, 7, 4, -3, 9, 1, 10, 4, 5, 8, 9, 3, the longest subsequence will be -3, 1, 4, 5, 8, 9, and the answer will be 6.
+Given a following sequence, find the length of the longest increasing subsequence. For example, given Input: 5, 7, 4, -3, 9, 1, 10, 4, 5, 8, 9, 3, the longest subsequence will be -3, 1, 4, 5, 8, 9, and the answer will be 6.
 
 Extra Information:
-
 
 When considering the LIS, the key question to ask is given a subsequence $x_1, ..., x_{n-1}$, when will $x_n$ affect the LIS. When does this happen? Is only when $x_n$ is appended to the LIS of $x_1,...,x_{n-1}$. 
 
@@ -35,7 +34,7 @@ Define the subproblem $L(i)$ to be be the length of the LIS on $x_1,...,x_i$. Th
 `Recurrence relation`:
 
 $$
-L(i) = 1 +\underset{1 \leq j \le i}{max} \{ L(j) \lvert x_j < x_i\  \}
+L(i) = 1 +\underset{1 \leq j < i}{max} \{ L(j) \lvert x_j < x_i\  \}
 $$
 
 
@@ -174,11 +173,11 @@ For the preceding example, the answer would be 10, −5, 40, 10, with a sum of 5
 
 Extra notes:
 
-Considering $S(i)$ which includes $x_i$. Since $x_i$ is part of the solution, then, the max sum is either itself, or the optimal max sum before itself, i.e $S(i-1)$.
+Considering $S(i)$ which includes $x_i$. Since $x_i$ is part of the solution, then, the max sum is either itself, or add optimal max sum before itself if it is positive, i.e $S(i-1)$.
 
 `Subproblem`:
 
-Let $S(i)$ denote the max sum of the sequence $x_1,...,x_i$.
+Let $S(i)$ denote the max sum of the sequence $x_1,...,x_i$ including i.
 
 `Recurrence relation`:
 
@@ -202,7 +201,7 @@ Only one for loop, hence $O(n)$.
 
 ### Knapsack (DP2)
 
-Given $n$ items with weights $w_1,w_2,..., w_n$ each with value $v_1,...,v_n$ and capacity $W$, we want to find the subset of objects S, such that we maximize values max($\sum_{i\in S} v_i$ ) but $\sum_{i \in S} w_i < W$..
+Given $n$ items with weights $w_1,w_2,..., w_n$ each with value $v_1,...,v_n$ and capacity $W$, we want to find the subset of objects S, such that we maximize values max($\sum_{i\in S} v_i$ ) but $\sum_{i \in S} w_i < B$ where $B$ is the capacity of the bag.
 
 Extra notes:
 
@@ -216,7 +215,7 @@ Consider the following problem, where we have 4 objects, with values 15,10,8,1 a
 
 Then, K(1) = $x_1$ with $V=15$, K(2) is also $x_1$ with $V=15$. But, how do we express K(3) in terms of K(2) and K(1) which took the first object? So there is no real way to define K in terms of its previous sub problems!
 
-Consider this new approach $K(I,W)$ where we also consider w as part of the sub problem - that is what is the optimal set of items given capacity w, for $ 1 \leq I \leq N, 1 \leq w \leq W$. Then by doing so, when we consider $K(3,22)$, there are two cases to consider:
+Consider this new approach $K(I,B)$ where we also consider w as part of the sub problem - that is what is the optimal set of items given capacity b, for $ 1 \leq I \leq N, 1 \leq b \leq B$. Then by doing so, when we consider $K(3,22)$, there are two cases to consider:
 
 * If $x_3$ is part of the solution, then we look up $K(2,22-v_3) = K(2,12)$
   * Notice that $K(2,12)$ will give us item 2 with $w_2 = 12$.
@@ -224,17 +223,17 @@ Consider this new approach $K(I,W)$ where we also consider w as part of the sub 
 
 `Subproblem`:
 
-Define $K(i,w)$ to be the optimal solution involving the first $i$ items with capacity $w$, $\forall i \in [1,N], w \in [1,W] $
+Define $K(i,b)$ to be the optimal solution involving the first $i$ items with capacity $b$, $\forall i \in [1,N], w \in [1,B] $
 
 `Recurrence relation`:
 
 The recurrence can be defined as follows:
 
 $$
-K(i,w) = max(v_i + K(i-1, w - w_i), K(i-1,w))
+K(i,b) = max(v_i + K(i-1, b - w_i), K(i-1,b))
 $$
 
-The base cases will be $K(0,w) = 0, K(i,0) = 0 \forall i, w$
+The base cases will be $K(0,b) = 0, K(i,0) = 0 \forall i, b$
 
 That is, if item $x_i$ is included, then we add the corresponding value $v_i$ and subtract the weight of item i $w_i$. If it is not included, then we simply take the first $i-1$ items.
 
@@ -247,20 +246,20 @@ weights = [w1,...,wn]
 values = [v1,...,vn]
 for i = 1 to N:
   K[i,0] = 0
-for w = 1 to W:
-  K[0, w] = 0
+for b = 1 to B:
+  K[0, b] = 0
 for i = 1 to N:
-  for w = 1 to W:
-    K[i,w] =  max(values[i] + K[i-1, w - w_i], K[i-1,w])
+  for b = 1 to B:
+    K[i,b] =  max(values[i] + K[i-1, b - w_i], K[i-1,b])
 
 return K(N,W)
 ```
 
 `Complexity`:
 
-There is two loops, N, and W, so, $O(NW)$.
+There is two loops, N, and W, so, $O(NB)$.
 
-However, note that W is an integer which can be represented with $2^m$ bits, so the complexity can be rewritten as $O(N2^m)$ which is exponential runtime. 
+However, note that $B$ is an integer which can be represented with $2^m$ bits, so the complexity can be rewritten as $O(N2^m)$ which is exponential runtime. 
 * Knapsack is also known as a Pseudo-polynomial time problem
 * [Why is knapsack problem pseudo polynomial?](https://stackoverflow.com/questions/4538581/why-is-the-knapsack-problem-pseudo-polynomial)
 
@@ -271,10 +270,10 @@ To do backtracking,
 included = [0] * N
 
 for i = 1 to N:
-  if K[i,w] != K[i-1,W]:
+  if K[i,b] != K[i-1,B]:
     # this means item i is included 
     included[i] = 1
-    W = W - weights[i]
+    B = B - weights[i]
 ```
 
 Then, included will be a binary representation of which items to be included.
@@ -288,30 +287,30 @@ Subproblem and `Recurrence relation`::
 We can do the same as the above problem, whether $x_i$ is in your final solution or otherwise:
 
 $$
-K(i,w) = max(v_i + K(i-1, w-w_i), K(i-1,w))
+K(i,b) = max(v_i + K(i-1, b-w_i), K(i-1,b))
 $$
 
 But notice that this can be further simplified, we do not need to take into consideration of item $x_i$. We can just simply at each step, iterate through all the possible items to find the best item to add to the knapsack.
 
 $$
-K(w) = \underset{i}{max} \{ v_i + K(w - w_i): i \leq i \leq n, w_i \leq W \}
+K(b) = \underset{i}{max} \{ v_i + K(w - w_i): i \leq i \leq n, w_i \leq b \}
 $$
 
 `Pseudocode`:
 
 ```
-for w = 1 to W:
-  K(w) = 0
+for w = 1 to B:
+  K(b) = 0
   for i = 1 to N:
     # if item x_i is below the weight limit and beats the current best
-    if w_i <= w & K(b) < v_i + K(w-w_i):
-      K(w) = v_i + K(w-w_i)
-return K(W)
+    if w_i <= w & K(b) < v_i + K(b-w_i):
+      K(b) = v_i + K(b-w_i)
+return K(B)
 ```
 
 `Complexity`:
 
-The complexity does not change, but the space complexity is now based on W.
+The complexity does not change, but the space complexity is now based on B.
 
 Backtracking
 
