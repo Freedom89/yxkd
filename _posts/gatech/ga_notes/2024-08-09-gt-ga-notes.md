@@ -6,7 +6,6 @@ tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
 toc: true
 mermaid: true
-hidden: true
 ---
 
 ## [Dynamic Programming](../gt-ga-notes-dp)
