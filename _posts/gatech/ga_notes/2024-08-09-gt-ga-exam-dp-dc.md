@@ -278,43 +278,193 @@ Complexity does not change, and remains $O(nB)$.
 
 `Problem statement`
 
+Given an sequence of matrices $A_1...,A_n$, find the optimal cost of computing them.
+
 `Intuition`
+
+* So, this is the classic case of a "window" problem, where I can cut $A_1...,A_n$, and get $A_1...A_j$ and $A_{j+1}...A_n$, then perhaps cut $A_1...A_k$ and $A_{k+1}...A_j$. This "sliding window" makes it $n^2$ subproblems.
+* For this question at least, you must involve $A_i$, so, it should be strong definition.
 
 `Subproblem`
 
+Let $C(i,j)$ be the optimal cost of calculating $A_1....A_i$ including i.
+
+For an arbitrary matrix, $A_i$, the dimensions is $m_{i-1},m_{i}$
+
 `Recurrence relation`
+
+The base case is to define the lower triangle (including diagonals) to be all 0.
+
+Base case:
+
+```
+C[i,j] = 0 where 1 <= j <= i <= n.
+```
+
+Relation:
+
+```
+C(i,j) = min{ C(i,l) + C(l+1, j) + m_{i-1} m_l m_j }
+    where i <= l <= j-1
+    and 1 <= j < i <= n
+```
+
+Special note - the `1 <= j < i <= n` represents the upper triangle excluding the diagonals.
 
 `Psuedocode`
 
+```
+for i in range(1,n):
+  C[i,i] = 0 # For code wise, we ignore lower diagonals
+
+for s in range(1,n-1):
+  for i in range(1, n - s):
+    j = i+s
+    C[i,j] = infinity
+    for l in range(i, j-1):
+      curr = (m[i-1] * m[l] * m[j]) + C(i,l) + C(l+1,j)
+        if C[i,j] > curr:
+          C[i,j] = curr
+return C[1,n]
+```
+
 `Complexity`
+
+Three for loops, hence $O(n^3)$.
+
+Extra note - Depending on certain type of questions, you might need pad the start and end with $A_0$ and $A_{n+1}$ to indicate the start and end such as the string cutting problem (Dpv 6.9).
 
 ### Bellman-Ford
 
 `Problem statement`
 
+Given $\overrightarrow{G}$ with edge weights and vertices $V$, find the shortest path from source node $s$ to target node $Z$.
+
 `Intuition`
+
+* So, we consider the nodes 1,..., i. When we add i, is either we found a better solution to Z, or we don't.
+* Since we can skip node i, then this should also be weak subproblem.
 
 `Subproblem`
 
+Denote D(i,z) to be the shortest path from i to z by using nodes 1,...,i up to i.
+
 `Recurrence relation`
+
+Base case:
+
+```
+D(0, s) = 0 for all s except z
+D(0, z) = infinity
+```
+
+Relation:
+
+```
+D(i,z) = min {D(i-1, y) + w(y,z), D(i-1, Z)}
+where 1 <= i <= length(V)-1 and there exists an edge y->z
+```
+
+(Note, i is from 1 to n-1 since we exclude z where z is the nth node)
 
 `Psuedocode`
 
+```
+for z in range(1, length(V)):
+  D(0,z) = infinity
+for i in range (1, n-1):
+  for z in V:
+    # for all nodes in V
+    D(i,z) = D(i-1, z)
+    for all yz in E:
+      if D(i,z) > D(i-1,y) + w(y,z):
+        D(i,z) = D(i-1,y) + w(y,z)
+Return D(n-1,:)
+```
+
 `Complexity`
+
+Initially, you might think that there the complexity is $O(N^2E)$ because of the 3 nested for loops. But, in the 2nd and 3rd nested for loop, it is actually going through all edges (If you go through all nodes and all the edges within each node, it is actually going through all the edges). So the time complexity is actually $O(NE)$.
+
+`Extra notes:`
+
+**How to find negative cycle?**
+
+Now, how can you use bellman ford to detect if there is a negative cycle? Notice that the algorithm runs until n-1. Run it for one more time, and compare the difference. If the solution is different, then, some negative weights must exists.
+
+In other words, check for:
+
+$$
+D(n,z) < D(n-1,z), \exists z \in V
+$$
+
+**What if we want to find all pairs? (y,z)**
+
+Note, z is still fix, means we want to find shortest path from all possible s to z.
+
+Then in this case, the complexity is $O(N^2E)$. But, in the event that this is a fully connected graph, then $E=N^2$ which means the overall complexity $O(N^4)$. The question becomes `can we do better?` Yes we can!
 
 ### Floyd-Warshall 
 
 `Problem statement`
 
+Find all pairs!
+
 `Intuition`
+
+* This is the same logic is just that we are using 3 for loops.
+* When adding an new node i, we either make use of it and find a better path, or we don't.
 
 `Subproblem`
 
+For $0 \leq i \leq n$ and $1 \leq s, t \leq n$, let $D(i,s,t)$ be the length of the shortest path from $s\rightarrow t$ using a subset $\{1, ..., i\}$ as intermediate vertices. Note, the key here is intermediate vertices.
+
+So, $D(0,s,t)$ means you can go to t from s directly without any intermediate vertices.
+
 `Recurrence relation`
+
+Basecase:
+
+```
+D(0,s,t) = w(s,t) if there exists an edge linking s to t
+D(0,s,t) = infinity otherwise
+```
+
+Relation:
+
+```
+D(i,s,t)=min{ D(i-1,s,t), D(i-1,s,i) + D(i-1,i,t)}
+      where 1 <= i,s,t <= n
+```
 
 `Psuedocode`
 
+```
+for s=1->n:
+    for t=1->n:
+        if (s,t) in E 
+            then D(0,s,t)=w(s,t)
+        else D(0,s,t) = infinity
+
+for i=1->n:
+    for s=1->n:
+        for t=1->n:
+            D(i,s,t)=min{ D(i-1,s,t), D(i-1,s,i) + D(i-1,i,t) }
+
+Return D(n,:,:)
+```
+
 `Complexity`
+
+The complexity here is clearly $O(N^3)$.
+
+`Extra notes:`
+
+**Checking negative cycles**
+
+To detect negative weight cycles, can check the diagonal of the matrix D. 
+* If there is a negative cycle, then there should be a negative path length from a vertex to itself, i.e $D(n,y,y) < 0, \exists y \in V $. 
+  * This is equivalent to checking whether there is any negative entries on the diagonal matrix $D(n,:,:)$.
 
 ### Edit Distance
 
