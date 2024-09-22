@@ -470,15 +470,73 @@ To detect negative weight cycles, can check the diagonal of the matrix D.
 
 `Problem statement`
 
+Edit distance between two strings of size n, and size m.
+
 `Intuition`
+
+* Similar to the Longest Common Subsequence, when you add a new character in either case x[i] and y[j], the edit distance can remain the same if x[i] == y[j]
+* If they are not the same, then, there are 3 cases to consider
+  * x[1, ..., i-1] against y[1, ..., j]
+  * x[1, ..., i] against y[1, ..., j-1]
+  * x[1, ..., i-1] against y[1, ..., j-1] 
+* Again, you can skip either i or j, so weak problem definition.
 
 `Subproblem`
 
+Let D(i,j) be the edit distance of strings x and y, up to i and j.
+
 `Recurrence relation`
+
+Base case:
+
+```
+D(i,0) = 0 # for loop i
+D(0,j) = 0 # for loop j
+```
+
+Relation:
+
+```
+D(i,j) = min(
+        D(i-1, j-1) + diff(x[i], y[j]),
+        D(i-1, j) + 1,
+        D(i, j-1) + 1
+)
+```
 
 `Psuedocode`
 
+```
+D(i,0) = 0 # for loop i
+D(0,j) = 0 # for loop j
+for i in range(1, n):
+  for j in range(1,m):
+    diff = 0 if x[i] == y[j] else 0
+    D(i,j) = min(
+        D(i-1, j-1) + diff(x[i], y[j]), # replace
+        D(i-1, j) + 1, # delete x
+        D(i, j-1) + 1  # insert x
+)
+
+```
+
 `Complexity`
+
+Complexity is $O(nm)$.
+
+`Extra Notes:` 
+
+* The first case is `D(i-1, j-1) + diff(x[i], y[j])` which is cost of substitute x[i] to y[j].
+* The second case is `D(i-1, j) + 1`  which is the cost of deleting x[i]
+  * So, imagine we D[i,j] is from D[i-1, j], this means we have delete x[i].
+* The last case is `D(i, j-1) + 1` which is the cost of insertion x[i]
+  * Again, imagine if D[i,j] is from D[i, j-1], means we insert x[i]
+
+For example take x=`aabc` with y=`aac`, and suppose i = 3, j = 3.
+
+* D[3,3] = D[2, 3] + 1 means we have `aa` and `aac` so we deleted `b` from x,
+* D[3,3] = D[3, 2] + 1 means we have `aab` and `aa` so we insert `c` at x[3] so it becomes `aac`
+
 
 ## Divide and Conquer
 
