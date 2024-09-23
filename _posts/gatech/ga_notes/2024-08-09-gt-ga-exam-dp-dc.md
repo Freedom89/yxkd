@@ -611,6 +611,14 @@ So, this shows that $n^{2.333} > n^2 logn$
 * $O(\sqrt{n})$
 * $T(n-1)$
 
+**Geometric series**
+
+$$
+\sum_{k=1}^{n-1} ar^k  = a\frac{r^n-1}{r-1}
+$$
+
+if $r < 1$, and $n \rightarrow \infty$, then $r^n = 0$. Hence we have $\frac{a}{1-r}$.
+
 ### Fast Integer Multiply
 
 Lets cover a little about binary, for instance 1 is binary `1`, 3 is `11` and 8 is binary `1000` which is $2^3$.
@@ -621,23 +629,337 @@ For example, take 9 * 5 which we know is 45. 45 can be represented as 32+8+4+1 w
    1001
 x   101
 -------
-   1001
-  0000
- 1001
+   1001 # first bit 1 multiply with 1001
+  0000  # Second bit, offset by 1 space and multiply
+ 1001   # third bit, offset by 2 and multiply
 -------
- 101101  
+ 101101 # Element sum
 ```
 
 Another thing about shifting bits, for example in python, we take `9<<2` means we are adding two `0` to `1001` which yields `100100`. This is $32+4 = 36$.
 
 We are now ready to go through the Fast Integer Multiply.
 
+Given two integers $x$ and $y$
 
+$$
+\begin{aligned}
+xy &= ( x_L \times 2^{\frac{n}{2}} + x_R)( y_L \times 2^{\frac{n}{2}} + y_R) \\
+&= 2^n \underbrace{x_L y_L}_A + 2^{\frac{n}{2}}(\underbrace{x_Ly_R + x_Ry_L}_{\text{X}}) + \underbrace{x_Ry_R}_B
+\end{aligned}
+$$
 
+Using Gauss idea, we can replace $X$ with $C-A-B$ as follows:
+
+$$
+\begin{aligned}
+(x_L+x_R)(y_L+y_R) &= x_L y_L + x_Ry_R + (x_Ly_R+x_Ry_L) \\
+(x_Ly_R+x_Ry_L) &= \underbrace{(x_L+x_R)(y_L+y_R)}_{C}- \underbrace{x_L y_L}_A + \underbrace{x_Ry_R}_B \\
+\therefore xy &= 2^n A + 2^{\frac{n}{2}} (C-A-B) + B
+\end{aligned}
+$$
+
+Code:
+
+```
+FastMultiply(x,y):
+input: n-bit integers, x & y , n = 2**k
+output: z = xy 
+xl = first n/2 bits of x, xr = last n/2 bits of x
+same for yl, yr.
+
+A = FastMultiply(xl,yl), B= FastMultiply(xr,yr)
+C = FastMultiply(xl+xr,yl+yr)
+
+Z = (2**n)* A + 2**(n/2) * (C-A-B) + B
+return(Z)
+```
+
+With Master theorem, $3T(\frac{n}{2}) + O(n) \rightarrow O(n^{log_2 3})$ 
 
 
 ### Linear-time median
 
+In order to find a linear time median, we need to find a good pivot.
 
+To find a good pivot, we simply use the median of medians, this is similar to quick sort. (You can refer to the notes to get a proof in the notes) but the idea is to partition the array into groups of 5, find the median of each of them, and then find the median in each of them. 
+
+To do this, you will have time complexity of 
+
+$$
+T(\frac{n}{5}) + O(n)
+$$
+
+It can be shown that by doing so, you reduce the problem space by $\frac{3n}{10}$ in each iteration (refer to notes if you want proof).
+
+Once you found p the pivot which is the median of medians,
+
+```
+FastSelect(A,k):
+
+Break A into ceil(n/5) groups         G_1,G_2,...,G_n/5
+    # doesn't matter how you break A
+
+For j=1->n/5:
+    sort(G_i)
+    let m_i = median(G_i)
+
+S = {m_1,m_2,...,m_n/5}             # these are the medians of each group
+p = FastSelect(S,n/10)              # p is the median of the medians (= median of elements in S)
+Partition A into A_<p, A_=p, A_>p
+
+# now recurse on one of the sets depending on the size
+# this is the equivalent of the quicksort algorithm 
+
+if k <= |A_<p|:
+    then return FastSelect(A_<p,k)    
+if k > |A_>p| + |A_=p|:
+    then return FastSelect(A_>p,k-|A_<p|-|A_=p|)
+else return p
+```
+
+**Analysis of run time**:
+* Splitting into $\frac{n}{5}$ groups - $O(n)$
+* Since we are sorting a fix number of elements (5), it is order $O(1)$, over $\frac{n}{5}$, so, it is still $O(n)$. 
+* The first `FastSelect` takes $T(\frac{n}{5})$ time.
+* The final recurse takes $T(\frac{3n}{4})$
+
+$$
+\begin{aligned}
+T(n) &= T(\frac{3n}{4})+ T(\frac{n}{5}) + O(n) \\
+&= O(n)
+\end{aligned}
+$$
 
 ### FFT
+
+**n-th roots of unity**
+
+An nth root of unity, where n is a positive integer, is a number z satisfying the $z^n =1$, so we can define $\omega$ to be:
+
+$$
+\omega_n = e^{2\pi i/n} = (1, \frac{2\pi i}{n})
+$$
+
+Note, the subscript $n$ refers to the roots of unity, e.g $\omega_16$ refers to the 16 roots of unity.
+
+To see that this is true: $\omega_n^n = e^{2\pi i} $, and $2\pi$ is exactly 1 circle (360 degrees), going back to the starting point on the real axis. So $e^{2\pi i} = 1$
+
+**sum of nth roots of unity**
+
+The sum of the n-th roots and with a little help from geometric series:
+
+$$
+w_n^0 + ... + w_n^{n-1} = \frac{\omega_n^n - 1}{\omega_n -1}
+$$
+
+But we established that $\omega_n^n = 1$ so the above expression evaluates to be 0.
+
+**Plus minus property**
+
+We consider the 4 roots of unity, which is 1, i, -1, i. If we see, the first half is the opposite of the second half. In general:
+
+$$
+\omega_n^j = -\omega_n^{\frac{n}{2} +j}, \omega_n^j = e^{2\pi ij/n}
+$$
+
+This is because you are adding across $\frac{n}{2}$ points which is half the circle $\pi$.
+
+Take the 16 roots for example, suppose we take the first root and nine root:
+
+$$\begin{aligned}
+\omega_{16}^1 &= e^{2\pi i / 16} \\
+\omega_{16}^9 &= e^{2\pi i \times 9 / 16} \\
+&= e^{2\pi i \times 1 / 16 + 2 \pi i \times (8/16)} \\
+&= e^{2\pi i/ 16} \underbrace{e^{\pi i}}_{-1} \\
+&= -e^{2\pi i/ 16} \\
+&= -\omega_{16}^1 \\
+\end{aligned}
+$$
+
+**Square property**
+
+The square property is the following equation:
+
+$$
+(w_{2n}^j)^2 = w_n^j
+$$
+
+This should be obvious because:
+
+$$
+(w_{2n}^j)^2 = (e^{2\pi ij /2n})^2 = e^{2\pi ij /n} = w_n^j
+$$
+
+**Polynomial representation**
+
+For every polynomial of degree $n-1$, we can represent it by $n$ points. For example a straight line of degree $1$, can be presented by two points, a polynomial can be represented by $3$ points etc. You can visualize this by constructing a system of linear equations and given 3 points, you can revers engineer the polynomial. The goal now is to transform a polynomial into these points so we can use them efficient uses later, but this is the gist of the FFT algorithm.
+
+For a polynomial $A(x) = a_0x^0 + a_1x^1 + .... + a_{n-1}x^{n-1}$, we assume $n$ is even so $n-1$ is odd for simplicity. 
+
+$$
+\begin{aligned}
+A_{even}(y) &= a_0y^0 + a_2y^1 + ... + a_{n-2}y^{\frac{n-2}{2}} \\
+A_{odd}(y) &= a_1y^0 + a_3y^1 + ... + a_{n-1}y^{y^{\frac{n-2}{2}}} \\
+\therefore A(x) &= A_{even}(x^2) + x A_{odd}(x^2)
+\end{aligned}
+$$
+
+So, given a polynomial of degree $d-1$ ($1+x+...+x^{d-1}$), first, find the nth roots of unity such that $2^n > d$. For instance if you have a polynomial of degree 6, you need 7 roots so we round up to 8. The goal is to compute:
+
+$$
+\begin{aligned}
+A(\omega_n^j) = A_{even}((\omega_n^j)^2) + \omega_n^jA_{even}((\omega_n^j)^2)
+\end{aligned}
+$$
+
+Notice that we can make use of our $\pm$ property, so:
+
+$$
+\begin{aligned}
+A(\omega_n^{\frac{n}{2} + j}) &= A(-\omega_n^j)\\
+ &= A_{even}((\omega_n^j)^2) - \omega_n^jA_{even}((\omega_n^j)^2)
+\end{aligned}
+$$
+
+With this, we can now state our FFT algorithm.
+
+**FFT algorithm**
+
+The inputs are $a= (a_0, a_1, ..., a_{n-1})$ for Polynomial $A(x)$ where n is a power of 2 with $\omega$ is a $n^{th}$ roots of unity. The desired output is $A(\omega^0), A(\omega^1), ..., A(\omega^{n-1})$ 
+
+We let $\omega = \omega_n = (1, \frac{2\pi}{n}) = e^{2\pi i/n}$
+
+* if $n=1$, return $(a_0)$
+* let $a_{even} = (a_0, a_2, ..., a_{n-2}), a_{odd} = (a_1, ..., a_{n-1})$
+* Call $FFT(a_{even},\omega^2) = (s_0, s_1, ..., s_{\frac{n}{2}-1})$
+* Call $FFT(a_{odd},\omega^2) = (t_0, t_1, ..., t_{\frac{n}{2}-1})$
+* For $j = 0 \rightarrow \frac{n}{2} -1$:
+  * $r_j = s_j + w^j t_j$
+  * $r_{\frac{n}{2}+j} = s_j - w^j t_j$
+* Return $r_1, ..., r_{n-1}$
+
+**Runtime analysis**
+
+Notice that we split the problem into half, and recurse based on odd and even. As a last step, we do a for loop through all of the roots of unity making it $O(n)$. This gives the recurrence:
+
+$$
+2T(\frac{n}{2}) + O(n) = O(nlogn)
+$$
+
+**Multiply Two polynomials**
+
+Given two polynomials, $A(x) = a_0x^0 + ... + a_{i-1}x^{i-1}$ and $B(x) = b_0x^0 + ... + b_{j-1}x^{j-1}$. Our goal is to find $C(x) = A(x)B(x)$.
+
+We find the nth roots of unity, such that $2^n > i+j-2$. For instance if you have a degree 3 polynomial with a degree 5 polynomial,$i-1 + j -1 = 4-1+6-1 = 9$, so you need 16 roots of unity.
+
+We first transform:
+
+$$
+\begin{aligned}
+A(x) &= (\alpha_0, \alpha_1, ..., \alpha_n) \\
+B(x) &= (\beta_0, \beta_1, ..., \beta_n) \\
+\therefore C(x) &= (\alpha_0 \times \beta_0, ...,\alpha_n \times \beta_n )
+\end{aligned}
+$$
+
+To convert $C(x)$ back to its polynomial, we simply run inverse FFT.
+
+**Inverse FFT**
+
+Without proof (refer to the notes if you want), note that:
+
+$$
+w_n^1 * w_n^{-1} = w_n^0 = 1 \\
+w_n^1 * w_n^{n-1} = w_n^n = 1
+$$
+
+So, this means that we can just simply go anti-clockwise to get the inverse!
+
+Given $FFT(A,w_n)$ where A is any polynomial and the nth roots of unity, 
+
+$$
+\begin{aligned}
+FFT(A, w_n) &= (A(\omega_n^0),A(\omega_n^1), ..., A(\omega_{n-1}^{n-1}))\\
+&= (\alpha_0, \alpha_1, ...,\alpha_{n-1}) \\
+&= A'
+\end{aligned}
+$$
+
+Then the inverse is (Notice the anti-clockwise direction):
+
+$$
+\begin{aligned}
+IFFT(A', w_n) &= \frac{1}{n}FFT(A',w_n^{-1})\\
+&= (A'(\omega_n^0),A'(\omega_n^{-1}), ..., A'(\omega_{n-1}^{-(n-1)}))\\
+&= (A'(\omega_n^0),A'(\omega_n^{n-1}), ..., A'(\omega_{n-1}^{1}))\\
+\end{aligned}
+$$
+
+**Useful matrix to remember**
+
+$$
+\begin{bmatrix}
+A(1) \\ A(\omega_n) \\ A(\omega_n^2)\\ \vdots \\ A(\omega_n^{n-1})
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 1 & 1 & ... & 1 \\
+1 & \omega_n & \omega_n^2 & ... & \omega_n^{n-1} \\
+1 & \omega_n^2 & \omega_n^4 & ... & \omega_n^{2(n-1)} \\
+     &      & \ddots &   &    \\
+1 & \omega_n^{n-1} & \omega_n^{2(n-1)} & ... & \omega_n^{(n-1)(n-1)} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\ a_1 \\ a_2 \\ \vdots \\ a_{n-1}
+\end{bmatrix}
+$$
+
+Notice that the matrix is symmetric.
+
+For example, if we use forth roots of unity, we have  $\omega_n = 1, i, -1 , -i$
+
+$$
+\begin{bmatrix}
+A(\omega_4^0) \\ A(\omega_4^1) \\ A(\omega_4^2) \\ A(\omega_4^{3})
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & i & -1  & -i \\
+1 & -1 & 1 & -1 \\
+1 & -i & -1 & i \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\ a_1 \\ a_2  \\ a_{3}
+\end{bmatrix}
+$$
+
+So suppose we have coordinates $c_0, c_1, c_2 ,c_3$ and we want to transform back:
+
+$$
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & i & -1  & -i \\
+1 & -1 & 1 & -1 \\
+1 & -i & -1 & i \\
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+c_0 \\ c_1 \\ c_2  \\ c_{3}
+\end{bmatrix}=
+\frac{1}{4}
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & -i & -1 & i \\
+1 & -1 & 1 & -1 \\
+1 & i & -1  & -i \\
+\end{bmatrix}
+\begin{bmatrix}
+c_0 \\ c_1 \\ c_2  \\ c_{3}
+\end{bmatrix}
+$$
+
+Notice the rows of the matrix, we went from $(\omega_4^0,\omega_4^1,\omega_4^2,\omega_4^3)$ to $(\omega_4^0, \omega_4^3,\omega_4^2,\omega_4^1)$ when calculating the inverse.
+
+
+
+
+
