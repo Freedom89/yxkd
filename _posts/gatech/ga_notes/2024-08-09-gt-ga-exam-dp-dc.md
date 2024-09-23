@@ -400,7 +400,7 @@ $$
 
 **What if we want to find all pairs? (y,z)**
 
-Note, z is still fix, means we want to find shortest path from all possible s to z.
+In the above implementation, z is still fix, means we want to find shortest path from all possible s to all possible z, to accomplish this we repeat the above algorithm for $N$ times where $N$ is the number of nodes.
 
 Then in this case, the complexity is $O(N^2E)$. But, in the event that this is a fully connected graph, then $E=N^2$ which means the overall complexity $O(N^4)$. The question becomes `can we do better?` Yes we can!
 
