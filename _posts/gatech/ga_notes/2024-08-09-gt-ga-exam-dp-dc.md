@@ -552,6 +552,10 @@ For Divide and conquer, three sections are required:
 * Runtime analysis
   * Even if your modifications is trivial, **remember to state them!**.
 
+Todo?
+* Merge sort
+* Binary Search
+
 ### Master Theorem
 
 $$
@@ -571,8 +575,69 @@ $$
 T(n) = aT\left(\frac{n}{b}\right) + O(n^d)
 $$
 
+Other important thing:
+
+**logarithms**
+
+This is the change of base for logs which states that $log_a b = \frac{log_c b}{log_c a}$, so we can express $log_b n = \frac{log_a n}{log_a b}$, and we have $(log_a b)^{-1} = (\frac{log_b b}{log_b a})^{-1} = log_b a$ 
+
+$$
+\begin{aligned}
+a^{log_b n} &= a^{(log_a n)(log_b a)} \\
+&= (\underbrace{a^{log_a n}}_{n})^{log_b a} \\
+&= n^{log_b a}
+\end{aligned}
+$$
+
+**L'Hopital rule**
+
+Suppose we have two run times, $n^{2.33}$ and $n^2log n$, we want to find out which one is bigger, to do this, we can use L'Hospital rule which is simply comparing the gradient:
+
+$$
+\begin{aligned}
+f(n) &=\frac{n^{2.333}}{n^2 logn} = \frac{n^{0.333}}{log n}\\
+f'(n)&= \frac{0.333 n^{-0.6666}}{1/n} \\
+f'(n) &= cn^{0.333} \\
+\therefore lim_{n \rightarrow \infty} f(x) &= \infty
+\end{aligned}
+$$
+
+So, this shows that $n^{2.333} > n^2 logn$
+
+
+**Other interesting recurrances**
+
+(Todo?)
+* $O(\sqrt{n})$
+* $T(n-1)$
+
 ### Fast Integer Multiply
 
+Lets cover a little about binary, for instance 1 is binary `1`, 3 is `11` and 8 is binary `1000` which is $2^3$.
+
+For example, take 9 * 5 which we know is 45. 45 can be represented as 32+8+4+1 which is $2^5+2^3+2^2+2^0$ which is `101101` in binary.
+
+```
+   1001
+x   101
+-------
+   1001
+  0000
+ 1001
+-------
+ 101101  
+```
+
+Another thing about shifting bits, for example in python, we take `9<<2` means we are adding two `0` to `1001` which yields `100100`. This is $32+4 = 36$.
+
+We are now ready to go through the Fast Integer Multiply.
+
+
+
+
+
 ### Linear-time median
+
+
 
 ### FFT
