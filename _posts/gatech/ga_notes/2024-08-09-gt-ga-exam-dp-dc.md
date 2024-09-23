@@ -577,7 +577,7 @@ $$
 
 Other important thing:
 
-**logarithms**
+**Logarithms**
 
 This is the change of base for logs which states that $log_a b = \frac{log_c b}{log_c a}$, so we can express $log_b n = \frac{log_a n}{log_a b}$, and we have $(log_a b)^{-1} = (\frac{log_b b}{log_b a})^{-1} = log_b a$ 
 
@@ -733,7 +733,7 @@ $$
 
 ### FFT
 
-**n-th roots of unity**
+#### n-th roots of unity
 
 An nth root of unity, where n is a positive integer, is a number z satisfying the $z^n =1$, so we can define $\omega$ to be:
 
@@ -745,7 +745,7 @@ Note, the subscript $n$ refers to the roots of unity, e.g $\omega_16$ refers to 
 
 To see that this is true: $\omega_n^n = e^{2\pi i} $, and $2\pi$ is exactly 1 circle (360 degrees), going back to the starting point on the real axis. So $e^{2\pi i} = 1$
 
-**sum of nth roots of unity**
+#### sum of nth roots of unity
 
 The sum of the n-th roots and with a little help from geometric series:
 
@@ -755,7 +755,7 @@ $$
 
 But we established that $\omega_n^n = 1$ so the above expression evaluates to be 0.
 
-**Plus minus property**
+#### Plus minus property
 
 We consider the 4 roots of unity, which is 1, i, -1, i. If we see, the first half is the opposite of the second half. In general:
 
@@ -777,7 +777,7 @@ $$\begin{aligned}
 \end{aligned}
 $$
 
-**Square property**
+#### Square property
 
 The square property is the following equation:
 
@@ -791,7 +791,7 @@ $$
 (w_{2n}^j)^2 = (e^{2\pi ij /2n})^2 = e^{2\pi ij /n} = w_n^j
 $$
 
-**Polynomial representation**
+#### Polynomial representation
 
 For every polynomial of degree $n-1$, we can represent it by $n$ points. For example a straight line of degree $1$, can be presented by two points, a polynomial can be represented by $3$ points etc. You can visualize this by constructing a system of linear equations and given 3 points, you can revers engineer the polynomial. The goal now is to transform a polynomial into these points so we can use them efficient uses later, but this is the gist of the FFT algorithm.
 
@@ -824,7 +824,7 @@ $$
 
 With this, we can now state our FFT algorithm.
 
-**FFT algorithm**
+#### FFT algorithm
 
 The inputs are $a= (a_0, a_1, ..., a_{n-1})$ for Polynomial $A(x)$ where n is a power of 2 with $\omega$ is a $n^{th}$ roots of unity. The desired output is $A(\omega^0), A(\omega^1), ..., A(\omega^{n-1})$ 
 
@@ -839,7 +839,7 @@ We let $\omega = \omega_n = (1, \frac{2\pi}{n}) = e^{2\pi i/n}$
   * $r_{\frac{n}{2}+j} = s_j - w^j t_j$
 * Return $r_1, ..., r_{n-1}$
 
-**Runtime analysis**
+#### FFT Runtime analysis
 
 Notice that we split the problem into half, and recurse based on odd and even. As a last step, we do a for loop through all of the roots of unity making it $O(n)$. This gives the recurrence:
 
@@ -847,7 +847,7 @@ $$
 2T(\frac{n}{2}) + O(n) = O(nlogn)
 $$
 
-**Multiply Two polynomials**
+#### Multiply Two polynomials
 
 Given two polynomials, $A(x) = a_0x^0 + ... + a_{i-1}x^{i-1}$ and $B(x) = b_0x^0 + ... + b_{j-1}x^{j-1}$. Our goal is to find $C(x) = A(x)B(x)$.
 
@@ -865,7 +865,7 @@ $$
 
 To convert $C(x)$ back to its polynomial, we simply run inverse FFT.
 
-**Inverse FFT**
+#### Inverse FFT
 
 Without proof (refer to the notes if you want), note that:
 
@@ -896,7 +896,19 @@ IFFT(A', w_n) &= \frac{1}{n}FFT(A',w_n^{-1})\\
 \end{aligned}
 $$
 
-**Useful matrix to remember**
+So, the overall process for multiplying two polynomials looks like this:
+
+Input: Coefficients $a = (a_0, ..., a_{n-1})$ and $b = (b_0, ..., b_{n-1})$
+Output: $C(x) = A(x)B(x)$ where $c = (c_0, ..., c_{2n-2})$
+
+* FFT$(a,\omega_{2n}) = (r_0, ..., r_{2n-1})$
+* FFT$(b,\omega_{2n}) = (s_0, ..., s_{2n-1})$
+* for $j = 0 \rightarrow 2n-1$
+  * $t_j = r_j \times s_j$
+* Have $C(x)$ at $2n^{th}$ roots of unity and run inverse FFT
+  * $(c_0, ..., c_{2n-1}) = \frac{1}{2n}FFT(t, \omega_{2n}^{2n-1})$
+
+#### Useful matrix to remember
 
 $$
 \begin{bmatrix}
