@@ -874,7 +874,7 @@ w_n^1 * w_n^{-1} = w_n^0 = 1 \\
 w_n^1 * w_n^{n-1} = w_n^n = 1
 $$
 
-So, this means that we can just simply go anti-clockwise to get the inverse!
+So, this means that we can just simply go in the opposite direction (clockwise) to get the inverse!
 
 Given $FFT(A,w_n)$ where A is any polynomial and the nth roots of unity, 
 
@@ -886,7 +886,7 @@ FFT(A, w_n) &= (A(\omega_n^0),A(\omega_n^1), ..., A(\omega_{n-1}^{n-1}))\\
 \end{aligned}
 $$
 
-Then the inverse is (Notice the anti-clockwise direction):
+Then the inverse is (Notice the opposite/clockwise direction):
 
 $$
 \begin{aligned}
