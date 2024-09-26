@@ -241,7 +241,7 @@ Same as above, but now you have unlimited items of each.
 You can choose to modify the above approach and simplify use:
 
 $$
-K(i,b) = max(v_i + K(i-1, b-w_i), K(i-1,b))
+K(i,b) = max(v_i + K(i, b-w_i), K(i-1,b))
 $$
 
 But there is an easier way:

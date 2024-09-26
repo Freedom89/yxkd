@@ -71,7 +71,7 @@ if $x_i \neq y_j$, then either of the 3 cases can occur:
 * $x_i$ is not used in the final solution, $L(i-1,j)$
 * $y_j$ is not used in the final solution, $L(i, j-1)$
 * Both is not used in the final solution 
-  * If the last character of both is not used, we can get there by dropping the last character and then dropping the last character of Y (or vice versa).
+  * If the last character of both is not used, then we can just drop both!
 
 So, we can just consider the first two cases and take the max, i.e max$(L(i-1,j), L(i,j-1))$
 
@@ -284,10 +284,10 @@ This problem is a variant of the earlier problem, but you can add an infinite am
 
 Subproblem and `Recurrence relation`::
 
-We can do the same as the above problem, whether $x_i$ is in your final solution or otherwise:
+We can do the same as the above problem, and updating $K(i-1, b-w_i)$ to $K(i,b-w_i)$
 
 $$
-K(i,b) = max(v_i + K(i-1, b-w_i), K(i-1,b))
+K(i,b) = max(v_i + K(i, b-w_i), K(i-1,b))
 $$
 
 But notice that this can be further simplified, we do not need to take into consideration of item $x_i$. We can just simply at each step, iterate through all the possible items to find the best item to add to the knapsack.
