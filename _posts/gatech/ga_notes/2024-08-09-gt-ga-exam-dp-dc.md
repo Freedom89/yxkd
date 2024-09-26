@@ -102,7 +102,7 @@ Let L[i,j] denote the longest common subsequence between x from 1 up to i, and y
 Base case: 
 
 ```
-L[i, j] = 0 where 0 <= i <= n
+L[i, 0] = 0 where 0 <= i <= n
 L[0, j] = 0 where 0 <= j <= m
 ```
 
