@@ -870,8 +870,10 @@ To convert $C(x)$ back to its polynomial, we simply run inverse FFT.
 Without proof (refer to the notes if you want), note that:
 
 $$
-w_n^1 * w_n^{-1} = w_n^0 = 1 \\
-w_n^1 * w_n^{n-1} = w_n^n = 1
+\begin{aligned}
+w_n^1 * w_n^{-1} &= w_n^0 = 1 \\
+w_n^1 * w_n^{n-1} &= w_n^n = 1
+\end{aligned}
 $$
 
 So, this means that we can just simply go in the opposite direction (clockwise) to get the inverse!
