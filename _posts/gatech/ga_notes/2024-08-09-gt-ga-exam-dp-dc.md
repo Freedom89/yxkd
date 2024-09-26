@@ -202,7 +202,7 @@ Relation:
 K(i,b) = max(
         v[i] + K(i-1, b - w[i]), 
         K(i-1,b)
-        ) where 1 <= i <= n, w[i] <= b
+        ) where 1 <= i <= n, w[i] <= b, 1 <= b <= B
 ```
 
 `Psuedocode`
@@ -256,7 +256,7 @@ Let K(b) be the maximum value obtainable from weight 1 ... b up to B.
 
 ```
 K(b) = max{v[i] + K(b - w[i])}
-    where 1 <= i <= n, w[i] <= b
+    where 1 <= i <= n, w[i] <= b,1 <= b <= B
 ```
 
 `Psuedocode`
