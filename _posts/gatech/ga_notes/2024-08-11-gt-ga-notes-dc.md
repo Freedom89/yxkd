@@ -628,7 +628,7 @@ Given $A_{even}(y_1), ..., A_{even}(y_n) \& A_{odd}(y_1), ..., A_{odd}(y_n)$ for
 
 **FFT: summary**
 
-To get $A(x)$ of degree $\leq n-1$ at $2n$ points $x_1,...,$x_{2n}$
+To get $A(x)$ of degree $\leq n-1$ at $2n$ points $x_1,...,x_{2n}$
 
 1. Define $A_{even}(y), A_{odd}(y)$ of degree $\leq \frac{n}{2}-1$
 2. Recursively evaluate at n points, $y_1 = x_1^2 = x_{n+1}^2, ..., y_n = x_n^2 = x_{2n}^2$

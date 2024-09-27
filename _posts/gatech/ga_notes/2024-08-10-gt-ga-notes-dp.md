@@ -369,7 +369,7 @@ So, $C(i,i) = 0, \forall i$. Then, we calculate $C(i,i+1), C(i, i+2), ..., C(1,n
   * Then, $j$ can be calculated with $j = i+s$
   * So we do this until we get width = $n-1$, so $s=0\rightarrow n-1$.
 
-To rephrase this, given that we fill the diagonal first, we move one step to the right of the diagonal, i.e $C(2,i+1),.., C(n, i+1). Then, how many elements do we need to compute? n-1 elements.
+To rephrase this, given that we fill the diagonal first, we move one step to the right of the diagonal, i.e $C(2,i+1),.., C(n, i+1)$. Then, how many elements do we need to compute? n-1 elements.
 
 Now, suppose we move $s$ steps to the right of the diagonal, then, there will be $n-s$ elements to compute.
 
