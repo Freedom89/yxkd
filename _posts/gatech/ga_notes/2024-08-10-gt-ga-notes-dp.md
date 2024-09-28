@@ -580,9 +580,4 @@ For bellman ford algorithm, it depends on the s and z to determine if a negative
 
 ----
 
-Other Problems (TODO?)
-
-* Edit Distance
-* Electoral College
-
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

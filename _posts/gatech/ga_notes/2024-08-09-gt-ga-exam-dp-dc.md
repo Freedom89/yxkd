@@ -552,10 +552,6 @@ For Divide and conquer, three sections are required:
 * Runtime analysis
   * Even if your modifications is trivial, **remember to state them!**.
 
-Todo?
-* Merge sort
-* Binary Search
-
 ### Master Theorem
 
 $$
@@ -603,13 +599,6 @@ f'(n) &= cn^{0.333} \\
 $$
 
 So, this shows that $n^{2.333} > n^2 logn$
-
-
-**Other interesting recurrances**
-
-(Todo?)
-* $O(\sqrt{n})$
-* $T(n-1)$
 
 **Geometric series**
 
@@ -754,6 +743,30 @@ w_n^0 + ... + w_n^{n-1} = \frac{\omega_n^n - 1}{\omega_n -1}
 $$
 
 But we established that $\omega_n^n = 1$ so the above expression evaluates to be 0.
+
+#### Product of nth roots of unity 
+
+With a little help from [arithmetic progression](https://en.wikipedia.org/wiki/Arithmetic_progression), given a sequence $x_1, ... , x_n$, where $x_i = a + (n-1)d$
+
+$$
+\sum_(i=1)^n x_i = \frac{n}{2}(x_1+ x_n) = \frac{n}{2}(a + a + (n-1)d)
+$$
+
+So, the product of roots of unity is:
+
+$$
+\begin{aligned}
+\prod_{i=0}^{n-1} \omega_n^i &= pow(\omega_n, 0+1+...+n-1) \\
+&= pow(\omega_n, \frac{n}{2} (0 + n-1)) \\
+& = pow(\omega_n, \frac{n(n-1)}{2}) \\
+& = pow(e^{\frac{2\pi i}{n}}, \frac{n(n-1)}{2}) \\
+& = pow(e, \frac{\cancel{2}\pi i}{\cancel{n}}\frac{\cancel{n}(n-1)}{\cancel{2}}) \\
+& = e^{(n-1)\pi i}
+\end{aligned}
+$$
+
+So, if $n$ is odd, this means $(n-1)$ is even, so, $e^{2m\pi i} = e^{2\pi i} =1$.
+Likewise, if $n$ is even, then $(n-1)$ is odd, so, $e^{(2m+1)\pi i} = e^{3 \pi i}=-1$.
 
 #### Plus minus property
 
