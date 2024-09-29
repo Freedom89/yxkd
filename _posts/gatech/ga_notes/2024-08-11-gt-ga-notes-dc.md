@@ -308,7 +308,7 @@ $$
 
 To accomplish this, choose a subset $S \subset A$, where $\lvert S \rvert = \frac{n}{5}$. Then, we set the pivot = $median(S)$. 
 
-But, now we face another problem, how do we select this sample $S$? :sad: - one problem after another.
+But, now we face another problem, how do we select this sample $S$? :frowning_face: - one problem after another.
 
 Introducing `FastSelect(A,k)`:
 
