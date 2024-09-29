@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fas fa-info-circle
-order: 4
+order: 5
 toc: true
 ---
 
@@ -38,13 +38,3 @@ In a way, this site is my attempt of recreating something similar as a working p
 
 Refer to [Linkedin](https://www.linkedin.com/in/lowyx/) or [pdf](../assets/info/cv_yxlow.pdf).
 
-## Coffee 💰
-
-If you have enjoyed my content and wish to treat me to a cup of coffee, here are the available options:
-
-* Paypal
-  * <i class="fa-brands fa-paypal"></i> : [Paypal me!](https://paypal.me/lowyixiang?)
-* Crypto
-  * <i class="fa-brands fa-btc"></i> Bitcoin Address: 1L5J7MPmscnbKBXLvD89sdin91LTQ6QUim
-  * <i class="fa-brands fa-ethereum"></i> Ethereum (ERC20) Address: 0xcbfad53c4e6b857fa150a19b10f19ae7e7751f13
-  * Tron (TRC20) Address: TGAovPbdBxnhh2SXkrzWsdz27JADBjPZhx
