@@ -271,6 +271,64 @@ What about the other way around? Does v with the highest post order always lie i
 
 So, for directed $G=(V,E)$, look at $G^R = (V,E^R)$, so, the source SCC in $G$ = sink SCC in $G^R$. So, we just flip the graph, run DFS, take the highest post order which is the source SCC in $G^R$, that will be the sink in $G$.
 
+#### Example of SCC
+
+lets consider the same graph but now we reverse it, and we start at node C 
+
+{% graphviz %}
+digraph { 
+    bgcolor="lightyellow"
+    rankdir=LR;
+    node [shape = circle];
+    A -> B [dir=back, xlabel = "A(7,8)"];
+    B -> C [dir=back, xlabel = "B(6,11)"];
+    B -> D [dir=back];
+    D [xlabel = "D(13,14)"]
+    B -> E [dir=back];
+    C -> F [dir=back, xlabel = "C(1,12)"];
+    E -> L [dir=back, xlabel = "E(9,10)"];
+    E -> B [dir=back];
+    F -> G [dir=back, xlabel = "F(3,4)"];
+    F -> I [dir=back];
+    G -> F [dir=back, xlabel = "G(2,5)"];
+    G -> C [dir=back];
+    H -> I [dir=back, xlabel = "H(18,19)"];
+    H -> J [dir=back];
+    I -> J [dir=back, xlabel = "I(20,21)"];
+    J -> H [dir=back, xlabel = "J(17,22)"];
+    J -> K [dir=back];
+    K -> L [dir=back, xlabel = "K(16,23)"];
+    L -> I [dir=back, xlabel = "L(15,24)"];
+}
+{% endgraphviz %}
+
+We start from c from the reverse graph $G^R$, find the SCC at `{C, G, F, B, A, E}`, then we proceed to `{D}` before going to `{L}`. you may notice that the choosing of which vertex might be important, suppose you pick at any vertex at `{H,I,J,K,L}`, it will be able to reach all vertices except `{D}` so that starting vertex will still have the highest post number.
+
+Then, we sort it and get this following order: `L, K, J, I, H, D, C, B, E, A, G, F`. So now, we run DFS from the original graph starting at $G$. 
+
+* At first step, we start at $L$, so, we will reach `{L,K,J,I,H}` label as 1 and strike them out.
+* We then visit $D$, and reach `{D}`, label as 2 and strike them out
+* We do the same for $C$, reach `{C,F,G}` label as 3 and strike them out
+* Then do the same for `{B,E}` label as 4
+* and finally `{A}` label as 5
+
+So, the `L, K, J, I, H, D, C, B, E, A, G, F` is mapped to `{1,1,1,1,1,2,3,4,4,5,3,3}`. Another interesting observation of the new labels `{1,2,3,4,5}` , we have the following graph:
+
+{% graphviz %}
+digraph { 
+    bgcolor="lightyellow"
+    rankdir=LR;
+    node [shape = circle];
+    5 -> 4
+    4 -> 1
+    4 -> 3
+    3 -> 1
+    4 -> 2
+}
+{% endgraphviz %}
+
+Notice that this metagraph, they go from $5 \rightarrow to 1$. So, the  `{1,1,1,1,1,2,3,4,4,5,3,3}` also outputs the topological order in reverse order! So we can take any graph, run two iterations of DFS, finds its SCC, and structure these SCC in topological order.
+
 #### SCC algorithm
 
 ```
