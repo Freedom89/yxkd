@@ -367,7 +367,133 @@ output: $\forall v \in V$, dist(v) = length of shortest $s\rightarrow v$ path.
 
 Note, Dijkstra uses the min-heap (known as priority queue) that takes $logn$ insertion run time. So, the overall runtime for Dijkstra is $O((n+m)logn)$.
 
+### 2-Satisfiability (GR2)
 
+Boolean formula:
+* $n$ variables with $x_1, ..., x_n$
+* $2n$ literals $x_1, \bar{x_1}, ..., x_n, \bar{x_n}$ where $\bar{x_i} = \lnot x_i$
+* We use $\land$ for the and condition and $\lor$ for the or condition.
+
+#### CNF 
+
+Now, we define CNF (conjunctive normal form):
+
+Clause: OR of several literals $(x_3 \lor \bar{x_t} \lor \bar{x_1} \lor x_2)$
+F in CNF: AND of m clauses: $(x_2) \land (\bar{x_3} \lor x_4) \land (x_3 \lor \bar{x_t} \lor \bar{x_1} \lor x_2) \land (\bar{x_2} \lor \bar{x_1})$
+
+Notice that for F to be true, that means for each condition we need at least one literal to be true.
+
+#### SAT
+
+Input: formula f in CNF with $n$ variables and $m$ clauses 
+
+output: assignment (assign T or F to each variable) satisfying if one exists, NO if none exists.
+
+Example: $ f = (\bar{x_1} \lor \bar{x_2} \lor x_3) \land (x_3 \lor x_3) \land (\bar{x_3} \lor \bar{x_1}) \land (\bar{x_3})$
+
+And an example that will work is $x_1 = F, x_2 = T, x_3 = F$.
+
+#### K-SAT 
+
+For K sat, the input is formula f in CNF with $n$ variables and $m$ clauses each of size $\leq k$. So the above function $f$ is an example. In general:
+
+* SAT is NP-complete
+* K-SAT is NP complete $\forall k \geq 3$
+* Poly-time algorithm using SCC for 2-SAT
+
+For example consider the following input f for 2-SAT:
+
+$$
+f = (x_3 \lor \bar{x_2}) \land (\bar{x_1}) \land (x_1 \lor x_4) \land (\bar{x_4} \lor x_2) \land (\bar{x_3} \lor x_4)
+$$
+
+We want to simplify unit-clause which is a clause with 1 literal such as $(\bar{x_1})$. This is because to satisfy $\bar{x_1}$ there is only one way to set $x_1 = F$.
+
+
+* Take a unit clause say literal $a_i$ 
+* Satisfy it (set $a_i = T$)
+* Remove clauses containing $a_i$ and drop $\bar{a_i}$ 
+* let $f'$ be the resulting formula 
+
+For example:
+
+$$
+\begin{aligned}
+f &= (x_3 \lor \bar{x_2}) \land (\cancel{\bar{x_1}}) \land (\cancel{x_1} \lor x_4) \land (\bar{x_4} \lor x_2) \land (\bar{x_3} \lor x_4) \\
+&= (x_3 \lor \bar{x_2}) \land (x_4) \land (\bar{x_4} \lor x_2) \land (\bar{x_3} \lor x_4)
+\end{aligned}
+$$
+
+So, the original $f$ is satisfiable if $f'$ is. Notice that there is a unit clause $(x_4)$ and we can remove it. Eventually I am either going to left with an empty set, or a formula where all clauses are of size 2.
+
+
+#### SAT-graph
+
+Take $f$ with all clauses of size $=2$, $n$ variables and $m$ clauses, we create a directed graph:
+
+* $2n$ vertices corresponding to  $x_1, \bar{x_1}, ..., x_n, \bar{x_n}$
+* $2m$ edges corresponding to 2 "implications" per clause
+
+Consider the following example: $f = (\bar{x_1} \lor \bar{x_2}) \land (x_2 \lor x_3) \land (\bar{x_3} \lor \bar{x_1})$
+
+* Notice that if we set $x_1 = T \rightarrow x_2 = F$, and likewise $x_2 = T \rightarrow x_1 = F$
+
+
+{% graphviz %}
+digraph { 
+    bgcolor="lightyellow"
+    rankdir=LR;
+    node [shape = circle, fixedsize = True];
+    x1 -> _x2
+    x2 -> _x1
+    _x2 -> x3
+    _x3 -> x2
+    x1 -> _x3
+    x3 -> _x1
+}
+{% endgraphviz %}
+
+In general given $(\alpha \lor \beta)$, then you need $\bar{\alpha} \rightarrow \beta$ and $\bar{\beta} \rightarrow \alpha$
+
+If we observe the graph, we notice that there is a path from $x_1 \rightarrow \bar{x_1}$, which is a contradiction. If $x_1 = F$, then it might be ok? In general, if there are paths such that $x_1 \rightarrow \bar{x_1}$ and $\bar{x_1} \rightarrow x_1$, then $f$ is not satisfiable because $\bar{x_1},x_1$ is in the same SCC.
+
+In general:
+
+* If for some $i$, $x_i, \bar{x_1}$ are in the same SCC, then $f$ is not satisfiable. 
+* If for some $i$, $x_i, \bar{x_1}$ are in different SCC, then $f$ is satisfiable. 
+
+#### 2-SAT Algo
+
+* Take source scc $S'$ and set $S' = F$
+* Take sink scc $\bar{S'}$ and set $\bar{S'} = T$
+* When we done this, then we can remove all these literals from the graph!
+
+This works because of a key fact: if $\forall i$, $x_i \bar{x_i}$ are in different SCC's, then $S$ is a sink SCC if and only if $\bar{S}$ is a source SCC.
+
+```
+2SAT(F):
+  1. Construct graph G for f
+  2. Take a sink SCC S 
+    - Set S = T ( and bar(S) = F)
+    - remove S, bar(s)
+    - repeat until empty
+```
+
+Proof:
+
+The first claim is we show that path $\alpha \to \beta \iff \bar{\beta} \to \bar{\alpha}$
+
+Take path $\alpha \to \beta$, say $\gamma_0 \to \gamma_1 \to ... \to \gamma_l$ where $\gamma_0 = \alpha, \gamma_l = \beta$
+
+Recall that $(\bar{\gamma_1} \lor \gamma_2)$ is represented in the graph as $(\gamma_1 \to \gamma_2)$, since if $\gamma_1 = T$ then $\gamma_2$ must also be $T$. $(\bar{\gamma_1} \lor \gamma_2)$ is also represented in the graph as $(\bar{\gamma_2} \to \bar{\gamma_1})$. This shows that $\bar{\gamma_0} \gets \bar{\gamma_1} \gets ... \gets \bar{\gamma_l}$ which implies $\bar{\beta} \to \bar{\alpha}$ since $\gamma_0 = \alpha, \gamma_l = \beta$.
+
+Using this claim, we can show 2 more things:
+
+If $\alpha,\beta \in S$, then $\bar{\alpha}, \bar{\beta} \in \bar{S}$. This is true because if there are paths in $\alpha \leftrightarrow \beta$ since they are in the same SCC, this means that there are paths $\bar{\beta} \leftrightarrow \bar{\alpha}$ using the above claim and they belong to SCC.
+
+It remains to show that $S$ must be a sink SCC and $\bar{S}$ is a source SCC.
+
+We take a sink SCC S, for $\alpha \in S$, that means there are no edges from $\alpha \to \beta$ which implies no edges such that $\bar{\beta} \to \bar{\alpha}$. In other words, no outgoing edges from $\alpha$ means there is no incoming edges to $\bar{\alpha}$. This shows that $\bar{S}$ is a source SCC!
 
 
 
