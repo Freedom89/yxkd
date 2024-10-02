@@ -495,10 +495,79 @@ It remains to show that $S$ must be a sink SCC and $\bar{S}$ is a source SCC.
 
 We take a sink SCC S, for $\alpha \in S$, that means there are no edges from $\alpha \to \beta$ which implies no edges such that $\bar{\beta} \to \bar{\alpha}$. In other words, no outgoing edges from $\alpha$ means there is no incoming edges to $\bar{\alpha}$. This shows that $\bar{S}$ is a source SCC!
 
+### MST (GR3)
+ 
+For the minimum spanning tree, we are going to go through the **krusal** algorithm but mainly focus on the correctness of it. Note that krusal algorithm is a greedy algorithm which makes use of the **cut property**. This property is also useful in proving prim's algorithm. 
+
+#### MST algorithm
+
+Given: undirected $G=(V,E)$ with weights $w(e)$ for $e\in E$
+
+Goal: find minimum size, connected subgraph of minimum weight. This connected subgraph is known as the spanning tree (refer this as T). So we want $T \subset E, w(t) = \sum_{e\in T} w(e)$
+
+```
+Kruskals(G):
+  input: undirected G = (V,E) with weights w(e)
+  1. Sort E by increasing weight
+  2. Set X = {null}
+  3. For e=(v,w) in E (in increasing order)
+    if X U e does not have a cycle:
+      X = X U e (U here denotes union)
+  4. Return X
+```
+
+Runtime analysis:
+
+1. Step one takes $O(mlogn)$ time where $m = \lvert E \lvert , v = \lvert V \lvert$
+   1. This was a little confusing to me and why the lecture said $O(mlogm) = O(mlogn)$. It turns out that the max of $m$ is $n^2$ for a fully connected graph,so $O(mlogm) = O(mlogn^2) = O(2mlogn) = O(mlogn)$.
+2. For this we can make use of [union-find data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure).
+   1. Let $c(v)$ be the component containing $v$ in $(V,X)$
+   2. Let $c(w)$ be the component containing $w$ in $(V,X)$
+   3. We check if $c(v) \neq c(w)$ (by them having different representative), then add $e$ to $X$.
+   4. We then apply union to both of them.
+3. The [union-find data structure](https://www.geeksforgeeks.org/union-by-rank-and-path-compression-in-union-find-algorithm/) takes $O(logn)$ time 
+   1. Since we are doing it for all edges, then $O(mlogn)$.
+
+**Cut property**
+
+To prove the correctness, we first need to define the cut property:
+
+![image](../../../assets/posts/gatech/ga/gr3_cut.png){: width='400' }
+
+In other words, the cut of a graph is a set of edges which partition the vertices into two sets. In later part, we will look at problems such as minimum/maximum cut to partition the graphs into two components.
+
+![image](../../../assets/posts/gatech/ga/gr3_cut_mst.png){: width='400' }
+
+The core of the proof is:
+* Use induction, and assume that $X \subset E$ where $X \subset T$ for a MST $T$. The claim is when we add an edge from $S, \bar{S}$, we form another MST $T'$.
+
+**Proof outline**
+
+![image](../../../assets/posts/gatech/ga/gr3_cut_mst1.png){: width='400' }
+
+So, we need to consider two cases, if $e^* \in T$ or $e^* \notin T$.
+
+* If $e^* \in T$, our job is done, as there is nothing to show.
+* If $e^* \notin T$ (such as the diagram above), then we modify $T$ in order ot add edge $e^*$ and construct a new MST $T'$ 
+
+![image](../../../assets/posts/gatech/ga/gr3_cut_mst2.png){: width='400' }
+
+Next, we show that $T'$ is still a tree:
+
+![image](../../../assets/posts/gatech/ga/gr3_cut_mst3.png){: width='400' }
 
 
+* Remember if a tree with size $n$ has $n-1$ edges then it must be connected.
 
+![image](../../../assets/posts/gatech/ga/gr3_cut_mst4.png){: width='400'}
 
+* Actually, it turns out that $w(T') = w(T)$, otherwise it would contradict the fact that $T$ is a MST. 
+
+#### Prim's algorithm
+
+MST algorithm is akin tio Dijkstra's algorithm, and use the cut property to prove correctness of Prim's algorithm.
+
+The prim's algorithm selects the root vertex in the beginning and then traverses from vertex to vertex adjacently. On the other hand, Krushal's algorithm helps in generating the minimum spanning tree, initiating from the smallest weighted edge.
 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
