@@ -986,7 +986,4 @@ $$
 
 Notice the rows of the matrix, we went from $(\omega_4^0,\omega_4^1,\omega_4^2,\omega_4^3)$ to $(\omega_4^0, \omega_4^3,\omega_4^2,\omega_4^1)$ when calculating the inverse.
 
-
-
-
-
+<!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
