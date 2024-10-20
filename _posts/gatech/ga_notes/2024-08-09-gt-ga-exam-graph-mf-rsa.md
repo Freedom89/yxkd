@@ -68,7 +68,7 @@ Here is another summary:
 * Ford-Fulkerson and Edmonds-Karp to find the max flow on networks.
 * 2-SAT which takes a CNF with all clauses of size $\leq$ 2 and returns a satisfying assignment if it exists
 
-## DFS
+### DFS
 
 DFS is an algorithm for traversing or searching tree or graph data structures. It starts at the root or an arbitrary node of a graph and explores as far as possible along each branch before backtracking.
 
@@ -88,7 +88,7 @@ DFS is an algorithm for traversing or searching tree or graph data structures. I
 
 `More information`: None for now!
 
-## BFS
+### BFS
 
 BFS is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph) and explores the neighbor nodes at the present depth before moving on to nodes at the next depth level.
 
@@ -111,7 +111,7 @@ BFS is an algorithm for traversing or searching tree or graph data structures. I
 
 if you only want connectivity from a specific vertex, use BFS instead.
 
-## Dijkstra 
+### Dijkstra 
 
 Dijkstra's algorithm is used to find the shortest distance from a source vertex to all other vertices. A path can be recovered by backtracking over all of the pre-labels.
 
@@ -135,7 +135,7 @@ Dijkstra's algorithm is used to find the shortest distance from a source vertex 
 * Uses a binary min heap
 * Edges **must not be negative**
 
-## Bellman-Ford 
+### Bellman-Ford 
 
 Bellman-Ford is used to derive the shortest path from s to all vertices in V. It does not find a path between all pairs of vertices in V. To do this, we would have to run BF $\lvert V \lvert$ times. Negative weights are allowed.
 
@@ -165,7 +165,7 @@ D(n,z) < D(n-1,z), \exists z \in V
 $$
 
 
-## Floyd-Warshall
+### Floyd-Warshall
 
 FW is primarily used to find the shortest path from ALL nodes to all other nodes where negative weights are allowed.
 
@@ -189,7 +189,7 @@ To detect negative weight cycles, can check the diagonal of the matrix D.
 * If there is a negative cycle, then there should be a negative path length from a vertex to itself, i.e $T(n,y,y) < 0, \exists y \in V $. 
   * This is equivalent to checking whether there is any negative entries on the diagonal matrix $T(n,:,:)$.
 
-## SCC 
+### SCC 
 
 The SCC algorithm is used to determine the strongly connected components as well as the meta-graph of connected components in a given directed graph.
 
@@ -223,7 +223,7 @@ SCC(G):
 
 What about the other way around? Does v with the highest post order always lie in a source SCC? Turns out, this is true! How can we make use of this? Simple, just reverse it! So the source SCC of the reverse graph is the sink SCC!
 
-## 2-SAT
+### 2-SAT
 
 The 2-SAT problem is to determine whether there exists an assignment to variables of a given Boolean formula in 2-CNF (conjunctive normal form) such that the formula evaluates to true. The algorithm for solving 2-SAT uses graph theory by constructing an implication graph and then checking for the existence of a path that satisfies the conditions.
 
@@ -319,79 +319,347 @@ MST algorithm is akin tio Dijkstra's algorithm, and use the cut property to prov
 
 The prim's algorithm selects the root vertex in the beginning and then traverses from vertex to vertex adjacently. On the other hand, Krushal's algorithm helps in generating the minimum spanning tree, initiating from the smallest weighted edge.
 
+## MST properties 
 
-### Cut property 
+* Property 1 Removing a cycle edge cannot disconnect a graph.
+* Property 2 A tree on n nodes has n − 1 edges.
+* Property 3 Any connected, undirected graph $G = (V, E)$ with $\lvert E \lvert = \lvert V \lvert − 1$ is a tree.
+* Property 4 An undirected graph is a tree if and only if there is a unique path between any pair of nodes.
+
+## Cut property 
 
 The **cut property** exists if (and only if) an edge is of minimum weight on any cut, then the edge is part of some MST.
 * Used to include edges
 * if all edge weights are unique, then the **cut property** assets if (and only if) an edge is the minimum across any cut, then the edge is part of every MST. 
 
-### Cycle property 
+**From the textbook**
+
+Cut property Suppose edges X are part of a minimum spanning tree of G = (V, E). Pick any subset of nodes S for which X does not cross between S and V − S, and let e be the lightest edge across this partition. Then X ∪ {e} is part of some MST.
+
+## Cycle property 
 
 The **cycle property** states if $e$ is the unique heaviest edge in any cycle of G, then $e$ cannot be part of any MST
 * Used to exclude edges 
 
-# Maxflow
+## Maxflow
 
-## Ford-Fulkerson 
+### Residual Network
+
+In general, the residual network $G^f = (V,E^f)$, for flow network $G=(V,E)$ with $c_e : e \in E$, and flow $f_e : e \in E$, 
+* if $\overrightarrow{vw} \in E\ \&\ f_{vw} < c_{vw}$, then add $\overrightarrow{vw}$ to $G^f$ with capacity $c_{vw} - f_{vw}$ (remaining available)
+* if $\overrightarrow{vw} \in E\ \&\ f_{vw} > 0$, then add $\overrightarrow{wv}$ to $G^f$ with capacity $f_{vw}$
+
+In other words, if you flow is below capacity provided, add another edge in parallel with edge weight as the flow. If your flow is greater than 0 (and all capacity is used), add a backward edge with the capacity flow. Also, because we remove the parallel edges, we are allowed to add the forward edge and backward edge without inequalities. 
+
+### Ford-Fulkerson 
 
 A greedy algorithm to find max flow on networks. The algorithm continually sends flow along paths from the source (starting node) to the sink (end node), provided there is available capacity on all edges involved. This flow continues until no further augmenting paths with available capacity are detected.
 
 `input`:
 
+* $G = (V, E)$
+* Flow capacity c
+* Source node s
+* Sink node t
+
 `output`:
 
+* Max flow
+* Can trivially create the final residual network with G
+
 `runtime`:
+* $O(mC)$
+  * $C$ is the maximum flow in the network
 
 `More information`:
+* NP complete, pseudo-polynomial
+* requires integer values
 
-## Edmonds-Karp
+### Edmonds-Karp
+
+The Edmonds-Karp (EK) algorithm is utilized to determine the maximum flow in a network. This is analogous to the Ford-Fulkerson method but with one distinct difference: the order of search for finding an augmenting path must involve the shortest path with available capacity (BFS for G where all edge weights equal 1).
 
 `input`:
 
+* $G = (V, E)$
+* Flow capacity c
+* Source node s
+* Sink node t
+
 `output`:
+* Can trivially create the final residual network with G
+* Max flow of G
 
 `runtime`:
+* $O(nm^2)$
 
 `More information`:
+* Choice of Augmenting Path
+  * Uses BFS, always finds the shortest path possible to $t$.
+* EK algorithm always terminates compared to Ford-Fulkerson. 
 
-## Max-flow Min Cut
+### Max-flow Min Cut
 
-## Max-flow Generalization
+Lemma: For a flow $f^\ast$ if there is no augmenting path in $G^{f\ast}$ then $f^\ast$ is a max-flow.
 
-# RA
+Theorem: Max-flow == Minimum st-cut (if and only if)
 
-## Modular arithmetic
+### Max-flow Generalization
 
-## Modular Exponentiation
+For flow $f'$ in $G'$, size($f'$) $\leq D$, $f'$ is **saturating** if size($f'$) = $D$. This means that the flow $f'$ is of maximum size. 
 
-## Multiplicative Inverse
+Lemma: $G$ has a feasible flow if and only if $G'$ has a saturating flow
 
-### Existence 
+To calculate the maxflow with demands, first construct the graph $G'$ as follows:
 
-## Euclid 
+* for $e \in E$, let $f'(e) =f(e) - d(e)$
+* for $v \in V$:
+  * $f'(\overrightarrow{s'v}) = d^{in}(v)$
+  * $f'(\overrightarrow{vt'}) = d^{out}(v)$
+  * $f'(\overrightarrow{ts}) = size(f)$
+
+Find a feasible flow $f$ for $G$, if one exists by checking whether the size of the max-flow equals $D$ and if it is a saturating flow. If it is, then there must be a feasible flow. Then we transform $f' \rightarrow f$.
+
+Then, we can augment in residual graph of $G^f$ as follows:
+
+$$
+\begin{aligned}
+c_f({\overrightarrow{vw}})&= \begin{cases}
+c({\overrightarrow{vw}}) - f({\overrightarrow{vw}}) & \text{if } \overrightarrow{vw} \in E \\
+f({\overrightarrow{wv}}) - d({\overrightarrow{wv}}), & \text{if } \overrightarrow{wv} \in E \\
+0, & \text{otherwise } 
+\end{cases}
+\end{aligned}
+$$
+
+## RA
+
+### Modular arithmetic
+
+if $x \equiv y \bmod N $ and $a \equiv b \bmod N$ then $x+a \equiv y+b \bmod N$ and $xa \equiv yb \bmod N$
+
+### Modular Exponentiation
+
+$$
+\begin{aligned}
+x \bmod N &= a_1 \\
+x^2 \equiv (a_1)^2 \bmod N &= a_2 \\
+x^4 \equiv (a_2)^2 \bmod N &= a_4 \\
+x^8 \equiv (a_4)^2 \bmod N &= a_8 \\
+\vdots \\
+\end{aligned}
+$$
+
+### Multiplicative Inverse
+
+Theorem: $x^{-1} \bmod N$ exists if and only if $gcd(x,N)=1$, gcd stands for greatest common divisor. This also means x and N are relatively prime.
+
 
 ### Euclid GCD 
 
+
+For integers x,y where $ x \geq y > 0$:
+
+$$
+gcd(x,y) = gcd(x \bmod y ,y)
+$$
+
+Lemma: if $x \geq y$ then $x \bmod y < \frac{x}{2}$.
+
+```
+Euclid(x,y):
+  input: integers (x,y) where x >= y >= 0
+  output: gcd(x,y)
+
+  if y = 0:
+    return(x)
+  else:
+    return (Euclid(y, x mod y))
+```
+
+Runtime analysis:
+
+* `x mod y` takes $O(N^2)$ time to compute where $N$ is the number of bits, and this is for a single round.
+* Total of $2n$ rounds
+* Total of $O(n^3)$ runtime. 
+
+
 ### Euclid Extended 
 
-# RSA 
+This is to compute the inverse of $x \bmod y$. Suppose $d = gcd(x,y)$ and we can express $d=x\alpha+y\beta$ and we have the following:
 
-## Fermat's little theorem
+$$
+d = gcd(x,y) = d=x\alpha+y\beta
+$$
 
-## Euler's theorem
+if $gcd(x,N) =1$ then $x^{-1} \bmod N$ exists and we have the following:
+
+$$
+\begin{aligned}
+d = 1 &= x\alpha + N\beta \\
+1 &\equiv x\alpha + \underbrace{N\beta}_{0} \bmod N \\
+x^{-1} &\equiv \alpha \bmod N
+\end{aligned}
+$$
+
+Similarly, 
+
+$$
+\beta = N^{-1} \bmod X
+$$
+
+```
+Ext-Euclid(x,y)
+  input: integers, x,y where x >= y >= 0
+  output: integers d, α,β where d = gcd(x,y) and d = xα+yβ
+
+  # remember gcd(x,0) = x, so we just set α = 1,β = 0
+  if y = 0:
+    return (x,1,0)
+  else:
+    d,α',β' = Ext-Euclid(y, x mod y)
+    return (d, β', α' - floor(x/y)β')
+```
+
+Runtime analysis:
+
+* Similarly, $O(n^2)$ to compute $x \bmod y$ and calculating $\lfloor \frac{x}{y} \rfloor$
+* $n$ rounds
+* Total of $O(n^3)$
+
+
+## RSA 
+
+* Choose primes $p,g$ let $N=pg$
+* Find $e$ where $gcd(e,(p-1)(q-1))=1$
+  * This means we want $e$ that is relatively prime to $(p-1)(q-1)$
+  * This means $e$ has an inverse by Fermat's little theorem.
+* Let $d \equiv e^{-1} \bmod (p-1)(q-1)$
+  * Use the extended Euclid algorithm
+  * Keep this private key $d$ secret
+* Publish public key $(N,e)$
+* Given a message $m$, Encrypt $m$ by $y \equiv m^e \bmod N$
+  * Send over message $y$
+* Decrypt $y$ by $y^d \bmod N = m$
+
+### Fermat's little theorem
+
+If p is prime then for every $1 \leq z \leq p-1$, so $gcd(z,p) = 1$ then:
+
+$$
+z^{p-1} \equiv 1 \bmod p
+$$
+
+### Euler's theorem
+
+Euler theorem is the generalization of Fermat's little theorem    
+
+For any $N,z$ where $gcd(z,N) =1$ then:
+
+$$
+z^{\phi(N)} \equiv 1 \bmod N
+$$
 
 ### Euler's totient function 
 
-## Fermat tests 
+So, for primes $p,g$ where $N=pq$, this implies that $\phi(N) = (p-1)(q-1)$
 
-## Fermat Witnesses
+* Consider $N=pq$ as $1p, 2p, ... , qp$ so there are $q$ multiples of $p$.
+* Likewise, $q, 2q, ..., pq$ there are $p$ multiples of $q$.
+* So, we need to exclude all these numbers!
+* Therefore we get $pq - p - q + 1$ which equals to $(p-1)(q-1)$
+  * The $+1$ comes from $pq = pq$ which is a duplicate so we need to add 1 back.
 
-## Primality test
+With this, we can re-write Euler theorem as the following:
 
-## Carmichael
+$$
+z^{(p-1)(q-1)} \equiv 1 \bmod pq
+$$
 
-## Breaking RSA
+### Fermat Witnesses
+
+Fermat witness for $r : z \text{ if } 1 \leq z \leq r-1 \text{ & } z^{r-1} \cancel{\equiv} 1 \bmod r$, then the number $r$ is composite. 
+
+$z$ is a nontrivial Fermat witness for $f$ if $z^{r-1} \cancel{\equiv} 1 \bmod r$ and $gcd(z,r)=1$.
+
+Lemma: if $r$ has $\geq 1$ non trivial Fermat witness, then $\geq \frac{1}{2}$ that $z \in \{1,2,..,r-1\}$ are Fermat witness.
+
+* Trivial Fermat witness : $z$ where $gcd(z,r) > 1$
+* Non-trivial Fermat witness is where $gcd(z,r) = 1$
+  * Some composite numbers have no non-trivial fermat witnesses, these are called pseudo primes, but those are relatively rare. 
+  * For all other composite numbers, they have at least one non-trivial Fermat witness, and if they have at least one, they in fact have many Fermat witnesses.
+  * Therefore, it will be easy to find a Fermat witness 
+* Trivial Fermat witnesses always exists! 
+  * Every composite number has at least two trivial Fermat witnesses!
+  * They are dense and therefore easy to find 
+
+### Primality test
+
+```
+For n-bit r
+
+choose z randomly from {1,2,...,r-1}
+Compute pow(z, r-1) === 1 mod r
+if pow(z, r-1) === 1 mod r:
+  then output r is prime 
+else
+  output r is composite (z is a witness to the fact that r is composite)
+```
+
+Instead of choosing a particular $z$, we choose $k-z$ and run the algorithm k times.
+
+Then Pr(algorithm outputs $r$ is prime) $\leq (\frac{1}{2})^k$. You can think of it as a coin toss each with probability $\frac{1}{2}$. So the probability that the coin toss is all tails with k flips is $(\frac{1}{2})^k$.
+
+So you can take $k=100$, so $(\frac{1}{2})^{100}$ is a very small number and you will be willing to take the risk on that. 
+* Again we assume that the numbers are not Carmichael
+* to deal with these Carmichael, it is not that much more complicated of an algorithm
+
+### Carmichael
+
+So we know it is composite if there is a non trivial square root of $1 \bmod x$. Trivial square root of 1 means 1 or -1 since $1^2 , -1^2 = 1$.
+
+For example, $x = 1729$ and choose $z = 5$, and note that $x-1 = 1728 = 2^6 \times 27$
+
+$$
+\begin{aligned}
+5^{27} &\equiv 1217 \bmod 1729 \\
+5^{2\times27} &\equiv 1217 \equiv 1065 \bmod 1729 \\
+5^{2^2\times27} &\equiv 1065^2 \equiv 1 \bmod 1729 \\
+5^{2^2\times27} &\equiv 1^2 \equiv 1 \bmod 1729 \\
+&\vdots \\
+5^{1728} &\equiv 1 \bmod 1729
+\end{aligned}
+$$
+
+So, when Fermat tests fail, we see if there is a non trivial square root of 1 exists.
+
+It turns out that for a composite number $X$, even if its Carmichael, for at least three quarters of the choices of $Z$, this algorithm works. 
+
+### Breaking RSA
+
+**Attack number one**
+When $gcd(m,N) >1$, and $gcd(m,N) = p,  N=pq$
+
+* $(m^e)^d \equiv \bmod N $ by the chinese remainder theorem
+* $y \equiv m^e \bmod N$
+* If $P$ divides $m, N$ since $gcd(m,N) = p$
+  * Then it is also going to divide $y$
+  * This means that $gcd(y,N) = p$
+  * The attacker can then reverse engineer $q$
+
+**Attack number two**
+when $gcd(m,N) > 1$ and $m$ not too large, $m < N$ but $m < 2^n, N \geq 2^n$
+
+But in this case, we $m$ cannot be too small, for example if $e=3$, then $m^3 < N$, we simply have $y = m^3$ since $\bmod N$ does nothing! To reverse the message we can simply just take the cube root.
+* To avoid this we can choose a random number $r$, $m\oplus r$ or $m+r$, and we can send the padded message, as well as a second message that is r itself. 
+  * As long as r is not too small, you will be fine.
+  * Imagine you're the receiving user, you receive $m+r$ and $r$, you can then reverse engineer it to get $m$
+
+**Attack number three**
+
+Send the same $m$ for $e$ times, then we have $(N_1,3), (N_2,3), (N_3,3)$.
+
+Then we have $Y_i, \equiv m^3 \bmod N_i$ and they can figure out $m$ by using the chinese remainder theorem. (DPV 1.44)
 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

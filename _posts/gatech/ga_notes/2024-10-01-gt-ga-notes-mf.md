@@ -84,7 +84,7 @@ Orlin
 
 Recall that the Ford-Fulkerson algorithm stop when there is no more augmenting path in residual $G^{f*}$. (star here means the max flow, i.e optimal solution)
 
-Lemma: For a flow $f^*$ if there is no augmenting path in $G^{f*}$ then $f^*$ is a max-flow.
+Lemma: For a flow $f^\ast$ if there is no augmenting path in $G^{f\ast}$ then $f^\ast$ is a max-flow.
 
 **Min-cut Problem**
 

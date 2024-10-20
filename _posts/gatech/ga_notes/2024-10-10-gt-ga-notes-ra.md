@@ -480,7 +480,7 @@ So, we need to find $z$ where $z^{r-1} \cancel{\equiv} 1 \bmod r \implies r$ is 
 
 #### Fermat Witnesses 
 
-Fermat witness for $r : z \text{ if } 1 \leq z \leq r-1 \text{ \& } z^{r-1} \cancel{\equiv} 1 \bmod r$, then the number $r$ is composite. 
+Fermat witness for $r : z \text{ if } 1 \leq z \leq r-1 \text{ & } z^{r-1} \cancel{\equiv} 1 \bmod r$, then the number $r$ is composite. 
 
 First proof that every composite $r$ has $\geq 1$ Fermat witness. Since $r$ is composite, there is at least two divisors.
 
