@@ -459,8 +459,8 @@ If we observe the graph, we notice that there is a path from $x_1 \rightarrow \b
 
 In general:
 
-* If for some $i$, $x_i, \bar{x_1}$ are in the same SCC, then $f$ is not satisfiable. 
-* If for some $i$, $x_i, \bar{x_1}$ are in different SCC, then $f$ is satisfiable. 
+* If for some $i$, $x_i, \bar{x_i}$ are in the same SCC, then $f$ is not satisfiable. 
+* If for some $i$, $x_i, \bar{x_i}$ are in different SCC, then $f$ is satisfiable. 
 
 #### 2-SAT Algo
 
@@ -475,7 +475,7 @@ This works because of a key fact: if $\forall i$, $x_i \bar{x_i}$ are in differe
   1. Construct graph G for f
   2. Take a sink SCC S 
     - Set S = T ( and bar(S) = F)
-    - remove S, bar(s)
+    - remove S, bar(S)
     - repeat until empty
 ```
 
