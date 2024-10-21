@@ -74,11 +74,13 @@ DFS is an algorithm for traversing or searching tree or graph data structures. I
 
 `input`:
 * $G=(V,E)$
+ * Start vertex $v \in V$
+
 
 `output`:
 * Pre, Post, Prev, Visited
 * ccnum (vertex being assigned to a connected component)
-  * Becareful when using this on **directed graphs** because you cannot choose which vertex to start from.
+  * Becareful when using this on **directed graphs** because you cannot choose which vertex in the next iteration.
 * In the case of a DAG (no cycles)
   * Topological order / sorting
 
@@ -86,7 +88,18 @@ DFS is an algorithm for traversing or searching tree or graph data structures. I
 
 * $O(n+m)$
 
-`More information`: None for now!
+`Graphs Accepted`:
+* Unweighted graphs
+* Undirected/Directed graphs
+* DAGS
+
+`More information`: 
+
+**Toplogical sorting**
+
+Topologically sorting a DAG (directed acyclic graph that has no cycles): order vertices so that all edges go from lower $\rightarrow$ higher. Recall that since it has no cycles, it has no back edges. So the post order numbers must be $post(z) > post(w)$ for any edge $z \rightarrow w$. 
+
+So, to do this, we can order vertices by decreasing post order number. Note that for this case, since we have $n$ vertices, we can create a array of size $2n$ and insert the nodes according to their post order number. So, our sorting of post order numbers runtime is $O(n)$.
 
 ### BFS
 
@@ -107,6 +120,11 @@ BFS is an algorithm for traversing or searching tree or graph data structures. I
 `runtime`:
 * $O(n+m)$
 
+`Graphs Accepted`:
+* Unweighted graphs
+* Undirected/Directed graphs
+* DAGS
+
 `More information`:
 
 if you only want connectivity from a specific vertex, use BFS instead.
@@ -116,7 +134,7 @@ if you only want connectivity from a specific vertex, use BFS instead.
 Dijkstra's algorithm is used to find the shortest distance from a source vertex to all other vertices. A path can be recovered by backtracking over all of the pre-labels.
 
 `input`:
-* $G=(V,E)$, G must be **directed**
+* $G=(V,E)$
 * start vertex $s \in V$
 
 `output`:
@@ -129,7 +147,12 @@ Dijkstra's algorithm is used to find the shortest distance from a source vertex 
 
 `runtime`:
 * $O((m+n)log n)$
-* $O(mlogn)$ if graph is **strongly connected** so $m \geq n-1$
+* $O(mlogn)$ if graph is **connected** so $m \geq n-1$
+
+`Graphs Accepted`:
+* weighted graphs
+* Undirected/Directed graphs
+  * Edges weights cannot be negative!
 
 `More information`:
 * Uses a binary min heap
@@ -151,6 +174,11 @@ Bellman-Ford is used to derive the shortest path from s to all vertices in V. It
 * $O(mn)$
 
 Initially, you might think that there the complexity is $O(m^2n)$ because of the 3 nested for loops. But, in the 2nd and 3rd nested for loop, it is actually going through all edges (If you go through all nodes and all the edges within each node, it is actually going through all the edges). So the time complexity is actually $O(mn)$.
+
+`Graphs Accepted`:
+* weighted graphs
+* Undirected/Directed graphs
+  * Edges weights can be negative.
 
 `More information`:
 
@@ -181,6 +209,12 @@ FW is primarily used to find the shortest path from ALL nodes to all other nodes
 `runtime`:
 * $O(n^3)$
 
+
+`Graphs Accepted`:
+* weighted graphs
+* Undirected/Directed graphs
+  * Edges weights can be negative.
+
 `More information`:
 
 **Checking negative cycles**
@@ -206,6 +240,10 @@ The SCC algorithm is used to determine the strongly connected components as well
 `runtime`:
 * $O(m+n)$
 
+
+`Graphs Accepted`:
+* Directed graphs
+
 `More information`:
 
 SCC algorithm:
@@ -222,6 +260,8 @@ SCC(G):
 *Why do we compute the reverse graph G?*
 
 What about the other way around? Does v with the highest post order always lie in a source SCC? Turns out, this is true! How can we make use of this? Simple, just reverse it! So the source SCC of the reverse graph is the sink SCC!
+
+So, for directed $G=(V,E)$, look at $G^R = (V,E^R)$, so, the source SCC in $G$ = sink SCC in $G^R$. So, we just flip the graph, run DFS, take the highest post order which is the source SCC in $G^R$, that will be the sink in $G$.
 
 ### 2-SAT
 
@@ -261,9 +301,8 @@ In general:
 
 Graphs that can use 2-SAT:
 
-Directed graphs
-
-The implication graph is inherently directed since each implication (¬x → y) has a direction.
+* Directed graphs
+  * The implication graph is inherently directed since each implication $(\neg x \rightarrow y)$ has a direction.
 
 
 ### Krusal (MST)
@@ -280,6 +319,11 @@ Kruskal's is one of the two algorithms used to find the Minimum Spanning Tree (M
 `runtime`:
 
 * $O(m log n)$
+
+`Graphs Accepted`:
+* Weighted graphs
+* Connected graphs
+* Undirected graphs
 
 `More information`:
 
@@ -313,9 +357,14 @@ Prim's algorithm is the second and final algorithm used to find the MSTs as disc
   * This is because if the graph is connected then $m \geq n-1$
 * O((m + n) log n) if graph is not connected
 
+`Graphs Accepted`:
+* Weighted graphs
+* Connected graphs
+* Undirected graphs
+
 `More information`:
 
-MST algorithm is akin tio Dijkstra's algorithm, and use the cut property to prove correctness of Prim's algorithm.
+MST algorithm is akin to Dijkstra's algorithm, and use the cut property to prove correctness of Prim's algorithm.
 
 The prim's algorithm selects the root vertex in the beginning and then traverses from vertex to vertex adjacently. On the other hand, Krushal's algorithm helps in generating the minimum spanning tree, initiating from the smallest weighted edge.
 
@@ -371,6 +420,9 @@ A greedy algorithm to find max flow on networks. The algorithm continually sends
 * $O(mC)$
   * $C$ is the maximum flow in the network
 
+`Graphs Accepted`:
+* Directed graphs with capacity edges
+
 `More information`:
 * NP complete, pseudo-polynomial
 * requires integer values
@@ -392,6 +444,9 @@ The Edmonds-Karp (EK) algorithm is utilized to determine the maximum flow in a n
 
 `runtime`:
 * $O(nm^2)$
+
+`Graphs Accepted`:
+* Directed graphs with capacity edges
 
 `More information`:
 * Choice of Augmenting Path
