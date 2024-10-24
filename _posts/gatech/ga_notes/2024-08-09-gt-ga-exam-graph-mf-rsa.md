@@ -163,7 +163,7 @@ Dijkstra's algorithm is used to find the shortest distance from a source vertex 
 Bellman-Ford is used to derive the shortest path from s to all vertices in V. It does not find a path between all pairs of vertices in V. To do this, we would have to run BF $\lvert V \lvert$ times. Negative weights are allowed.
 
 `input`:
-* $G=(V,E)$, G must be **directed**
+* $G=(V,E)$
 * start vertex $s \in V$
 
 `output`:
@@ -199,7 +199,7 @@ FW is primarily used to find the shortest path from ALL nodes to all other nodes
 
 
 `input`:
-* $G=(V,E)$, G must be **directed**
+* $G=(V,E)$
 
 `output`:
 * The shortest path from all vertices to all other vertices
@@ -391,6 +391,13 @@ The **cycle property** states if $e$ is the unique heaviest edge in any cycle of
 * Used to exclude edges 
 
 ## Maxflow
+
+### Valid flow
+
+A flow is valid if:
+  * Capacity constraints: * $\forall e \in E, 0\leq f_e \leq c_e$
+  * Conversation of flow: $\forall v \in V - \{S \cup T\}$, flow-in to $v$ = flow-out of $v$
+  * $\sum_{\overrightarrow{wv} \in E} f_{wv} = \sum_{\overleftarrow{vz} \in E} f_{vz}$
 
 ### Residual Network
 
