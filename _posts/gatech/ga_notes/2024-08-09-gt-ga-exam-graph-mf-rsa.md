@@ -395,7 +395,7 @@ The prim's algorithm selects the root vertex in the beginning and then traverses
 
 ## Cut property 
 
-The **cut property** exists if (and only if) an edge is of minimum weight on any cut, then the edge is part of some MST.
+The **cut property** asserts if (and only if) an edge is of minimum weight on any cut, then the edge is part of some MST.
 * Used to include edges
 * if all edge weights are unique, then the **cut property** assets if (and only if) an edge is the minimum across any cut, then the edge is part of every MST. 
 
