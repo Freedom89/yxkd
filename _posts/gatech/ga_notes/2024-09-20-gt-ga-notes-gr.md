@@ -117,9 +117,9 @@ digraph {
 
 There are various type of edges, for a given edge $z \rightarrow w$:
 
-* Treeedge such as $A\rightarrow B, B\rightarrow D$
+* Treeedge such as $B\rightarrow A, A\rightarrow D$
   * where $post(z) > post(w)$, because of how you recurse back up during DFS
-* Back edges $B \rightarrow A, F\rightarrow B$
+* Back edges $E \rightarrow A, F\rightarrow B$
   * $post(z) < post(w)$
   * Edges that goes back up.
 * Forward edges $D \rightarrow G, B \rightarrow E$ 
