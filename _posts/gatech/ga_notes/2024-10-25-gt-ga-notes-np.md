@@ -369,7 +369,6 @@ Forward direction: Given assignment $x_1,...,x_n$ satisfying $f$
 * If $\lvert C \lvert \leq 3$ then we simply ignore it, otherwise:
 * Remember that for each C, we define a new set $K-3$ of variables.
   * There is an assignment $k-3$ new variables so that $C'$ is satisfied
-  * Look at [big clauses](#big-clauses)
 
 Backward direction: Given satisfying assignment for $f'$
 * For $C' \in f \geq 1$ literal in C is satisfied
