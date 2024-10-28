@@ -5,6 +5,10 @@ hidden: true
 math: true
 ---
 
+Consider watching this before you start!
+
+{% include embed/youtube.html id='YX40hbAHx3s' %}
+
 ### NP1: Definitions
 
 How do we prove that a problem is computationally difficult? Meaning that it is hard to devise an efficient algorithm to solve it for all inputs. 
