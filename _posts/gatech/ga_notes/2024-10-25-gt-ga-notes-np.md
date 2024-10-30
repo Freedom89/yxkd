@@ -540,7 +540,7 @@ NP-hard means it is at least as hard as everything in the class NP. So there is 
 #### Clique
 
 For undirected graphs, $G=(V,E)$, $S\subset V$ is a clique if:
-* for all $x,y \inS, (x,y) \in E$
+* for all $x,y \in S, (x,y) \in E$
   * All pairs of vertices in the subset $S$ are connected by an edge.
 
 ![image](../../../assets/posts/gatech/ga/np3_clique.png){: width='400'}
@@ -582,7 +582,7 @@ For $G=(V,E)$ transform the input for the independent set for the clique problem
 
 Let $\bar{G} = (V, \bar{E})$ where: $\bar{E} = \{ (X,y) : (x,y) \notin E\}$
 
-Observation: $S$ is a clique in $\bar{G}$ \iff$ $S$ is an independent set in $G$
+Observation: $S$ is a clique in $\bar{G} \iff$ $S$ is an independent set in $G$
 
 Recall that for independent sets, all pairs of vertices are not connected by an edge, which is the opposite for a clique. 
 
@@ -633,7 +633,7 @@ Take vertex cover $S$, for edge $(x,y) \in E: \geq 1$ of $x$ or $y$ are in $S$.
 Reverse direction: 
 
 Take independent set $\bar{S}$
-* For every $(x,y), $\leq 1$ of $x$ or $y$ in $\bar{S}$
+* For every $(x,y)$, $\leq 1$ of $x$ or $y$ in $\bar{S}$
   * implies that $\geq 1$ of $x$ or $y$ in $S$
   * $\therefore S$ covers every edge
 
