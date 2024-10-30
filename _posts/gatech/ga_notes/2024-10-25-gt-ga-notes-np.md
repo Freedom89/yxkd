@@ -399,6 +399,263 @@ But this is ok! Because the size of $f'$ is polynomial in the size of $f$. So we
 
 ### NP3: Graph Problems
 
+* Independent sets
+* Clique
+* Vertex cover
+
+#### Independent Set
+
+For undirected $G=(V,E)$, subset $S \subset V$ is an independent set if no edges are contained in $S$. i.e for all $x,y \in S, (x,y) \notin E$
+
+An example:
+
+![image](../../../assets/posts/gatech/ga/np3_eg1.png){: width='200'}
+
+Another example:
+
+![image](../../../assets/posts/gatech/ga/np3_eg2.png){: width='200'}
+
+Trivial to find small independent sets:
+* Empty set
+* Singleton vertex
+
+Challenging problem is to find the max independent set.
+
+Question: The maximum independent set problem is known to be in NP, True or False?
+* If you give me a solution, no way to verify that it is, in fact, of maximum size. 
+* The only way to verify if it is of maximum size is it if I can solve this problem in polynomial time. 
+  * Only holds if $P=NP$
+* Assuming $P\neq NP$, the max independent set is not in the class NP.  
+  * Similar scenario for the optimization version of knapsack problem 
+
+#### Max independent set 
+
+Input: undirected $G=(V,E)$ and goal g
+
+Output: independent set $S$ with size $\lvert S \lvert \geq g$ and NO otherwise.
+
+Theorem: The independent set problem is NP-complete.
+
+Need to show:
+* Independent Set $\in$ NP
+  * Given input $G,g$ and solution $S$, verify that $S$ is a solution in polynomial time.
+  * in $O(n^2)$ time can check all pairs $x,y \in S$ and verify $(x,y) \notin E$
+  * in $O(n)$ time can check $\lvert S \lvert \geq g$
+  * 
+* Need to show that the independent set is at least as hard as every problem in the class NP.
+  * Take something which is known to be at least as hard as everything in the class NP such as SAT or 3SAT.
+  * Show a reduction from that known NP-complete problem to this new problem.
+  * Show that $3SAT \rightarrow \text{Independent Set}$
+
+3SAT is considered instead of SAT because it is easier.
+
+#### 3SAT -> IS
+
+COnsider 3SAT input $f$ with variables $x_1,...,x_n$ and clauses $C_1,...,c_m$ with each $\lvert C_i \lvert \leq 3$. Define a graph G and set $g=m$.
+
+Idea: For each clause $C_i$, create $\lvert C_i \lvert$ vertices.
+* Since there are $m$ clauses, there is at most $3m$ vertices in graph $G$
+* Going to add edges to encode this clause.
+* Add additional edges between vertices in different clauses in order to ensure consistent assignment
+
+#### Clauses edges 
+
+Two types of edges, Clauses and Variables.
+
+Clause $C = (x_1 \lor \bar{x_3} \lor x_2)$
+* If another vertices shares $x_2$, we will have another vertex corresponding to $x_2$, multiple vertices corresponding to the same literal.
+
+![image](../../../assets/posts/gatech/ga/np3_clauses.png){: width='400'}
+
+Independent set $S$ has $\leq 1$ vertex per clause. Since $g=m$, solution has $=1$ vertex per clause.
+
+Since every independent set has at most one vertex per clause, in order to achieve our goal of an independent set of at least $m$, this solution has to have exactly one vertex per clause. 
+
+This one vertex per clause will correspond to this satisfied literal in that clause. Now there may be other satisfied literals in the clause due to other copies of that literal in other clauses, but this property that we have exactly one vertex per clause will ensure that we have at least one satisfied literal in every clause, and therefore, this solution, this independent set will be able to relate it to a satisfying assignment for this original formula. 
+
+
+Now, what happens if i take an independent set containing $x_1$ and $\bar{x_1}$, well in the above graph, this is in fact an independent set in this graph. And it can take one of $x_4, x_5$ and then I can have my independent set of my goal size of three. Now a natural way of converting this independent set into an assignment for the original formula is to satisfy each of the corresponding literals. 
+
+So we set $x_1 =T$, $x_5=T$, $\bar{x_1} = F$ but this arrives at a contradiction. How do we ensure that my independent sets correspond to valid assignments? 
+
+#### Variable edges 
+
+![image](../../../assets/posts/gatech/ga/np3_variable.png){: width='400'}
+
+For each $x_i$, add edges between $x_i$ and all $\bar{x_i}$
+
+This will ensure that our independent set corresponds to a valid assignment. And then the clause edges will ensure that our independent set corresponds to an assignment which satisfies all the clauses. 
+  
+**Example**
+
+![image](../../../assets/posts/gatech/ga/np3_ISexample.png){: width='400'}
+
+Now an example independent set of size four in this graph:
+
+![image](../../../assets/posts/gatech/ga/np3_ISexample1.png){: width='400'}
+
+Note that $z$ has no constraints.
+
+Now lets prove that in general, that an independent set of size $m$ in this graph corresponds to a satisfying assignment of this formula, and a satisfying assignment of this formula corresponds to an independent set of size $m$.
+
+#### Correctness IS -> 3SAT 
+
+$f$ has a satisfying assignment $\iff$ $G$ has an independent set of size $\geq g$
+
+Forward direction: Consider a satisfying assignment for $f$ and we will construct an independent set in this graph of size at least $g$. 
+
+For each clause $C$ at least one of the literals and that clause is satisfied, take 1 of the satisfied literals, add corresponding vertex to $S$. 
+* $S$ contains exactly one vertex per clause.
+* So $\lvert S \lvert =m = g$, and our goal $g$ is met. 
+
+Since $S$ contains exactly one vertex per clause, and it never contains both $x_i, \bar{x_i}$. It cannot contain both since it corresponds to an assignment $f$, which sets either $x_i$ to be true or false. Because there is at most one vertex per clause, we know that there is no clause edges contained in this set $S$ and because we never include a vertex $x_i, \bar{x_i}$ in the assignment, we know that there are no variable edges contained in this set $S$.
+
+Therefore, S is an independent set of size equal to $g$, our goal size. So we have constructed an independent set of size equal to $g$ in this graph. 
+
+Backward direction: Take independent set $S$ of size $\geq g$ has exactly one vertex in each of the clauses, actually in each of the triangles corresponding to the clauses. 
+* Now this vertex corresponds to a literal in the original formula so we set that corresponding literal to true. 
+* Since every clause has a satisfied literal then we know every clause is satisfied and therefore the formula is satisfied. But does this clause belongs to an assignment?
+
+Notice we have no contradicting literal in this set since we added edges between $x_i, \bar{x_i}$ so we can never include $x_i$ and a $\bar{x_i}$ in an independent set. Therefore we never attempt to set $x_i$ to be true and false at the same time. So this assignment we constructed corresponds to a valid assignment. 
+
+So we taken an independent set of size at least $g% and we construct a satisfying assignment. 
+
+This proves that a reduction from 3SAT to independent set is correct and it shows how to take an independent set and construct a satisfying assignment. And if there is no independent set of size at least $g$ then there is no satisfying assignment. 
+
+This completes the proof that the independent set problem is NP-complete. 
+
+#### NP-HARD
+
+In the Max-independent set problem, it is not known to lie in the class NP.
+Notice that it is quite straight forward to reduce the independent set problem to max independent set problem. I am looking for an independent set of size at least $g$, while on the other side is looking for maximum independent set. IF i find the max independent set, and i check whether that size is at least $g$, that either gives me a solution or tells me there is no solution. 
+
+So it is quite forward to reduce the search version to the optimization version. That means I have reduction from the independent set problem to the maximum independent set problem and in fact, I have a reduction from every problem in NP to the MAX independent set problem. Either going indirectly through or directly.
+
+![image](../../../assets/posts/gatech/ga/np3_MIS.png){: width='300'}
+
+Theorem: The Max-Independent Set problem is NP-hard
+
+NP-hard means it is at least as hard as everything in the class NP. So there is a reduction from everything in the class NP to this problem max independent set. So if we can solve max independent set in polynomial time, then we can solve everything in NP in polynomial to be NP-complete. 
+
+#### Clique
+
+For undirected graphs, $G=(V,E)$, $S\subset V$ is a clique if:
+* for all $x,y \inS, (x,y) \in E$
+  * All pairs of vertices in the subset $S$ are connected by an edge.
+
+![image](../../../assets/posts/gatech/ga/np3_clique.png){: width='400'}
+
+
+Want large cliques, small cliques are easy to find:
+* For an example the empty set 
+* Singleton vertex 
+* Any edge (with two end points) 
+
+Now, let's defined the clique problem:
+
+Input: $G=(V,E)$ and goal $g$
+
+Output: $S \subset V$ where $S$ is a clique of size $\lvert S \lvert \geq g$ if one exists, No otherwise. 
+* Find the largest clique possible 
+
+Theorem: The clique problem is NP complete
+
+Clique $\in$ NP
+* Given input $(G,g)$ and solution $S$.
+* For all $x,y \in S$, check that $(x,y) \in E$ 
+  * At most takes $O(n^2)$ for each pair
+  * At most $O(n)$ time to check whether they are connected by an edge
+  * Total of $O(n^3)$ with a trivial algorithm
+    * You could do it easily in $O(n^2)$ as well
+* Check that $\lvert S \lvert \geq g$ 
+  * Order $O(n)$ time
+
+Now, we need to show that the clique problem is at least as hard as other NP problems. We show reduction from a known NP-complete problem to the clique problem
+
+Choices are SAT, 3SAT, IS - take the one most similar to clique, Independent Sets which is also a graph problem
+
+#### IS -> Clique
+
+The key idea is for clique, it is all edges within $S$, while independent set is no edges within $S$. So, they are actually opposite of each other. 
+
+For $G=(V,E)$ transform the input for the independent set for the clique problem. We can take the opposite of $G$, denoted as $\bar{G}$
+
+Let $\bar{G} = (V, \bar{E})$ where: $\bar{E} = \{ (X,y) : (x,y) \notin E\}$
+
+Observation: $S$ is a clique in $\bar{G}$ \iff$ $S$ is an independent set in $G$
+
+Recall that for independent sets, all pairs of vertices are not connected by an edge, which is the opposite for a clique. 
+
+IS $\rightarrow$ clique: 
+
+Given input $G=(V,E)$ and goal $g$ for IS problem, let $\bar{G},g$ be input to the clique problem.
+
+* If we get solution $S$ for clique, then return $S$ for IS problem
+* IF we get NO, then return NO.
+
+#### Vertex cover
+
+$S \subset V$ is a vertex cover if it "covers ever edge"
+
+![image](../../../assets/posts/gatech/ga/np3_vertex_cover.png){: width='200'}
+
+For every $(x,y) \in E$ either $x \in S$ and/or $y\in S$.
+
+It is easy to find a large vertex cover, i.e all vertices in the vertex cover, but in this case we are trying to find the minimum vertex cover. 
+
+Input: $G=(V,E)$ and budget $b$
+
+Output: vertex cover $S$ of size $\lvert S \lvert \leq b$ if one exists, NO otherwise.
+
+Theorem: vertex cover problem is NP-complete
+
+Vertex Cover $\in$ NP
+* Given input $(G,b)$ and proposed solution $S$, can we verify this in polynomial time? 
+  * For every $(x,y) \in E, \geq 1$ of $x$ or $y$ are in $S$
+    * Can be done in $O(n+m)$ time 
+  * Check that $\lvert S \lvert \leq b$ 
+    * Can be done in $O(n)$ time 
+
+Now, we need to take independent set problem and reduce it to vertex cover 
+
+![image](../../../assets/posts/gatech/ga/np3_vertex_cover2.png){: width='400'}
+
+The claim is $S$ is a vertex cover $\iff$ $\bar{S}$ is an independent set 
+
+Forward direction: 
+
+Take vertex cover $S$, for edge $(x,y) \in E: \geq 1$ of $x$ or $y$ are in $S$. 
+
+* Therefore $\leq 1$ of $x$ or $y$ in $\bar{S}$
+  * $\implies$ no edge contained in $\bar{S}$ since it only contains $x$ or $y$, so does not have the edge $(x,y)$
+* Thus $\bar{S}$ is an independent set
+
+Reverse direction: 
+
+Take independent set $\bar{S}$
+* For every $(x,y), $\leq 1$ of $x$ or $y$ in $\bar{S}$
+  * implies that $\geq 1$ of $x$ or $y$ in $S$
+  * $\therefore S$ covers every edge
+
+#### IS -> Vertex cover
+
+Claim: $S$ is a vertex cover $\iff$ $\bar{S}$ is an independent set 
+
+For input $G=(V,E)$ and $g$ for independent set
+* Let $b=n-g$
+  * Run vertex cover on $G,b$ 
+
+$G$ has a vertex cover of size $\leq n-g \iff G$ has an independent set of size $\geq g$ 
+
+So now we have:
+
+$(G,g)$ for independent set $\rightarrow$ $(G,b)$ for vertex cover.
+
+* Given solution $S$ for vertex cover, return $\bar{S}$ as solution to independent set problem
+  * We know that if $S$ is a vertex cover of size at most $b$, then we know that $\bar{S}$ is an independent set of size at least $g$
+* If NO solution for VC return NO for IS problem. 
+
+
 ### NP4: Knapsack
 
 Come back to this in 2 weeks!
