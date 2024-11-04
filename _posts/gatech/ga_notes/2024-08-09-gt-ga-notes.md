@@ -12,7 +12,7 @@ mermaid: true
 
 {% include_relative 2024-11-01-gt-ga-notes-la.md %}
 
-## [Nondeterministic Polynomial](gt-ga-notes-np)
+## [Nondeterministic Polynomial](../gt-ga-notes-np)
 
 {% include_relative 2024-10-25-gt-ga-notes-np.md %}
 
