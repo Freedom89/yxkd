@@ -204,6 +204,98 @@ Remember that the current search space is convex, so if a current solution is be
 
 ### LA2: Geometry
 
+Recall that the LP problem is formulated as follows:
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0
+$$
+
+* n variables
+* m constraints
+
+The feasible region is a convex set and the simplex algorithm walks on vertices (corners). So the optimum maximizing this objective function are going to be achieved at vertices of the feasible region. But, that is not always true.
+
+So let's explore exactly when it is true.
+
+#### LP optimum
+
+Optimum of LP is achieved at a vertex of the feasible region except if:
+
+* infeasible
+  * Feasible region is empty
+  * No points that satisfy the constraints
+* Unbounded
+  * Optimal is arbitrary large 
+
+Example on Infeasible:
+
+* Consider max $5x-7y$
+* Constraints:
+  * $x+y \leq 1$
+  * $3x+2y \geq 6$
+  * $x,y \geq 0$
+
+![image](../../../assets/posts/gatech/ga/lp2_infeasible.png){: width='400'}
+
+* There is no area that satisfies both constraints!
+* Note that the feasible region has nothing to do with the objective function. 
+
+Example on LP Unbounded 
+
+* Consider max $x+y$
+* Constraints:
+  * $x-y \leq 1$
+  * $x+5y \geq 3$
+  * $x,y \geq 0$
+
+This is how the feasible region looks like:
+
+![image](../../../assets/posts/gatech/ga/lp2_unbounded0.png){: width='400'}
+
+If we draw out the objective function $x+y = c $
+
+![image](../../../assets/posts/gatech/ga/lp2_unbounded.png){: width='400'}
+
+Notice that the feasible set is unbounded. One important point is the fact that this LP is unbounded is a function of this objective function. The optimal value of the objective function is achieved in this unbounded region of this feasible region. 
+
+There could be some objective functions where their optimum are achieved at these vertices. For example, if we change the objective function to $2x-3y$:
+
+![image](../../../assets/posts/gatech/ga/lp2_unbounded2.png){: width='400'}
+
+Then we can see the objective function at the intersection point (marked by a blue mark)
+
+To check whether an LP is unbounded, we need to look at the duality which will be covered in the next section. 
+
+
+#### LP infeasible
+
+Consider the LP in standard form:
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0
+$$
+
+IS there any $x$ that is satisfying? Consider a new variable $z$
+
+$$
+\begin{aligned}
+a_1x_1 + ... + a_n x_n + z \leq b
+x_1, ..., x_n \geq 0
+\end{aligned}
+$$
+
+The question is, whether there is a solution to this equation where $z \geq 0$. If we can find the solution to this equation where z is non negative, then we can drop $z$ and we still can have this condition satisfied.
+
+Now, considering all $n$ constraints we can re-write it as:
+
+* Objective: max $z$
+* $Ax+z \leq b$, $x \geq 0$
+* Note that there is no constraints on $z$. This LP is always feasible!
+
+Our goal is to figure out whether there is a solution where $z$ is non-negative, then that point we can discard $z$ and the $x_i$ values also gives us a feasible starting point to the original LP which gives us a starting point for the simplex algorithm.
+
+if $z$ is negative, then the LP is infeasible. 
+
 ### LA3: Duality 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
