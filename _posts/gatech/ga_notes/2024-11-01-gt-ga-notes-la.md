@@ -298,4 +298,152 @@ if $z$ is negative, then the LP is infeasible.
 
 ### LA3: Duality 
 
+Will look at the following:
+
+* Motivating example
+* General form
+* weak duality Theorem
+* strong quality Theorem
+
+#### Example
+
+Objective: max $x_1 + 6x_2 + 10x_3$
+Constraints:
+* $x_1 \leq 300$ - constraint 1
+* $x_2 \leq 200$ - constraint 2
+* $x_1 + 3x_2 + 2x_3 \leq 1000$ - constraint 3
+* $x_2 + 3x_3 \leq 500$ - constraint 4
+* $x_1, x_2, x_3 \geq 0$
+
+Recall that the optimal solution is (200,200,100) with profit 2400.
+
+The question is, can we verify that this is the optimal solution? I.e can we find an upper bound for profit? 
+
+Let $y = (y_1,y_2,y_3,y_4) = (0, \frac{1}{3}, 1, \frac{8}{3})$. (Will come back how this values are calculated later)
+
+* y is of size 4 because there are 4 constraints 
+
+let $c(i)$ denote constraint $(i)$, we calculate $y_i c(i)$
+
+$$
+\begin{aligned}
+x_1y_1 + x_2y_2 + x_1y_3 + 3x_2y_3 + 2x_3y_3 + x_2y_4 + 3x_3 y_4 \\
+\leq 300y_1 + 200y_2 + 1000y_3 + 500y_4 \\
+\end{aligned}
+$$
+
+We know that any feasible point $x$ satisfies this inequality for inequality for any non-negative y.
+* This is because we are just summing up all of the constraints by a non negative number 
+* if $y$ happen to have negative coordinates, then we have to worry about flipping the sign. 
+
+Simplifying the above expression and substituting $y = (y_1,y_2,y_3,y_4) = (0, \frac{1}{3}, 1, \frac{8}{3})$:
+
+$$
+\begin{aligned}
+x_1(y_1+y_3) + x_2(y_2+y_3+y_4) + x_3 (2y_3+3y_4) &\leq 300y_1 + 200y_2 + 1000y_3 + 500y_4  \\
+x_1 + 6x_2 + 10x_3 &\leq 2400
+\end{aligned}
+$$
+
+So for any feasible value $x$, the value of the objective function is at most 2400, therefore this point is optimal.
+
+
+#### Dual LP
+
+What we need is for $x_1(y_1+y_3) + x_2(y_2+y_3+y_4) + x_3 (2y_3+3y_4)$ is at least the objective function for some $y$. 
+
+Recall that the objective function is $x_1+6x_2 + 10x_3$, so we need:
+* $y_1 + y_3 \geq 1$
+* $y_2 + 3y_3 + y_4 \geq 6$
+* $2y_3 + 3y_4 \geq 10$
+
+So the left hand side will be at least the value of the objective function. So the right hand side $300y_1 + 200y_2 + 1000y_3 + 500y_4 $ will serve as an upper bound on the left and side and therefore is also an upper bound on the original objective function, and we want to get the smallest possible.
+
+We want to minimize $300y_1 + 200y_2 + 1000y_3 + 500y_4$ and this way we get the smallest possible upper bound. This is the dual LP and is also a linear program.
+
+Dual LP:
+
+Objective function: Min $300y_1 + 200y_2 + 1000y_3 + 500y_4$
+Constraints:
+* $y_1 + y_3 \geq 1$
+* $y_2 + 3y_3 + y_4 \geq 6$
+* $2y_3 + 3y_4 \geq 10$
+* $y_1, y_2, y_3 \geq 0$
+
+Any feasible $y$, gives us an upper bound for the original LP, called the primal LP.
+
+
+#### Dual LP, General Form
+
+Primal LP:
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0
+$$
+
+This has $n$ variables and $m$ constraints so matrix $A$ 
+
+
+Dual LP:
+
+$$
+\text{min } b^T y : A^T y \geq c, y \geq 0
+$$
+
+The dual LP has $m$ variables and $n$ constraints. 
+
+Note that for the the primal LP has ot be in canonical form:
+* Constraints must be $\leq \geq$ and not $\le, \ge$
+
+![image](../../../assets/posts/gatech/ga/lp3_dualdual.png){: width='400'}
+
+#### Weak Duality 
+
+**Theorem**: Given Feasible $x$ for primal LP and Feasible $y$ for dual LP
+
+$$
+c^Tx \leq b^T y
+$$
+
+**Corollary**: If we find feasible x and feasible y where $c^Tx = b^Ty$ then $x,y$ are both optimal.
+
+Now, does there always exists a point $x$ in the primal LP and point $y$ in the dual LP where we have equality? Yes, under certain conditions thats the strong duality. 
+* Need to have the optimal value for primal and dual.
+  * Needs to be feasible and bounded
+
+#### Unbounded LP
+
+**Corollary**: If the primal LP is unbounded, then dual is infeasible and vice versa. If dual is unbounded, then primal is infeasible. 
+* This is not an if and only if statement.
+  * It can be the case that the primal is infeasible and the dual is infeasible
+
+Remember that we can check for feasibility as follows: 
+
+* Objective: max $z$
+* $Ax+z \leq b$, $x \geq 0$
+
+and there exists a $z \geq 0$ that means the LP is feasible.
+
+So, if dual LP is infeasible, then primal is unbounded or infeasible. We can do so by checking whether it is feasible to rule out. In other words:
+
+* Check if LP is feasible
+* Then check if dual is infeasible 
+  * Primal LP is unbounded 
+
+#### Strong Duality 
+
+Theorem:
+
+Primal LP is feasible and bounded if and only if dual LP is feasible and bounded. 
+
+Primal has optimal $x^*$ if and only if dual has optimal $y^*$ where $c^Tx = b^Ty$
+
+This is related to our max flow, where the size of the max flow is equal to the capacity of the min st-cut and we can also use the strong duality to prove it.
+
+
+### LA4
+
+See you in One week!
+
+
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
