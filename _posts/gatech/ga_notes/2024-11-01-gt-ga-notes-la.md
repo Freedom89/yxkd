@@ -5,7 +5,7 @@ hidden: true
 math: true
 ---
 
-### LA1: Linear Programming
+### Linear Programming (LA1)
 
 Will look at simple examples such as:
 * max-flow
@@ -202,7 +202,7 @@ Remember that the current search space is convex, so if a current solution is be
 * (200, 200, 100) with profit 2400
   * No other neighbors is better, done.
 
-### LA2: Geometry
+### Geometry (LA2)
 
 Recall that the LP problem is formulated as follows:
 
@@ -296,7 +296,7 @@ Our goal is to figure out whether there is a solution where $z$ is non-negative,
 
 if $z$ is negative, then the LP is infeasible. 
 
-### LA3: Duality 
+### Duality (LA3)
 
 Will look at the following:
 
@@ -441,9 +441,347 @@ Primal has optimal $x^*$ if and only if dual has optimal $y^*$ where $c^Tx = b^T
 This is related to our max flow, where the size of the max flow is equal to the capacity of the min st-cut and we can also use the strong duality to prove it.
 
 
-### LA4
+### Max-Sat Approximation (LA4)
 
-See you in One week!
+Recall SAT which is NP-complete.
+
+* Input: Boolean formula $f$ in CNF with $n$ variables and $m$ clauses.
+* Output: Assignment satisfying $f$, NO if no satisfying assignment.
+
+Above is a search problem, and if we change it to the optimization problem, it is the Max-SAT problem:
+
+* Input: Boolean formula $f$ in CNF with $n$ variables and $m$ clauses.
+* Output: Assignment maximizing number of satisfied clauses
+
+Max-SAT is NP-hard, it is no longer a search problem so it is no longer in the class NP, because we have no way of verifying that the number of clauses satisfied is maximum. But clearly this max-SAT problem is at least as hard as the SAT problem. 
+* aim to approximate Max-SAT and use linear programming
+
+#### Approx Max-SAT 
+
+For a formula $f$ with $m$ clauses, let $m^\ast$ denote the max number of satisfying clauses.
+
+* clearly $m^\ast \leq m$
+
+Construct algorithm A on input $f$ and outputs $\ell$
+* An assignment which satisfies $\ell$ clauses of $f$ 
+* Going to guarantee that the output $\ell$ is at least $\geq \frac{m^\ast}{2}$
+
+If this holes for every $f$, then this is a $\frac{1}{2}$ approx algorithm.
+
+We are now going to look at 3 different algorithm:
+
+* Simple algorithm: $\frac{1}{2}$ approx algorithm for Max-SAT
+* LP-based: $(1-\frac{1}{e})$ approx
+* Best of 2: $\frac{3}{4}$ approx
+
+##### Simple scheme
+
+Consider input $f$ with $n$ variables $x_1, ... , x_n$ and $m$ clauses $C_1, ...,C_m$. 
+
+Random assignment: Set $x_i = T/F$ with probability $\frac{1}{2}$.
+
+Let $w$ be the number of satisfied clauses, and $w_j$ be 1 if $C_j$ is satisfied and 0 otherwise. 
+
+Note, given a unit clause $C_j$ of size $k$, the probability of success is  1- Failure, and failure is when all of them are set to False. So the probability is $1-\frac{1}{2}^{k} = 1-2^{-k}$. Since $k \geq 1$, $E[w_j] \geq \frac{1}{2}$.
+
+$$
+\begin{aligned}
+w &= \sum_{j=1}^m w_j \\
+E[w] &= \sum_{j=1}^m \underbrace{E[w_j]}_{\geq 1/2} \\
+&\geq \frac{m}{2}
+\end{aligned}
+$$
+
+So this randomized algorithm has $\frac{1}{2}$ approx in expectation. We can modify this to be a deterministic algorithm guaranteed to find a $\frac{1}{2}$ in approximation to the the number of satisfied clauses.
+
+This uses the method of conditional expectations:
+
+```
+for i = 1 -> n:
+  Try x_i = T and x_i = F,
+  compute expected performance for each 
+  Take better 
+```
+
+Note that this is not about the optimal number of satisfied clauses. For instance our formula $f$ might have 12 clauses, and maybe the maximum number of clauses that can be satisfied simultaneously is 10. so $m^\ast$ is 10, $m$ is 12. We are proving that a random assignment satisfies at least 6 of the clauses. Now since sets within a factor of 2 of the total number of clauses, therefore we are within half approximation of the maximum number of satisfied clauses. 
+
+This also implies that every formula has an assignment which satisfies at least half of the clauses. Intuitively, if the average is at least m/2, then there must be at least one setting which achieves the average. 
+
+#### Ek-SAT
+
+Instead of max-SAT, let's consider max-Ek-SAT, so every clause has size exactly k. 
+
+What if every clause has size 3? In that case Pr($C_j$ is satisfied) = $\frac{7}{8}$, therefore for the special case of max-E3-SAT, we achieve a $\frac{7}{8}$ approximation algorithm.
+
+What if $size =k$? Then the probability its $(1-2^{-k})$ approx for max-Ek-SAT.
+
+For max-E3-SAT, it is NP-hard to do any better than 7/8 for this case. If we achieve an algorithm which has guaranteed performance >  7/8, then that implies P=NP. Thus the hard case is when the formula has varying size clauses. If all the clauses are of the same size and they happen to be of size three, then we can achieve the best possible algorithm by just a random assignment.
+
+#### Integer programming 
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0, x \in \mathbb{Z}^n
+$$
+
+So now this becomes a grid, and we want to find the best grid point which maximizes this objective function. 
+
+LP $\in$ P but ILP (integer linear programming) is NP-hard. We are going to reduce Max-sAT to ILP. 
+* Many of the NP complete problems are easy to reduce to ILP.
+* Also going to look at linear programming relaxation by ignoring $x \in \mathbb{Z}^n$ constraint, so look at best real number point $x$. 
+  * Find a real point $x$ to approximate an integer point which is nearby that is going to give us a feasible solution
+  * see how far it is from the optimal solution
+  * That will also give us an approximation to the max-SAT problem
 
 
+#### ILP is NP-hard
+
+To do so we will reduce max-SAT $\rightarrow$ ILP
+
+Take input $f$ for max-SAT. In ILP:
+
+* For each $x_i \in f$ add $y_i$ to ILP
+* For each $C_j$, add $z_j$ to ILP.
+* Constraints $0\leq y_i \leq 1, 0\leq z_j \leq 1$ and $y_i, z_i \in \mathbb{Z}$
+
+So this means $y_i, z_i$ can only be 0 or 1. 
+* The $y_i$ correspond to whether variable $x_i$ is set to True or False 
+* $z_j$ is going to correspond to whether this clause is satisfied or not 
+
+An example:
+
+Given $C = (x_5 \lor x_3 \lor x_6)$, we want if $y_5 = y_3 = y_6 =0$, then $z_j = 0$, else $z_j$ is 0 or 1. 
+* We cannot control each $z_j$ but we can try to maximize these $z_j$ which will be our objective function, and then the optimal point will take value 1. 
+* This can be re-written as: $y_5 + y_3+y_6 \geq z_j$ 
+
+Another example:
+
+Given $C = (\bar{x_1} \lor x_3 \lor x_2 \lor \bar{x_5})$, if $y_1=1, y_3=0, y_2=0, y_5 = 1$ then $z_j=0$. 
+* This can be re-written as $(1-y_1) + y_3 + y_2 + (1-y_5) \geq z_j$
+
+In general, for clause $C_j$:
+* Let $C_j^+, C_j^-$ denote the positive and negative literals respectively.
+
+#### CNF -> ILP
+
+For CNF $f$ with $n$ literals and $m$ clauses: define ILP:
+
+* Objective: max $\sum_{j=1}^m z_j$
+* Constraints:
+* $\forall i \in [1,n], 0\leq y_i \leq 1$
+* $\forall j \in [1,m], 0\leq z_j \leq 1$
+* $\forall j \in [1,m], \sum_{i\in C_j^+} y_i + \sum_{i\in C_j^-} y_i  \geq z_j$
+* $y_i, z_j \in \mathbb{Z}$
+
+In fact, this ILP is equivalent to the original max SAT problem. 
+
+#### LP relaxation
+
+Given ILP solution $y^\ast, z^\ast$, then:
+
+Max number of satisfied clauses in $f = m^\ast = z_1^\ast + z_2^\ast + ... + z_m^\ast$
+
+We cannot solve any ILP in polynomial time but we can solve LP in polynomial time. We can just drop the integer constraints. 
+
+Define our LP solution with $\hat{y^\ast}, \hat{z^\ast}$, and since any feasible solution in ILP must also be a feasible solution in LP,
+
+$$
+m^\ast \leq \hat{m^\ast}
+$$ 
+
+Note that $\hat{m^\ast} = \hat{z_1^\ast} + \hat{z_2^\ast} + ... + \hat{z_m^\ast}$
+
+So we can find a solution in LP, and try to find a solution to the ILP. It may not be the optimal solution but it will be feasible. 
+* Convert the LP solution into a point on the grid - simplest way is to round them $\hat{y^\ast}$ to the nearest integer point in a probabilistic way.
+* Then we have a valid T/F assignment for our set input F. 
+* We are going to prove that this rounded integer point is not that far off than the original LP solution than the fractional solution. 
+
+Since the fractional solution is at least as good as the optimal integer solution, then we know that the integer solution that we found is not that far off from the optimal integer solution. 
+
+
+#### Rounding 
+
+Given optimal LP  $\hat{y^\ast}, \hat{z^\ast}$, want integer $y_i, z_j$ which is close to $\hat{y^\ast}, \hat{z^\ast}$. 
+* We want the integer point to be close to the fractional.
+  * Show that the rounding procedure does not change the objective function too much so the integer point is close to the optimal fractional point
+* How can we round form this fractional point to this integer point? 
+
+Note, $0\leq \hat{y^\ast} \leq 1$ then we can:
+
+$$
+\begin{aligned}
+\text{Set } y_i 
+&= \begin{cases}
+1, & \text{with prob. } \hat{y^\ast} \\
+0, & \text{with prob. } 1-\hat{y^\ast} \\
+\end{cases}
+\end{aligned}
+$$
+
+This is known as randomized rounding. If $y_i = 1$, then set $x_i$ to be True and vice versa, thus we have a true-false assignment for $x$.
+
+#### Expectation of rounding
+
+Let $w$ be the number of satisfied clauses, and $w_j$ be 1 if $C_j$ is satisfied and 0 otherwise. 
+
+$$
+\begin{aligned}
+w &= \sum_{j=1}^m w_j \\
+E[w] &= \sum_{j=1}^m E[w_j] \\   
+&= \sum_{j=1}^m \text{Pr($C_j$ is satisfied)}
+\end{aligned}
+$$
+
+Lemma:
+
+$$
+\text{Pr($C_j$ is satisfied)} \geq (1-\frac{1}{e}) \hat{z^\ast}
+$$
+
+In some sense, this is like the probability that this LP satisfies this clause. Plugging in back:
+
+$$
+\sum_{j=1}^m \text{Pr($C_j$ is satisfied)} \geq (1-\frac{1}{e})\sum_{j-1}^m \hat{z_j^\ast}
+$$
+
+* $\sum_{j-1}^m \hat{z_j^\ast}$ is the value of the objective function for the linear program. 
+* The linear program is at least as good as the integer program.
+
+$$
+(1-\frac{1}{e})\sum_{j-1}^m \hat{z_j^\ast} \geq (1-\frac{1}{e})m^\ast
+$$
+
+In conclusion, we can show that the expected performance of this algorithm, the number of satisfied clauses in expectation, is going to be at least the optimal number $\times (1-\frac{1}{e})$
+
+This improves upon our one-half approximation algorithm. What remains is to prove this lemma. 
+
+#### Lemma 
+
+Look at $C_j = (x_1 \lor x_2 \lor .... \lor x_k)$
+
+In the LP constraint: $\hat{y_1^\ast}+...+ \hat{y_k^\ast} \geq \hat{z_j^\ast}$
+
+$$
+\begin{aligned}
+\text{Pr($C_j$ is satisfied)} &= 1-\text{Pr($C_j$ is unsatisfied)} \\
+\text{Pr($C_j$ is unsatisfied)} &= \prod_{i=1}^k (1-\hat{y_i^\ast})
+\end{aligned}
+$$
+
+How do we relate the product to the sum $\sum \hat{y_i^\ast}$ so we can relate it to $\hat{z_j^\ast}$? We are going to use Geometric mean, arithmetic mean inequality. 
+
+
+#### AM-GM
+
+For $w_1,...,w_k \geq 0$
+
+$$
+\frac{1}{k}\sum_{i=1}^k w_i \geq \bigg( \prod_{i=1}^k w_i \bigg)^{\frac{1}{k}}
+$$
+
+In other words, the arithmetic mean is always at least the geometric mean, and this holds for any non negative weights.
+
+Set $w_i = 1 -  \hat{y_i^\ast}$
+
+$$
+\begin{aligned}
+\frac{1}{k}\sum_{i=1}^k  1 -  \hat{y_i^\ast} &\geq \bigg( \prod_{i=1}^k  1 -  \hat{y_i^\ast} \bigg)^{\frac{1}{k}} \\
+\bigg[\frac{1}{k}\sum_{i=1}^k  1 -  \hat{y_i^\ast} \bigg]^k &\geq  \prod_{i=1}^k  1 -  \hat{y_i^\ast}
+\end{aligned}
+$$
+
+Back to our original equation:
+
+$$
+\begin{aligned}
+\text{Pr($C_j$ is satisfied)} &= 1- \prod_{i=1}^k (1-\hat{y_i^\ast}) \\
+&\geq 1 - \bigg[\frac{1}{k}\sum_{i=1}^k  1 -  \hat{y_i^\ast} \bigg]^k \\
+&= 1- \bigg[ 1- \frac{1}{k} \underbrace{\sum_i  \hat{y_i^\ast}}_{\hat{y_1^\ast}+...+ \hat{y_k^\ast} \geq \hat{z_j^\ast}} \bigg]^k\\
+&\geq 1 - \bigg(1 - \frac{\hat{z_j^\ast}}{k} \bigg)^k
+\end{aligned}
+$$
+
+Let $\alpha = \hat{z_j^\ast}$.
+
+In addition, the following claim: 
+
+$$
+f(\alpha) = 1 - \bigg(1-\frac{\alpha}{k}\bigg)^k \geq \bigg(1-\big(1-\frac{1}{k}\big)^k\bigg)\alpha
+$$
+
+If the claim is true, then:
+
+$$
+\begin{aligned}
+\text{Pr($C_j$ is satisfied)} &\geq 1 - \bigg(1 - \frac{\alpha}{k} \bigg)^k \geq \bigg[ 1- \bigg( 1- \frac{1}{k}\bigg)^k \bigg]\alpha
+\end{aligned}
+$$
+
+Proof of claim: 
+
+* Take second derivative and prove it is negative 
+  * Therefore function is concave 
+* Since $f'$ is concave, check when $\alpha = 0, 1$ that the condition holds.
+  * We only check for $0,1$ because values of $z_j \in [0,1]$
+
+$$
+\begin{aligned}
+\text{Pr($C_j$ is satisfied)} &= 1- \prod_{i=1}^k (1-\hat{y_i^\ast}) \\
+&\geq 1 - \bigg(1 - \frac{\hat{z_j^\ast}}{k} \bigg)^k \\
+&\geq \bigg[1 - \bigg(1 - \frac{1}{k} \bigg)^k\bigg] \hat{z_j^\ast} \\
+&\geq (1-\frac{1}{e})\hat{z_j^\ast}
+\end{aligned}
+$$
+
+* The taylor series for $e^{-x} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...$ so $e^{-x} \geq 1-x$
+
+Therefore, we have a $(1-\frac{1}{e})$ approximation algorithm.
+
+#### Summary
+
+Take NP-hard problem:
+* reduce it to ILP,
+* relax to LP and solve (can use simplex)
+* randomized round 
+  * Gives us a feasible point to the ILP 
+* and hopefully it is a reasonable heuristic for this solution of the optimal value of the ILP
+
+Let's look at the comparison for Max-SAT on EK-sat:
+
+
+| k    | simple        | LP-based                          |
+| :--- | :------------ | :-------------------------------- |
+| 1    | $\frac{1}{2}$ | $1$                               |
+| 2    | $\frac{3}{4}$ | $\frac{3}{4}$                     |
+| 3    | $\frac{7}{8}$ | $1-(\frac{2}{3})^3 \approx 0.704$ |
+| k    | $1-2^{-k}$    | $1-(1-\frac{1}{k})^k$             |
+
+
+* For k at least three, the simple scheme beats LP scheme.
+* But for small clauses, the LP scheme is at least as good or even better. 
+
+The key observation is that if you look at each row, the max in each row, the best of these two schemes for every $k$ is at least $\frac{3}{4}$
+* So can we combine these two schemes to achieve a $\frac{3}{4}$ approximation?
+
+#### Best of 2
+
+Given $f$:
+
+* Run simple algorithm - get $m_1$
+* Run LP scheme - get $m_2$
+* Take better of 2
+
+So:
+
+$$
+E[\text{max}\{m_1, m_2\}] \geq \frac{3}{4} m^\ast
+$$
+
+The expected performance of this best of two algorithm is the expectation of the max of $m_1,m_2$. That follows from the fact that each of these algorithms for each row in the previous slide must be better than $\frac{3}{4}$. 
+
+For every specific $k$, we get at least three quarters, and then we can analyze this in a clause by clause manner, so that we can get at least three quarters of the optima value. 
+
+This combine algorithm gives a $\frac{3}{4}$ approximation algorithm for Max-SAT even when the formula has clauses of some small and some big. So even with formulas with varying length clauses, we achieve a $\frac{3}{4}$ approximation algorithm.
+
+
+ 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

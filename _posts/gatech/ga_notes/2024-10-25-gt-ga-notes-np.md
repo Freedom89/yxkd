@@ -9,7 +9,7 @@ Consider watching this before you start!
 
 {% include embed/youtube.html id='YX40hbAHx3s' %}
 
-### NP1: Definitions
+### Definitions (NP1)
 
 How do we prove that a problem is computationally difficult? Meaning that it is hard to devise an efficient algorithm to solve it for all inputs. 
 
@@ -249,7 +249,7 @@ Instead, to show IS is NP-complete, we need:
 * IS $\in$ NP
 * SAT $\rightarrow$ IS
 
-### NP2: 3SAT
+### 3SAT (NP2)
 
 The SAT is NP-complete, and known as the Cook-Levin Theorem (71). It was proved independently in 1971 by Steven Cook and Leonid Levin.
 
@@ -397,7 +397,7 @@ $f$ has n variables, $m$ clauses.
 
 But this is ok! Because the size of $f'$ is polynomial in the size of $f$. So we have an algorithm which is polynomial running time in the size of $f'$.
 
-### NP3: Graph Problems
+### Graph Problems (NP3)
 
 * Independent sets
 * Clique
@@ -656,7 +656,7 @@ $(G,g)$ for independent set $\rightarrow$ $(G,b)$ for vertex cover.
 * If NO solution for VC return NO for IS problem. 
 
 
-### NP4: Knapsack
+### Knapsack (NP4)
 
 Come back to this in 2 weeks!
 
