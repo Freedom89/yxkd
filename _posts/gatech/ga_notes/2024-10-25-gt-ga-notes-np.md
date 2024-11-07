@@ -658,6 +658,121 @@ $(G,g)$ for independent set $\rightarrow$ $(G,b)$ for vertex cover.
 
 ### Knapsack (NP4)
 
-Come back to this in 2 weeks!
+![image](../../../assets/posts/gatech/ga/np4_summarynpcomplete.png){: width='400'}
+
+#### Subset-sum
+
+Subset-sum
+
+Input: positive integers $a_1, ..., a_n, t$
+
+Output: Subset $S$ of $\{1, ..., n\}$ where $\sum_{i \in S} a_i = t$ if such a subset exists, NO  otherwise.
+
+If using dynamic programming, we can solve this in $O(nt)$
+
+This is not in P because this is the same as knapsack, the running time has to be $O(nlogt)$
+
+#### Subset-sum is NP-complete 
+
+First show that subset-sum $\in$ NP.
+
+Given inputs $a_1,...,a_n, t$ and $S$, check that $\sum_{i \in S} a_i = t$. 
+
+To compute this sum, there are are most $n$ numbers, and each number is at most $log t$ bits, so the total takes $O(nlogt)$. This is polynomial in input size.
+
+Now we need to show the second part, is at least as hard as every problem in class NP. We are going to use the 3SAT problem.
+
+The reduction will really illustrates why the order $O(nt)$ time algorithm is not efficient for this subset-sum problem.
+
+#### 3SAT -> Subset sum
+
+Input to subset-sum: $2n+2m+1$ numbers:
+
+* $v_1, v_1', v_2, v_2', ..., v_n, v_n', s_1, s_1', ...,s_m, s_m'$ and $t$
+  * $v_i'$ represents $\bar{x_i}$ and $s$ represents each clause. 
+  * $n$ for the number of literals 
+  * $t$ represents the desired sum
+
+All these numbers are huge, all are $\leq n+m$ digits long and we are going to work in base 10. 
+* This is so that if we add up any subset of numbers, there will be no carries between the digits. 
+* This means $t \approx 10^{n+m}$
+
+Lets take a deeper look:
+
+* $v_i$ corresponds to $x_i$: $v_i \in S \iff x_i = T$
+* $v_i'$ corresponds to $x_i$: $v_i \in S \iff x_i = F$ 
+
+And assignment for the 3-SAT formula either sets $x_i$ to True or False. Therefore we need for the subset sum problem that either we include $v_i \in S$ or $v_i' \in S$, but we cannot include both and cannot include neither otherwise there is no assignment for $x_i$. 
+
+To achieve this, in $i^{th}$ digit of $v_i, v_i', t$, put a $1$ and all other numbers put a 0.  Now by using base 10, we will ensure that there is no carries between the digits.  So each digit is going to behave independently. REcall that $t$ is our desired sum, so the only way to achieve a desired sum that has a one in the $i^{th}$ digit is to either include $v_i$ or $v_i' \in S$, not both and not neither. 
+
+This specification ensures that our solution to the subset sum problem is going to correspond to an assignment. Whether it is satisfying or not is another issue. 
+
+#### Example Reduction:
+
+![image](../../../assets/posts/gatech/ga/np4_reduction.png){: width='600'}
+
+From here, Digit $n+j$ corresponds to clause $C_j$.
+* if $x_i \in C_j$ put a 1 in digit $n+j$ for $v_i$.
+* if $\bar{x_i} \in C_j$ put a 1 in digit $n+j$ for $v_i'$.
+* Put a 3 in digit $n+j$ of $t$
+* Use $s_j,s_j'$ to be buffer
+  * put a 1 in digit $n+j$ of $s_j, s_j'$
+* Put a 0 in digit $n+j$ of other numbers
+
+![image](../../../assets/posts/gatech/ga/np4_reduction2.png){: width='600'}
+
+Take $C_1$ for example, we set $S_1, S_1'$ to also be $1$. 
+* So to get 3, we need at least one $v_i$ to be $1$. 
+
+#### Correctness Subset sum
+
+Now is to prove that subset-sum has a solution $\iff$ 3SAT $f$ is satisfiable
+
+Forward direction:
+
+Take solution $S$ to subset sum:
+* For digit $i$ where $1\leq i \leq n$, to get a 1 in digit $i$, to include $v_i$ or $v_i'$ but not both (or neither)
+* So the only way to get a sum of exactly 1 in digit $i$ is to include exactly 
+  * If $v_i \in S$ then $x_i = T$
+  * If $v_i' \in S$ then $x_i = F$
+* $\implies$ get an assignment 
+
+Now we need to show that this assignment is a satisfying assignment 
+* For digit $n+j$ where $1\leq j \leq m$
+  * Corresponds to clause $C_j$
+  * To get a sum of 3 in digit $n+j$:
+    * Need to use $\geq 1$ literal of $C_j$ and include $S_j, S_j'$
+      * If we have two $C_j$ we just need to use either $S_j$, $S_j'$ and so on. 
+      * If we satisfy all three $C_j$ then don't need either
+      * If none are satisfied there is no way to achieve a sum of 3, therefore no solution exists
+  * $\implies C_j$ is satisfied 
+
+Backward direction:
+
+Take a satisfying assignment for $f$ and construct a solution to the subset-sum instance in the following manner:
+* If $x_i = T$, add $v_i$ to $S$
+* If $x_i = F$, add $v_i'$ to $S$ 
+  * $\implies i^{th}$ digit of $t$ is correct 
+* For clause $C_j$, at least 1 literal in $C_j$ is satisfied 
+  * The numbers corresponding to these literals gives us a sum one, two or three in the digit $n+j$. 
+    * To get a sum of $3$ in digit $n+j$, use the numbers corresponding to these literals use $S_j,S_j'$ to get up to the sum of three. 
+  * This ensures that digit $n+j$ is correct and therefore the last $m$ digits are correct and the first $n$ digits are correct. 
+* Therefore we have a solution to the subset-sum instance 
+
+#### Knapsack is NP-complete
+
+Prove that the knapsack problem is NP-complete.
+* USe the correct version of the knapsack problem, the version which lies in the class NP. 
+
+As before, there is two parts:
+
+* Knapsack $\in$ NP
+* Known NP-complete problem $\rightarrow$ knapsack
+
+We know that all problems in NP reduce to this known NP-complete problem, therefore if we show a reduction from this known NP-complete problem to the knapsack problem, we know all NP problems can reduce to the knapsack problem. 
+* Try to use the subset-sum to show this 
+
+
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
