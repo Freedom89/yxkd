@@ -225,7 +225,7 @@ So we need to define $f, h$
 
 Need to prove that if $S$ is a solution to $f$, then $h(S)$ is a solution to the original $G$. But we also need that if there was no solution to $f$, then there is no solution to the colorings problem.
 
-$S$ is a solution to $f(G,k) \iff $h(S)$ is a solution to $(G,k)$.
+$S$ is a solution to $f(G,k) \iff h(S)$ is a solution to $(G,k)$.
 
 #### NP-completeless proof
 

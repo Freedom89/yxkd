@@ -436,7 +436,7 @@ Theorem:
 
 Primal LP is feasible and bounded if and only if dual LP is feasible and bounded. 
 
-Primal has optimal $x^*$ if and only if dual has optimal $y^*$ where $c^Tx = b^Ty$
+Primal has optimal $x^\ast$ if and only if dual has optimal $y^\ast$ where $c^Tx = b^Ty$
 
 This is related to our max flow, where the size of the max flow is equal to the capacity of the min st-cut and we can also use the strong duality to prove it.
 
