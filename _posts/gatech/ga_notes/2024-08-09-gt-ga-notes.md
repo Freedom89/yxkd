@@ -1,6 +1,6 @@
 ---
 title: CS6515 OMSCS - Graduate Algorithms Notes
-date: 2024-11-02 0000:00:00 +0800
+date: 2024-11-12 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true

@@ -1,6 +1,6 @@
 ---
 title: CS6515 OMSCS - Graduate Algorithms NP LA Prep
-date: 2024-08-15 0000:00:00 +0800
+date: 2024-11-11 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
 math: true
@@ -9,6 +9,8 @@ mermaid: true
 ---
 
 # NP
+
+## P=NP
 
 * P stands for polynomial time. 
 * NP stands for nondeterministic polynomial time 
@@ -49,7 +51,7 @@ To prove something is NP complete:
   * Output transformation $h$
   * Correctness. Show that if a solution for $B$ exists $iff$ a solution for $A$ exists.
 
-## SAT -> 3SAT 
+## 3SAT 
 
 `Input`:
 
@@ -58,6 +60,8 @@ Boolean formula in CNF with n variables and m clauses
 `Output`:
 
 Satisfying assignment if one exists, NO. 
+
+### SAT -> 3SAT 
 
 `3SAT is in NP`:
 
@@ -113,13 +117,7 @@ For undirected $G=(V,E)$, subset $S \subset V$ is an independent set if no edges
 
 ![image](../../../assets/posts/gatech/ga/np3_eg2.png){: width='200'}
 
-### Max Independent Set
-
-Theorem: The Max-Independent Set problem is NP-hard
-
-NP-hard means it is at least as hard as everything in the class NP. So there is a reduction from everything in the class NP to this problem max independent set. So if we can solve max independent set in polynomial time, then we can solve everything in NP in polynomial to be NP-complete. 
-
-## 3SAT -> IS
+### 3SAT -> IS
 
 `Input`: undirected $G=(V,E)$ and goal g
 
@@ -198,41 +196,123 @@ This proves that a reduction from 3SAT to independent set is correct and it show
 
 This completes the proof that the independent set problem is NP-complete. 
 
-## IS -> Clique 
+### Max Independent Set
+
+Theorem: The Max-Independent Set problem is NP-hard
+
+NP-hard means it is at least as hard as everything in the class NP. So there is a reduction from everything in the class NP to this problem max independent set. So if we can solve max independent set in polynomial time, then we can solve everything in NP in polynomial to be NP-complete. 
+
+## Clique 
+
+For undirected graphs, $G=(V,E)$, $S\subset V$ is a clique if:
+* for all $x,y \in S, (x,y) \in E$
+  * All pairs of vertices in the subset $S$ are connected by an edge.
+
+![image](../../../assets/posts/gatech/ga/np3_clique.png){: width='200'}
 
 `Input`: 
 
+$G=(V,E)$ and goal $g$
+
 `Output`:
+
+$S \subset V$ where $S$ is a clique of size $\lvert S \lvert \geq g$ if one exists, No otherwise. 
+
+### IS -> Clique 
 
 `Clique is in NP`:
 
+* Given input $(G,g)$ and solution $S$.
+* For all $x,y \in S$, check that $(x,y) \in E$ 
+    * $O(n^2)$
+* Check that $\lvert S \lvert \geq g$ 
+  * Order $O(n)$ time
+
 `Input Transformation`:
+
+The key idea is for clique, it is all edges within $S$, while independent set is no edges within $S$. So, they are actually opposite of each other. 
+
+For $G=(V,E)$ transform the input for the independent set for the clique problem. We can take the opposite of $G$, denoted as $\bar{G}$
+
+Let $\bar{G} = (V, \bar{E})$ where: $\bar{E} = \{ (X,y) : (x,y) \notin E\}$
 
 `Output Transformation`:
 
+* If we get NO, then return NO.
+* If we get solution $S$ for clique, then return $S$ for IS problem
+
 `Correctness`:
 
+Observation: $S$ is a clique in $\bar{G} \iff$ $S$ is an independent set in $G$
 
-## IS -> Vertex Cover
+Recall that for independent sets, all pairs of vertices are not connected by an edge, which is the opposite for a clique. 
+
+## Vertex Cover 
+
+$S \subset V$ is a vertex cover if it "covers ever edge"
+
+![image](../../../assets/posts/gatech/ga/np3_vertex_cover.png){: width='200'}
 
 `Input`: 
 
+$G=(V,E)$ and budget $b$
+
 `Output`:
+
+vertex cover $S$ of size $\lvert S \lvert \leq b$ if one exists, NO otherwise.
+
+### IS -> Vertex Cover
 
 `VC is in NP`:
 
+* Given input $(G,b)$ and proposed solution $S$, can we verify this in polynomial time? 
+  * For every $(x,y) \in E, \geq 1$ of $x$ or $y$ are in $S$
+    * Can be done in $O(n+m)$ time 
+  * Check that $\lvert S \lvert \leq b$ 
+    * Can be done in $O(n)$ time 
+
+
 `Input Transformation`:
+
+For input $G=(V,E)$ and $g$ for independent set
+* Let $b=n-g$
+  * Run vertex cover on $G,b$ 
+
+$(G,g)$ for independent set $\rightarrow$ $(G,b)$ for vertex cover.
 
 `Output Transformation`:
 
+* Given solution $S$ for vertex cover, return $\bar{S}$ as solution to independent set problem
+  * We know that if $S$ is a vertex cover of size at most $b$, then we know that $\bar{S}$ is an independent set of size at least $g$
+* If NO solution for VC return NO for IS problem. 
+
 `Correctness`:
 
+Vertex Cover is the compliment problem of Independent Set.
 
-## 3SAT -> Subset Sum
+Forward direction: 
+
+Take vertex cover $S$, for edge $(x,y) \in E: \geq 1$ of $x$ or $y$ are in $S$. 
+
+* Therefore $\leq 1$ of $x$ or $y$ in $\bar{S}$
+  * $\implies$ no edge contained in $\bar{S}$ since it only contains $x$ or $y$, so does not have the edge $(x,y)$
+* Thus $\bar{S}$ is an independent set
+
+Reverse direction: 
+
+Take independent set $\bar{S}$
+* For every $(x,y)$, $\leq 1$ of $x$ or $y$ in $\bar{S}$
+  * implies that $\geq 1$ of $x$ or $y$ in $S$
+  * $\therefore S$ covers every edge
+
+## Subset Sum
 
 `Input`: 
 
 `Output`:
+
+### 3SAT -> Subset Sum
+
 
 `Subset Sum is in NP`:
 

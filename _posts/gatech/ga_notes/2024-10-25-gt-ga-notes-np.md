@@ -591,7 +591,7 @@ IS $\rightarrow$ clique:
 Given input $G=(V,E)$ and goal $g$ for IS problem, let $\bar{G},g$ be input to the clique problem.
 
 * If we get solution $S$ for clique, then return $S$ for IS problem
-* IF we get NO, then return NO.
+* If we get NO, then return NO.
 
 #### Vertex cover
 
