@@ -763,7 +763,7 @@ Take a satisfying assignment for $f$ and construct a solution to the subset-sum 
 #### Knapsack is NP-complete
 
 Prove that the knapsack problem is NP-complete.
-* USe the correct version of the knapsack problem, the version which lies in the class NP. 
+* Use the correct version of the knapsack problem, the version which lies in the class NP. 
 
 As before, there is two parts:
 

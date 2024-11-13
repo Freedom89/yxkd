@@ -309,18 +309,81 @@ Take independent set $\bar{S}$
 
 `Input`: 
 
+positive integers $a_1, ..., a_n, t$
+
 `Output`:
+
+Subset $S$ of $\{1, ..., n\}$ where $\sum_{i \in S} a_i = t$ if such a subset exists, NO  otherwise.
 
 ### 3SAT -> Subset Sum
 
-
 `Subset Sum is in NP`:
+
+Given inputs $a_1,...,a_n, t$ and $S$, check that $\sum_{i \in S} a_i = t$. 
+
+To compute this sum, there are are most $n$ numbers, and each number is at most $log t$ bits, so the total takes $O(nlogt)$. This is polynomial in input size.
 
 `Input Transformation`:
 
+For each $x_i$: in $i^{th}$ digit of $v_i, v_i', t$, put a $1$ and all other numbers put a 0. 
+
+From here, Digit $n+j$ corresponds to clause $C_j$.
+* if $x_i \in C_j$ put a 1 in digit $n+j$ for $v_i$.
+* if $\bar{x_i} \in C_j$ put a 1 in digit $n+j$ for $v_i'$.
+* Put a 3 in digit $n+j$ of $t$
+* Use $s_j,s_j'$ to be buffer
+  * put a 1 in digit $n+j$ of $s_j, s_j'$
+* Put a 0 in digit $n+j$ of other numbers
+
+![image](../../../assets/posts/gatech/ga/np4_reduction2.png){: width='600'}
+
+Take $C_1$ for example, we set $S_1, S_1'$ to also be $1$. 
+* So to get 3, we need at least one $v_i$ to be $1$. 
+
+
 `Output Transformation`:
 
+* If $v_i \in S$ then $x_i = T$
+* If $v_i' \in S$ then $x_i = F$
+
 `Correctness`:
+
+Now is to prove that subset-sum has a solution $\iff$ 3SAT $f$ is satisfiable
+
+Forward direction:
+
+Take solution $S$ to subset sum:
+* For digit $i$ where $1\leq i \leq n$, to get a 1 in digit $i$, to include $v_i$ or $v_i'$ but not both (or neither)
+* So the only way to get a sum of exactly 1 in digit $i$ is to include exactly 
+  * If $v_i \in S$ then $x_i = T$
+  * If $v_i' \in S$ then $x_i = F$
+* $\implies$ get an assignment 
+
+Now we need to show that this assignment is a satisfying assignment 
+* For digit $n+j$ where $1\leq j \leq m$
+  * Corresponds to clause $C_j$
+  * To get a sum of 3 in digit $n+j$:
+    * Need to use $\geq 1$ literal of $C_j$ and include $S_j, S_j'$
+      * If we have two $C_j$ we just need to use either $S_j$, $S_j'$ and so on. 
+      * If we satisfy all three $C_j$ then don't need either
+      * If none are satisfied there is no way to achieve a sum of 3, therefore no solution exists
+  * $\implies C_j$ is satisfied 
+
+Backward direction:
+
+Take a satisfying assignment for $f$ and construct a solution to the subset-sum instance in the following manner:
+* If $x_i = T$, add $v_i$ to $S$
+* If $x_i = F$, add $v_i'$ to $S$ 
+  * $\implies i^{th}$ digit of $t$ is correct 
+* For clause $C_j$, at least 1 literal in $C_j$ is satisfied 
+  * The numbers corresponding to these literals gives us a sum one, two or three in the digit $n+j$. 
+    * To get a sum of $3$ in digit $n+j$, use the numbers corresponding to these literals use $S_j,S_j'$ to get up to the sum of three. 
+  * This ensures that digit $n+j$ is correct and therefore the last $m$ digits are correct and the first $n$ digits are correct. 
+* Therefore we have a solution to the subset-sum instance
+
+## Knapsack
+
+Knapsack (Search version) is also NP-complete, you can use subset-sum to show it.
 
 
 # Linear Programming
