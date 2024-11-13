@@ -309,7 +309,7 @@ Forward direction, take satisfying assignment for $C_2$:
 * if $x_2=F$ or $x_3 = T$ then set $y=F$
 * if $x_1=F$ or $x_4 = F$ then set $y=T$
 
-Backwards direction, take satisfying assignment for $C'2$
+Backwards direction, take satisfying assignment for $C'_2$
 * if $y=T$ then $x_1 = F$ or $x_4 = F$
 * if $y=F$, then $x_2=F$ or $x_3=T$
 
@@ -441,7 +441,7 @@ Need to show:
   * Given input $G,g$ and solution $S$, verify that $S$ is a solution in polynomial time.
   * in $O(n^2)$ time can check all pairs $x,y \in S$ and verify $(x,y) \notin E$
   * in $O(n)$ time can check $\lvert S \lvert \geq g$
-  * 
+
 * Need to show that the independent set is at least as hard as every problem in the class NP.
   * Take something which is known to be at least as hard as everything in the class NP such as SAT or 3SAT.
   * Show a reduction from that known NP-complete problem to this new problem.
@@ -451,7 +451,7 @@ Need to show:
 
 #### 3SAT -> IS
 
-COnsider 3SAT input $f$ with variables $x_1,...,x_n$ and clauses $C_1,...,c_m$ with each $\lvert C_i \lvert \leq 3$. Define a graph G and set $g=m$.
+Consider 3SAT input $f$ with variables $x_1,...,x_n$ and clauses $C_1,...,c_m$ with each $\lvert C_i \lvert \leq 3$. Define a graph G and set $g=m$.
 
 Idea: For each clause $C_i$, create $\lvert C_i \lvert$ vertices.
 * Since there are $m$ clauses, there is at most $3m$ vertices in graph $G$
@@ -498,7 +498,7 @@ Note that $z$ has no constraints.
 
 Now lets prove that in general, that an independent set of size $m$ in this graph corresponds to a satisfying assignment of this formula, and a satisfying assignment of this formula corresponds to an independent set of size $m$.
 
-#### Correctness IS -> 3SAT 
+#### Correctness 3SAT -> IS
 
 $f$ has a satisfying assignment $\iff$ $G$ has an independent set of size $\geq g$
 
@@ -518,7 +518,7 @@ Backward direction: Take independent set $S$ of size $\geq g$ has exactly one ve
 
 Notice we have no contradicting literal in this set since we added edges between $x_i, \bar{x_i}$ so we can never include $x_i$ and a $\bar{x_i}$ in an independent set. Therefore we never attempt to set $x_i$ to be true and false at the same time. So this assignment we constructed corresponds to a valid assignment. 
 
-So we taken an independent set of size at least $g% and we construct a satisfying assignment. 
+So we taken an independent set of size at least $g$ and we construct a satisfying assignment. 
 
 This proves that a reduction from 3SAT to independent set is correct and it shows how to take an independent set and construct a satisfying assignment. And if there is no independent set of size at least $g$ then there is no satisfying assignment. 
 
