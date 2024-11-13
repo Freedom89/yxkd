@@ -1,5 +1,5 @@
 ---
-title: CS6515 OMSCS - Graduate Algorithms NP LA Prep
+title: CS6515 OMSCS - Graduate Algorithms NP LP Prep
 date: 2024-11-11 0000:00:00 +0800
 categories: [Courses, Gatech, Notes]
 tags: [courses, omscs, gatech_notes]     # TAG names should always be lowercase
