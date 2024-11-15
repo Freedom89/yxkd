@@ -525,7 +525,7 @@ $$
 
 So now this becomes a grid, and we want to find the best grid point which maximizes this objective function. 
 
-LP $\in$ P but ILP (integer linear programming) is NP-hard. We are going to reduce Max-sAT to ILP. 
+LP $\in$ P but ILP (integer linear programming) is NP-hard. We are going to reduce Max-SAT to ILP. 
 * Many of the NP complete problems are easy to reduce to ILP.
 * Also going to look at linear programming relaxation by ignoring $x \in \mathbb{Z}^n$ constraint, so look at best real number point $x$. 
   * Find a real point $x$ to approximate an integer point which is nearby that is going to give us a feasible solution

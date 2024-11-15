@@ -8,7 +8,7 @@ toc: true
 mermaid: true
 ---
 
-# NP
+## NP
 
 ## P=NP
 
@@ -386,7 +386,152 @@ Take a satisfying assignment for $f$ and construct a solution to the subset-sum 
 Knapsack (Search version) is also NP-complete, you can use subset-sum to show it.
 
 
-# Linear Programming
+## Linear Programming
+
+## Standard Form
+
+Given n variables $x_1, x_2, ..., x_n$
+
+Objective function:
+
+$$
+\text{max } c_1x_1 + c_2x_2 + ... + c_nx_n
+$$
+
+Constraints:
+
+$$
+\begin{aligned}
+a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n &\leq b_1\\
+&\vdots \\
+a_{m1}x_1 + a_{12}x_2 + ... + a_{mn}x_n &\leq b_m \\
+x_1, ..., x_n &\geq 0
+\end{aligned}
+$$
+
+This can be re-written as:
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0
+$$
+
+## Conversions
+
+* from max to min can just multiplying everything by $-1$
+* If we want a constraint $f(x) = b$, we can define $f(x) \leq b$ and $f(x) \geq b$
+* Unconstrained $x$, replace $x$ with $x^+ - x^-$ and the following constraints:
+  * $x^+ \geq 0, x^- \geq 0$
+
+Note, for Linear programming, **strict inequalities** are not allowed so there is no way to convert this. 
+
+## Optimal Point 
+
+* Optimal point at vertex
+* If a vertex is better than its neighbors, it is the global optima 
+  * Because the feasible region is convex
+
+## Simplex
+
+Simplex alg:
+```
+Start at x = 0
+  Check that this is feasible (If it is not just return not feasible)
+Look for neighboring vertex with higher objective value
+  (Worse case we check all nm neighbors)
+  Move to vertex with higher objective value
+  Repeat
+Else: (No better neighbors)
+  output x
+
+```
+
+## Feasibility check 
+
+* Objective: max $z$
+* $Ax+z \leq b$, $x \geq 0$
+
+if $z$ is negative, then the LP is infeasible. Otherwise if there exists such a $z$, the LP is feasible.
+
+## Dual
+
+Primal LP:
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0
+$$
+
+This has $n$ variables and $m$ constraints so matrix $A$ 
+
+Dual LP:
+
+
+$$
+\text{min } b^T y : A^T y \geq c, y \geq 0
+$$
+
+The dual LP has $m$ variables and $n$ constraints. 
+
+Note that for the the primal LP has ot be in canonical form:
+* Constraints must be $\leq \geq$ and not $\le, \ge$
+
+|             | Primal | Dual  |
+| :---------- | :----- | :---- |
+| objective   | max    | min   |
+| equality    | $\leq  | $geq$ |
+| variables   | n      | m     |
+| constraints | m      | n     |
+
+## Weak Duality 
+
+**Theorem**: Given Feasible $x$ for primal LP and Feasible $y$ for dual LP
+
+$$
+c^Tx \leq b^T y
+$$
+
+**Corollary**: If we find feasible x and feasible y where $c^Tx = b^Ty$ then $x,y$ are both optimal.
+
+**Corollary**: If the primal LP is unbounded, then dual is infeasible and vice versa. If dual is unbounded, then primal is infeasible. 
+
+
+## Strong Duality 
+
+**Theorem**:
+
+Primal LP is feasible and bounded if and only if dual LP is feasible and bounded. 
+
+Primal has optimal $x^\ast$ if and only if dual has optimal $y^\ast$ where $c^Tx = b^Ty$
+
+
+## Duality Relationship
+
+Here is a summary of the of the various relationships:
+
+| Dual                     | Primal                  |
+| :----------------------- | :---------------------- |
+| Unbounded $\rightarrow$  | Infeasible              |
+| Infeasible $\rightarrow$ | Unbounded OR infeasible |
+| Bounded  $\rightarrow$   | Bounded and Feasible    |
+
+So, if dual LP is infeasible, then primal is unbounded or infeasible. We can do so by checking whether it is feasible to rule out. In other words:
+
+Likewise, you can switch the table around:
+
+| Primal                     | Dual                  |
+| :----------------------- | :---------------------- |
+| Unbounded $\rightarrow$  | Infeasible              |
+| Infeasible $\rightarrow$ | Unbounded OR infeasible |
+| Bounded  $\rightarrow$   | Bounded and Feasible    |
+
+## Max-SAT
+
+## Simple Method 
+
+## LP-Based 
+
+## max-SAT -> ILP
+
+## Best of 2
 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->
