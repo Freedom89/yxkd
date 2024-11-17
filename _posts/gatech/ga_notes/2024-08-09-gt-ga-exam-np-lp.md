@@ -10,7 +10,7 @@ mermaid: true
 
 ## NP
 
-## P=NP
+### P=NP
 
 * P stands for polynomial time. 
 * NP stands for nondeterministic polynomial time 
@@ -28,7 +28,7 @@ What is a search problem?
 * Requirement: To be a search problem,
   * If given an instance I and solution S, then we can verify S is a solution to I in polynomial time (Polynomial in $\lvert I \lvert$)
 
-## SAT 
+### SAT 
 
 SAT is the first problem that was proven to be NP-complete. This is the Cook–Levin theorem. This means that all problems in the complexity class NP, which includes a wide range of natural decision and optimization problems, are at most as difficult to solve as SAT.
 
@@ -36,7 +36,7 @@ If $P\neq NP$ then SAT $\notin$ $P$, then we know that there are some problems i
 * Because if we can solve SAT in poly-time then we can solve all problems in NP in polynomial time. 
 * Or if you believe that nobody knows how to prove that $P=NP$ then nobody knows a polynomial time algorithm for SAT. 
 
-## NP-Complete 
+### NP-Complete 
 
 A search problem is NP-complete if all other search problems reduce to it.
 
@@ -51,7 +51,7 @@ To prove something is NP complete:
   * Output transformation $h$
   * Correctness. Show that if a solution for $B$ exists $iff$ a solution for $A$ exists.
 
-## 3SAT 
+### 3SAT 
 
 `Input`:
 
@@ -61,7 +61,7 @@ Boolean formula in CNF with n variables and m clauses
 
 Satisfying assignment if one exists, NO. 
 
-### SAT -> 3SAT 
+#### SAT -> 3SAT 
 
 `3SAT is in NP`:
 
@@ -111,13 +111,13 @@ Reverse implication, take assignment to $a_1, ..., a_k, y_1, ..., y_{k-3}$ satis
   * From clause $k-3 \implies y_{k-3} = T$ 
 * $(\bar{y_{k-3}} \lor a_{k-1} \lor a_k)$ but this last literal is not set to true, it is all False. So the entire C is evaluated to be False.
 
-## Independent Set 
+### Independent Set 
 
 For undirected $G=(V,E)$, subset $S \subset V$ is an independent set if no edges are contained in $S$. i.e for all $x,y \in S, (x,y) \notin E$
 
 ![image](../../../assets/posts/gatech/ga/np3_eg2.png){: width='200'}
 
-### 3SAT -> IS
+#### 3SAT -> IS
 
 `Input`: undirected $G=(V,E)$ and goal g
 
@@ -196,13 +196,13 @@ This proves that a reduction from 3SAT to independent set is correct and it show
 
 This completes the proof that the independent set problem is NP-complete. 
 
-### Max Independent Set
+#### Max Independent Set
 
 Theorem: The Max-Independent Set problem is NP-hard
 
 NP-hard means it is at least as hard as everything in the class NP. So there is a reduction from everything in the class NP to this problem max independent set. So if we can solve max independent set in polynomial time, then we can solve everything in NP in polynomial to be NP-complete. 
 
-## Clique 
+### Clique 
 
 For undirected graphs, $G=(V,E)$, $S\subset V$ is a clique if:
 * for all $x,y \in S, (x,y) \in E$
@@ -218,7 +218,7 @@ $G=(V,E)$ and goal $g$
 
 $S \subset V$ where $S$ is a clique of size $\lvert S \lvert \geq g$ if one exists, No otherwise. 
 
-### IS -> Clique 
+#### IS -> Clique 
 
 `Clique is in NP`:
 
@@ -247,7 +247,7 @@ Observation: $S$ is a clique in $\bar{G} \iff$ $S$ is an independent set in $G$
 
 Recall that for independent sets, all pairs of vertices are not connected by an edge, which is the opposite for a clique. 
 
-## Vertex Cover 
+### Vertex Cover 
 
 $S \subset V$ is a vertex cover if it "covers ever edge"
 
@@ -261,7 +261,7 @@ $G=(V,E)$ and budget $b$
 
 vertex cover $S$ of size $\lvert S \lvert \leq b$ if one exists, NO otherwise.
 
-### IS -> Vertex Cover
+#### IS -> Vertex Cover
 
 `VC is in NP`:
 
@@ -305,7 +305,7 @@ Take independent set $\bar{S}$
   * implies that $\geq 1$ of $x$ or $y$ in $S$
   * $\therefore S$ covers every edge
 
-## Subset Sum
+### Subset Sum
 
 `Input`: 
 
@@ -315,7 +315,7 @@ positive integers $a_1, ..., a_n, t$
 
 Subset $S$ of $\{1, ..., n\}$ where $\sum_{i \in S} a_i = t$ if such a subset exists, NO  otherwise.
 
-### 3SAT -> Subset Sum
+#### 3SAT -> Subset Sum
 
 `Subset Sum is in NP`:
 
@@ -381,14 +381,14 @@ Take a satisfying assignment for $f$ and construct a solution to the subset-sum 
   * This ensures that digit $n+j$ is correct and therefore the last $m$ digits are correct and the first $n$ digits are correct. 
 * Therefore we have a solution to the subset-sum instance
 
-## Knapsack
+### Knapsack
 
 Knapsack (Search version) is also NP-complete, you can use subset-sum to show it.
 
 
 ## Linear Programming
 
-## Standard Form
+### Standard Form
 
 Given n variables $x_1, x_2, ..., x_n$
 
@@ -415,7 +415,7 @@ $$
 \text{max } c^T x : Ax \leq b, x\geq 0
 $$
 
-## Conversions
+### Conversions
 
 * from max to min can just multiplying everything by $-1$
 * If we want a constraint $f(x) = b$, we can define $f(x) \leq b$ and $f(x) \geq b$
@@ -424,13 +424,13 @@ $$
 
 Note, for Linear programming, **strict inequalities** are not allowed so there is no way to convert this. 
 
-## Optimal Point 
+### Optimal Point 
 
 * Optimal point at vertex
 * If a vertex is better than its neighbors, it is the global optima 
   * Because the feasible region is convex
 
-## Simplex
+### Simplex
 
 Simplex alg:
 ```
@@ -445,14 +445,14 @@ Else: (No better neighbors)
 
 ```
 
-## Feasibility check 
+### Feasibility check 
 
 * Objective: max $z$
 * $Ax+z \leq b$, $x \geq 0$
 
 if $z$ is negative, then the LP is infeasible. Otherwise if there exists such a $z$, the LP is feasible.
 
-## Dual
+### Dual
 
 Primal LP:
 
@@ -474,14 +474,14 @@ The dual LP has $m$ variables and $n$ constraints.
 Note that for the the primal LP has ot be in canonical form:
 * Constraints must be $\leq \geq$ and not $\le, \ge$
 
-|             | Primal | Dual  |
-| :---------- | :----- | :---- |
-| objective   | max    | min   |
-| equality    | $\leq  | $geq$ |
-| variables   | n      | m     |
-| constraints | m      | n     |
+|             | Primal | Dual   |
+| :---------- | :----- | :----- |
+| objective   | max    | min    |
+| equality    | $\leq$ | $\geq$ |
+| variables   | n      | m      |
+| constraints | m      | n      |
 
-## Weak Duality 
+### Weak Duality 
 
 **Theorem**: Given Feasible $x$ for primal LP and Feasible $y$ for dual LP
 
@@ -494,7 +494,7 @@ $$
 **Corollary**: If the primal LP is unbounded, then dual is infeasible and vice versa. If dual is unbounded, then primal is infeasible. 
 
 
-## Strong Duality 
+### Strong Duality 
 
 **Theorem**:
 
@@ -503,35 +503,194 @@ Primal LP is feasible and bounded if and only if dual LP is feasible and bounded
 Primal has optimal $x^\ast$ if and only if dual has optimal $y^\ast$ where $c^Tx = b^Ty$
 
 
-## Duality Relationship
+### Duality Relationship
 
 Here is a summary of the of the various relationships:
 
-| Dual                     | Primal                  |
-| :----------------------- | :---------------------- |
-| Unbounded $\rightarrow$  | Infeasible              |
-| Infeasible $\rightarrow$ | Unbounded OR infeasible |
-| Bounded  $\rightarrow$   | Bounded and Feasible    |
+| Dual       |               | Primal                  |
+| :--------- | :------------ | :---------------------- |
+| Unbounded  | $\rightarrow$ | Infeasible              |
+| Infeasible | $\rightarrow$ | Unbounded OR infeasible |
+| Bounded    | $\rightarrow$ | Bounded and Feasible    |
 
 So, if dual LP is infeasible, then primal is unbounded or infeasible. We can do so by checking whether it is feasible to rule out. In other words:
 
 Likewise, you can switch the table around:
 
-| Primal                     | Dual                  |
-| :----------------------- | :---------------------- |
-| Unbounded $\rightarrow$  | Infeasible              |
-| Infeasible $\rightarrow$ | Unbounded OR infeasible |
-| Bounded  $\rightarrow$   | Bounded and Feasible    |
+| Primal     |               | Dual                    |
+| :--------- | :------------ | :---------------------- |
+| Unbounded  | $\rightarrow$ | Infeasible              |
+| Infeasible | $\rightarrow$ | Unbounded OR infeasible |
+| Bounded    | $\rightarrow$ | Bounded and Feasible    |
 
-## Max-SAT
+### Max-SAT
 
-## Simple Method 
+Recall SAT which is NP-complete.
 
-## LP-Based 
+* Input: Boolean formula $f$ in CNF with $n$ variables and $m$ clauses.
+* Output: Assignment satisfying $f$, NO if no satisfying assignment.
 
-## max-SAT -> ILP
+Above is a search problem, and if we change it to the optimization problem, it is the Max-SAT problem:
 
-## Best of 2
+* Input: Boolean formula $f$ in CNF with $n$ variables and $m$ clauses.
+* Output: Assignment maximizing number of satisfied clauses
+
+Max-SAT is NP-hard, it is no longer a search problem so it is no longer in the class NP, because we have no way of verifying that the number of clauses satisfied is maximum. But clearly this max-SAT problem is at least as hard as the SAT problem. 
+* aim to approximate Max-SAT and use linear programming
+
+#### Approx Max-SAT 
+
+For a formula $f$ with $m$ clauses, let $m^\ast$ denote the max number of satisfying clauses.
+
+Construct algorithm A on input $f$ and outputs $\ell$
+* An assignment which satisfies $\ell$ clauses of $f$ 
+* Going to guarantee that the output $\ell$ is at least $\geq \frac{m^\ast}{2}$
+
+If this holds for every $f$, then this is a $\frac{1}{2}$ approx algorithm.
+
+### Simple Method 
+
+Consider input $f$ with $n$ variables $x_1, ... , x_n$ and $m$ clauses $C_1, ...,C_m$. 
+
+Random assignment: Set $x_i = T/F$ with probability $\frac{1}{2}$.
+
+Let $w$ be the number of satisfied clauses, and $w_j$ be 1 if $C_j$ is satisfied and 0 otherwise. 
+
+Note, given a unit clause $C_j$ of size $k$, the probability of success is  1- Failure, and failure is when all of them are set to False. So the probability is $1-\frac{1}{2}^{k} = 1-2^{-k}$. Since $k \geq 1$, $E[w_j] \geq \frac{1}{2}$.
+
+$$
+\begin{aligned}
+w &= \sum_{j=1}^m w_j \\
+E[w] &= \sum_{j=1}^m \underbrace{E[w_j]}_{\geq 1/2} \\
+&\geq \frac{m}{2}
+\end{aligned}
+$$
+
+So this randomized algorithm has $\frac{1}{2}$ approx in expectation. We can modify this to be a deterministic algorithm guaranteed to find a $\frac{1}{2}$ in approximation to the the number of satisfied clauses.
+
+This uses the method of conditional expectations:
+
+```
+for i = 1 -> n:
+  Try x_i = T and x_i = F,
+  compute expected performance for each 
+  Take better 
+```
+
+### Ek-SAT
+
+Instead of max-SAT, let's consider max-Ek-SAT, so every clause has size exactly k. 
+
+What if every clause has size 3? In that case Pr($C_j$ is satisfied) = $\frac{7}{8}$, therefore for the special case of max-E3-SAT, we achieve a $\frac{7}{8}$ approximation algorithm.
+
+What if $size =k$? Then the probability its $(1-2^{-k})$ approx for max-Ek-SAT.
+
+For max-E3-SAT, it is NP-hard to do any better than 7/8 for this case. If we achieve an algorithm which has guaranteed performance >  7/8, then that implies P=NP. Thus the hard case is when the formula has varying size clauses. If all the clauses are of the same size and they happen to be of size three, then we can achieve the best possible algorithm by just a random assignment.
+
+### Integer Linear Programming
+
+$$
+\text{max } c^T x : Ax \leq b, x\geq 0, x \in \mathbb{Z}^n
+$$
+
+So now this becomes a grid, and we want to find the best grid point which maximizes this objective function. 
+
+LP $\in$ P but ILP (integer linear programming) is NP-hard. We are going to reduce Max-SAT to ILP. 
+
+### max-SAT -> ILP
+
+#### Input Transformation:
+
+For clause $C_j$:
+* Let $C_j^+, C_j^-$ denote the positive and negative literals respectively.
+
+For CNF $f$ with $n$ literals and $m$ clauses: define ILP:
+
+* Objective: max $\sum_{j=1}^m z_j$
+* Constraints:
+* $\forall i \in [1,n], 0\leq y_i \leq 1$
+* $\forall j \in [1,m], 0\leq z_j \leq 1$
+* $\forall j \in [1,m], \sum_{i\in C_j^+} y_i + \sum_{i\in C_j^-} (1-y_i)  \geq z_j$
+* $y_i, z_j \in \mathbb{Z}$
+
+In fact, this ILP is equivalent to the original max SAT problem. 
+
+For example:
+
+Given $C = (\bar{x_1} \lor x_3 \lor x_2 \lor \bar{x_5})$, if $y_1=1, y_3=0, y_2=0, y_5 = 1$ then $z_j=0$. 
+* This can be re-written as $(1-y_1) + y_3 + y_2 + (1-y_5) \geq z_j$
+
+
+### ILP (relaxation)
+
+Given ILP solution $y^\ast, z^\ast$, then:
+
+* $\hat{y^\ast}, \hat{z^\ast}$, want integer $y_i, z_j$ which is close to $\hat{y^\ast}, \hat{z^\ast}$. 
+
+Note, $0\leq \hat{y^\ast} \leq 1$ then we can:
+
+$$
+\begin{aligned}
+\text{Set } y_i 
+&= \begin{cases}
+1, & \text{with prob. } \hat{y^\ast} \\
+0, & \text{with prob. } 1-\hat{y^\ast} \\
+\end{cases}
+\end{aligned}
+$$
+
+This is known as randomized rounding. If $y_i = 1$, then set $x_i$ to be True and vice versa, thus we have a true-false assignment for $x$.
+
+### Expectation of rounding
+
+The Arithmetic - Geometric mean gives us this identity:
+
+$$
+f(\alpha) = 1 - \bigg(1-\frac{\alpha}{k}\bigg)^k \geq \bigg(1-\big(1-\frac{1}{k}\big)^k\bigg)\alpha
+$$
+
+$$
+\begin{aligned}
+\text{Pr($C_j$ is satisfied)} &= 1- \prod_{i=1}^k (1-\hat{y_i^\ast}) \\
+&\geq 1 - \bigg[\frac{1}{k}\sum_{i=1}^k  1 -  \hat{y_i^\ast} \bigg]^k \\
+&= 1- \bigg[ 1- \frac{1}{k} \underbrace{\sum_i  \hat{y_i^\ast}}_{\hat{y_1^\ast}+...+ \hat{y_k^\ast} \geq \hat{z_j^\ast}} \bigg]^k\\
+&\geq 1 - \bigg(1 - \frac{\hat{z_j^\ast}}{k} \bigg)^k \\
+&\geq \bigg[1 - \bigg(\underbrace{1 - \frac{1}{k}}_{\leq e^{-\frac{1}{k}}} \bigg)^k\bigg] \hat{z_j^\ast} \\
+&\geq (1-\frac{1}{e})\hat{z_j^\ast}
+\end{aligned}
+$$
+
+
+* The taylor series for $e^{-x} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...$ so $e^{-x} \geq 1-x$
+* So we can re-write it as $(1-\frac{1}{k}) \leq e^{-\frac{1}{k}}$
+
+Therefore, we have a $(1-\frac{1}{e})$ approximation algorithm.
+
+### Best of 2
+
+| k    | simple        | LP-based                          |
+| :--- | :------------ | :-------------------------------- |
+| 1    | $\frac{1}{2}$ | $1$                               |
+| 2    | $\frac{3}{4}$ | $\frac{3}{4}$                     |
+| 3    | $\frac{7}{8}$ | $1-(\frac{2}{3})^3 \approx 0.704$ |
+| k    | $1-2^{-k}$    | $1-(1-\frac{1}{k})^k$             |
+
+* For k at least three, the simple scheme beats LP scheme.
+* But for small clauses, the LP scheme is at least as good or even better. 
+
+Given $f$:
+
+* Run simple algorithm - get $m_1$
+* Run LP scheme - get $m_2$
+* Take better of 2
+
+So:
+
+$$
+E[\text{max}\{m_1, m_2\}] \geq \frac{3}{4} m^\ast
+$$
+
+This combine algorithm gives a $\frac{3}{4}$ approximation algorithm for Max-SAT even when the formula has clauses of some small and some big. So even with formulas with varying length clauses, we achieve a $\frac{3}{4}$ approximation algorithm.
 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

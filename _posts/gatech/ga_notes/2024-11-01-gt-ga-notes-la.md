@@ -466,7 +466,7 @@ Construct algorithm A on input $f$ and outputs $\ell$
 * An assignment which satisfies $\ell$ clauses of $f$ 
 * Going to guarantee that the output $\ell$ is at least $\geq \frac{m^\ast}{2}$
 
-If this holes for every $f$, then this is a $\frac{1}{2}$ approx algorithm.
+If this holds for every $f$, then this is a $\frac{1}{2}$ approx algorithm.
 
 We are now going to look at 3 different algorithm:
 
@@ -569,7 +569,7 @@ For CNF $f$ with $n$ literals and $m$ clauses: define ILP:
 * Constraints:
 * $\forall i \in [1,n], 0\leq y_i \leq 1$
 * $\forall j \in [1,m], 0\leq z_j \leq 1$
-* $\forall j \in [1,m], \sum_{i\in C_j^+} y_i + \sum_{i\in C_j^-} y_i  \geq z_j$
+* $\forall j \in [1,m], \sum_{i\in C_j^+} y_i + \sum_{i\in C_j^-} (1-y_i)  \geq z_j$
 * $y_i, z_j \in \mathbb{Z}$
 
 In fact, this ILP is equivalent to the original max SAT problem. 
@@ -672,6 +672,8 @@ How do we relate the product to the sum $\sum \hat{y_i^\ast}$ so we can relate i
 
 #### AM-GM
 
+AM is arithmetic mean, GM is geometric mean.
+
 For $w_1,...,w_k \geq 0$
 
 $$
@@ -727,12 +729,13 @@ $$
 \begin{aligned}
 \text{Pr($C_j$ is satisfied)} &= 1- \prod_{i=1}^k (1-\hat{y_i^\ast}) \\
 &\geq 1 - \bigg(1 - \frac{\hat{z_j^\ast}}{k} \bigg)^k \\
-&\geq \bigg[1 - \bigg(1 - \frac{1}{k} \bigg)^k\bigg] \hat{z_j^\ast} \\
+&\geq \bigg[1 - \bigg(\underbrace{1 - \frac{1}{k}}_{\leq e^{-\frac{1}{k}}} \bigg)^k\bigg] \hat{z_j^\ast} \\
 &\geq (1-\frac{1}{e})\hat{z_j^\ast}
 \end{aligned}
 $$
 
 * The taylor series for $e^{-x} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...$ so $e^{-x} \geq 1-x$
+* So we can re-write it as $(1-\frac{1}{k}) \leq e^{-\frac{1}{k}}$
 
 Therefore, we have a $(1-\frac{1}{e})$ approximation algorithm.
 
