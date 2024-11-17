@@ -45,7 +45,8 @@ To prove something is NP complete:
 ![image](../../../assets/posts/gatech/ga/ga3_complete.png){: width='400'}
 
 * Prove that it in NP
-  * Any polynomial time is sufficient
+  * Given a solution, you can check that it is correct in polynomial time.
+  * Any polynomial time is sufficient.
 * Prove that it is NP hard -Reduction from a NP-complete problem to the unknown problem
   * Input transformation $f$ in polynomial time
   * Output transformation $h$
