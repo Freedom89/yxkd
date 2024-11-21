@@ -52,6 +52,18 @@ To prove something is NP complete:
   * Output transformation $h$
   * Correctness. Show that if a solution for $B$ exists $iff$ a solution for $A$ exists.
 
+### NP-summary
+
+* Class P - A solution may be found in polynomial time 
+* Class NP - a solution may be verified in polynomial time 
+  * P is a subset of NP
+* NP-HARD we are yet to find a polynomial time solution
+* NP-complete - Both in NP and at least as hard as NP-Hard problems. 
+
+A problem is either known or not yet known to be in P or NP.
+
+NP-Complete problems can be reduced to each otherwise.
+
 ### 3SAT 
 
 `Input`:
@@ -523,6 +535,9 @@ Likewise, you can switch the table around:
 | Unbounded  | $\rightarrow$ | Infeasible              |
 | Infeasible | $\rightarrow$ | Unbounded OR infeasible |
 | Bounded    | $\rightarrow$ | Bounded and Feasible    |
+
+* LP is unbounded is a function of this objective function.
+* LP is infeasible is a function of the constraints (does not depends on the objective function)
 
 ### Max-SAT
 
