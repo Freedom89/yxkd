@@ -8,14 +8,6 @@ toc: true
 mermaid: true
 ---
 
-## [Linear programming](../gt-ga-notes-la)
-
-{% include_relative 2024-11-01-gt-ga-notes-la.md %}
-
-## [Nondeterministic Polynomial](../gt-ga-notes-np)
-
-{% include_relative 2024-10-25-gt-ga-notes-np.md %}
-
 ## [Dynamic Programming](../gt-ga-notes-dp)
 
 {% include_relative 2024-08-10-gt-ga-notes-dp.md %}
@@ -35,3 +27,11 @@ mermaid: true
 ## [Randomized algorithms](../gt-ga-notes-ra)
 
 {% include_relative 2024-10-10-gt-ga-notes-ra.md %}
+
+## [Nondeterministic Polynomial](../gt-ga-notes-np)
+
+{% include_relative 2024-10-25-gt-ga-notes-np.md %}
+
+## [Linear programming](../gt-ga-notes-la)
+
+{% include_relative 2024-11-01-gt-ga-notes-la.md %}
