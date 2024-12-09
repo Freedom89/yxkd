@@ -773,6 +773,82 @@ As before, there is two parts:
 We know that all problems in NP reduce to this known NP-complete problem, therefore if we show a reduction from this known NP-complete problem to the knapsack problem, we know all NP problems can reduce to the knapsack problem. 
 * Try to use the subset-sum to show this 
 
+### Halting Problem (NP5)
 
+#### Undecidability 
+
+NP-complete means it is computationally difficult, if P $\neq$ NP, no algorithm which takes poly-time on every inputs.
+
+Undecidable means it is computationally impossible, no algorithm solves the problem on every input regardless of the running time (or space) of the algorithm. 
+
+In 1936, Alan Turing prove that the halting problem is undecidable!
+
+#### Halting problem 
+
+Input: A program $P$ (in any language) with an input $I$
+
+Output: True if $P(I)$ ever terminates, False if $P(I)$ never terminates (i.e has an infinite loop)
+
+For example, consider a program P:
+
+```
+while x mod 2 == 1:
+    x +=  6
+```
+
+If x is initially set to 5, then this program never halts. 
+
+#### HP: undecidable  
+
+Theorem: The halting problem is undecidable. 
+
+We prove this by contradiction, suppose we had an algorithm that solves the halting problem on every input, call this algorithm the Terminator(P,I). We construct a new program Q and input J, show that Terminator(Q,J) is incorrect. 
+
+Since Terminator is incorrect on this pair of inputs, therefore, Terminator does not solve the halting problem on every input which is a contradiction. 
+
+Notice that we are assuming the existence of this Terminator program! We can use it as a subroutine, a black box. 
+
+#### HP: paradox 
+
+Consider the following "evil" program:
+
+```
+Harmful(J):
+   (1)if Terminator(J,J):
+        then GOTO(1)
+      else Return() 
+```
+
+Dijkstra - Goto statement considered harmful (Feel free to google this)
+
+The harmful program is just an if then else statement, takes an input J, and run Terminator(J,J). So J is a program and J is the input to the program J. 
+
+If Terminator returns true on this input pair then our program goes to one, so we get this loop. If Terminator returns false, then we simply exit the procedure and we exit the program harmful. 
+
+#### HP: What's harmful?
+
+Terminator(J,J): Runs program on input J 
+* Returns True if J(J) terminates 
+* Returns False if J(J) never terminates 
+
+Therefore:
+  
+* If J(J) terminates then Harmful(J) never terminates
+* If J(J) never terminates then Harmful(J) terminates 
+
+#### HP: paradox 
+
+To arrive at our paradox, we set input J = Harmful which we just defined. 
+
+The question is does Harmful(Harmful) terminate when it takes itself as an input? 
+
+So lets consider the two cases and plugging in our above statements when J = Harmful,
+
+* If Harmful(Harmful) terminates, then Harmful(Harmful) never terminates
+  * This is a contradiction and this cannot be the case. 
+* If Harmful(Harmful) never terminates, then Harmful(Harmful) terminates
+  * But this is also a contradiction 
+
+Therefore, the assumption that Terminator() exists is impossible! Our initial assumption that the program Terminator which solves the halting problem on every input exists must be impossible 
 
 <!-- {% include embed/youtube.html id='10oQMHadGos' %} -->

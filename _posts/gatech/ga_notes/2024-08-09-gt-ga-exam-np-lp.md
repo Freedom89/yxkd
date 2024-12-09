@@ -398,6 +398,20 @@ Take a satisfying assignment for $f$ and construct a solution to the subset-sum 
 
 Knapsack (Search version) is also NP-complete, you can use subset-sum to show it.
 
+### Halting Problem 
+
+NP-complete means it is computationally difficult, if P $\neq$ NP, no algorithm which takes poly-time on every inputs.
+
+Undecidable means it is computationally impossible, no algorithm solves the problem on every input regardless of the running time (or space) of the algorithm. 
+
+In 1936, Alan Turing prove that the halting problem is undecidable!
+
+Input: A program $P$ (in any language) with an input $I$
+
+Output: True if $P(I)$ ever terminates, False if $P(I)$ never terminates (i.e has an infinite loop)
+
+The prove of this is done by contradiction by assuming a Terminator program exists which is impossible.
+
 
 ## Linear Programming
 
