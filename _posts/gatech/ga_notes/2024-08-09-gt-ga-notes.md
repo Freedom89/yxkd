@@ -8,6 +8,12 @@ toc: true
 mermaid: true
 ---
 
+> Exam Preparation notes can be found over at:
+> * [Dynamic Programming, Divide and Conquer](../gt-ga-exam-dp-dc)
+> * [Graphs, Max Flow, RSA](../gt-ga-exam-graph-mf-rsa)
+> * [Np-complete and Linear Programming](../gt-ga-exam-np-lp)
+{: .prompt-info }
+
 ## [Dynamic Programming](../gt-ga-notes-dp)
 
 {% include_relative 2024-08-10-gt-ga-notes-dp.md %}
