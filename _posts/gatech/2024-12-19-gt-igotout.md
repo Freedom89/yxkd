@@ -66,3 +66,7 @@ Overall, I felt I did not learn as much (or get my money worth) for some of the 
 ## What courses do you recommend someone to start with?
 
 Any of the difficult ones! This is to prevent any culture shock / expectations very early on to avoid sunk cost fallacy and to manage your expectations very early on!
+
+## Heres my degree! 
+
+![image](../../../assets/posts/gatech/degree.png){: width='400' height='400'}
