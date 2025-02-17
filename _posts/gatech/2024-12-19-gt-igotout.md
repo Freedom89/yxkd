@@ -69,4 +69,6 @@ Any of the difficult ones! This is to prevent any culture shock / expectations v
 
 ## Heres my degree! 
 
+[Parchment link](https://www.parchment.com/u/award/68321e3d15deb99691bde4a823810e06)
+
 ![image](../../../assets/posts/gatech/degree.png){: width='400' height='400'}
