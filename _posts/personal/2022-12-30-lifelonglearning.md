@@ -27,6 +27,19 @@ Why 3?
 
 Overall, this has been working well for me so far - definitely space for improvements! 
 
+
+## 2026
+
+Goal:
+
+Nothing really interesting, other than I won an internal pitch in 2025 for the best innovation within the organization. 
+Managed to start deploying systems + integrations within the company.
+
+* Still going to try to work on my health and fitness. (Might do a half or full marathon this year!)
+* Improve my engineering skills
+* and still trying to catch up on LLM! 
+
+
 ## 2025
 
 Goal: 
@@ -145,4 +158,3 @@ Solution:
 * Learn Modeling Intuition (Why use one model over the other?)
 * get familiar with Big data stack (Hive, Spark, etc) and the use cases.
 * Get familiar with cloud computing and the use cases.
-
