@@ -8,6 +8,9 @@ toc: true
 mermaid: true
 ---
 
+Content of these notes are from Georgia Tech OMSCS 7643: Deep Learning by Prof. Zsolt Kira. 
+They kindly allowed this to be shared publicly, please use them responsibly!
+
 # Module 1: Introduction to Neural Networks
 
 ## [Lesson 1: Linear Classifiers and Gradient Descent](../gt-dl-L1)

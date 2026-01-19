@@ -8,6 +8,11 @@ toc: true
 mermaid: true
 ---
 
+
+Content of these notes are from Georgia Tech OMSCS 7295 (Formally 8803): GPU Hardware and Software by Prof. Hyesoon Kim. 
+They kindly allowed this to be shared publicly, please use them responsibly!
+
+
 ##  [Module 1: Introduction of GPU](../gt-gpu-M1)
 
 {% include_relative 2024-01-06-gt-gpu-M1.md %}

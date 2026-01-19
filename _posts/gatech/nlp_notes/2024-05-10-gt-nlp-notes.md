@@ -9,6 +9,9 @@ mermaid: true
 ---
 
 
+Content of these notes are from Georgia Tech OMSCS 7650: Natural Language Processing by Prof. Mark Riedl. 
+They kindly allowed this to be shared publicly, please use them responsibly!
+
 ## [Module 1: Introduction to NLP](../gt-nlp-m1)
 
 {% include_relative 2024-05-12-gt-nlp-m1.md %}

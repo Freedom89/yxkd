@@ -8,6 +8,9 @@ toc: true
 mermaid: true
 ---
 
+Content of these notes are from Georgia Tech OMSCS 7280: Network Science: Methods and Applications by Prof. Constantine Dovrolis. 
+They kindly allowed this to be shared publicly, please use them responsibly!
+
 # Module one
 
 ## [L1 - What is Network Science?](../gt-nsci-L1)
